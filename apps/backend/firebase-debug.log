@@ -1,0 +1,218 @@
+[debug] [2023-02-15T17:21:48.303Z] ----------------------------------------------------------------------
+[debug] [2023-02-15T17:21:48.304Z] Command:       /usr/bin/node /home/johnc/.local/share/pnpm/global/5/node_modules/firebase-tools/lib/bin/firebase.js emulators:start
+[debug] [2023-02-15T17:21:48.305Z] CLI Version:   11.3.0
+[debug] [2023-02-15T17:21:48.305Z] Platform:      linux
+[debug] [2023-02-15T17:21:48.305Z] Node Version:  v16.19.0
+[debug] [2023-02-15T17:21:48.305Z] Time:          Wed Feb 15 2023 17:21:48 GMT+0000 (Greenwich Mean Time)
+[debug] [2023-02-15T17:21:48.305Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-02-15T17:21:48.349Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-02-15T17:21:48.349Z] > authorizing via signed-in user (johncosta027@gmail.com)
+[debug] [2023-02-15T17:21:48.395Z] openjdk version "17.0.6" 2023-01-17
+OpenJDK Runtime Environment (build 17.0.6+10)
+OpenJDK 64-Bit Server VM (build 17.0.6+10, mixed mode)
+
+[debug] [2023-02-15T17:21:48.398Z] Parsed Java major version: 17
+[info] i  emulators: Starting emulators: auth, functions, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, database, hosting, pubsub, storage"}}
+[debug] [2023-02-15T17:21:48.432Z] [hub] writing locator at /tmp/hub-wellbeingapp-6f99d.json
+[info] ✔  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
+[debug] [2023-02-15T17:21:48.448Z] defaultcredentials: writing to file /home/johnc/.config/firebase/johncosta027_gmail_com_application_default_credentials.json
+[debug] [2023-02-15T17:21:48.449Z] Setting GAC to /home/johnc/.config/firebase/johncosta027_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /home/johnc/.config/firebase/johncosta027_gmail_com_application_default_credentials.json"}}
+[debug] [2023-02-15T17:21:48.451Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/adminSdkConfig [none]
+[debug] [2023-02-15T17:21:48.691Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/adminSdkConfig 200
+[debug] [2023-02-15T17:21:48.691Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/adminSdkConfig {"projectId":"wellbeingapp-6f99d","databaseURL":"https://wellbeingapp-6f99d-default-rtdb.europe-west1.firebasedatabase.app","storageBucket":"wellbeingapp-6f99d.appspot.com","locationId":"europe-west2"}
+[debug] [2023-02-15T17:21:48.699Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2023-02-15T17:21:48.699Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-02-15T17:21:48.699Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/home/johnc/.cache/firebase/emulators/cloud-firestore-emulator-v1.14.4.jar","--host","localhost","--port",8080,"--rules","/home/johnc/Code/WellbeingApp/apps/backend/firestore.rules","--functions_emulator","localhost:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/home/johnc/.cache/firebase/emulators/cloud-firestore-emulator-v1.14.4.jar\",\"--host\",\"localhost\",\"--port\",8080,\"--rules\",\"/home/johnc/Code/WellbeingApp/apps/backend/firestore.rules\",\"--functions_emulator\",\"localhost:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2023-02-15T17:21:49.262Z] Feb 15, 2023 5:21:49 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://localhost:35715
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:21:49 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://localhost:35715\n"}}
+[debug] [2023-02-15T17:21:49.304Z] API endpoint: http://localhost:8080
+ {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://localhost:8080\n"}}
+[debug] [2023-02-15T17:21:49.304Z] If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=localhost:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=localhost:8080\n\nDev App Server is now running.\n\n"}}
+[debug] [2023-02-15T17:21:49.461Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d [none]
+[debug] [2023-02-15T17:21:49.709Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d 200
+[debug] [2023-02-15T17:21:49.709Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d {"projectId":"wellbeingapp-6f99d","projectNumber":"83741111018","displayName":"WellbeingApp","name":"projects/wellbeingapp-6f99d","resources":{"hostingSite":"wellbeingapp-6f99d","realtimeDatabaseInstance":"wellbeingapp-6f99d-default-rtdb","storageBucket":"wellbeingapp-6f99d.appspot.com","locationId":"europe-west2"},"state":"ACTIVE","etag":"1_8d59ff32-d36d-4600-9348-75a0c39a78ac"}
+[debug] [2023-02-15T17:21:49.709Z] database rules config:  [{"instance":"wellbeingapp-6f99d-default-rtdb","rules":"/home/johnc/Code/WellbeingApp/apps/backend/database.rules.json"}]
+[debug] [2023-02-15T17:21:49.711Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2023-02-15T17:21:49.711Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-02-15T17:21:49.711Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
+[debug] [2023-02-15T17:21:49.711Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","/home/johnc/.cache/firebase/emulators/firebase-database-emulator-v4.8.0.jar","--host","localhost","--port",9000,"--functions_emulator_host","localhost","--functions_emulator_port",5001],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"/home/johnc/.cache/firebase/emulators/firebase-database-emulator-v4.8.0.jar\",\"--host\",\"localhost\",\"--port\",9000,\"--functions_emulator_host\",\"localhost\",\"--functions_emulator_port\",5001],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\"],\"joinArgs\":false}"}}
+[info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
+[debug] [2023-02-15T17:21:50.395Z] 17:21:50.394 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+ {"metadata":{"emulator":{"name":"database"},"message":"17:21:50.394 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started\n"}}
+[debug] [2023-02-15T17:21:50.497Z] 17:21:50.497 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+ {"metadata":{"emulator":{"name":"database"},"message":"17:21:50.497 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000\n"}}
+[debug] [2023-02-15T17:21:56.028Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"pubsub"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2023-02-15T17:21:56.028Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"pubsub"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-02-15T17:21:56.028Z] Starting Pub/Sub Emulator with command {"binary":"/home/johnc/.cache/firebase/emulators/pubsub-emulator-0.1.0/pubsub-emulator/bin/cloud-pubsub-emulator","args":["--host=localhost","--port=8085"],"optionalArgs":["port","host"],"joinArgs":true} {"metadata":{"emulator":{"name":"pubsub"},"message":"Starting Pub/Sub Emulator with command {\"binary\":\"/home/johnc/.cache/firebase/emulators/pubsub-emulator-0.1.0/pubsub-emulator/bin/cloud-pubsub-emulator\",\"args\":[\"--host=localhost\",\"--port=8085\"],\"optionalArgs\":[\"port\",\"host\"],\"joinArgs\":true}"}}
+[info] i  pubsub: Pub/Sub Emulator logging to pubsub-debug.log {"metadata":{"emulator":{"name":"pubsub"},"message":"Pub/Sub Emulator logging to \u001b[1mpubsub-debug.log\u001b[22m"}}
+[debug] [2023-02-15T17:21:56.120Z] This is the Google Pub/Sub fake.
+Implementation may be incomplete or differ from the real system.
+ {"metadata":{"emulator":{"name":"pubsub"},"message":"This is the Google Pub/Sub fake.\nImplementation may be incomplete or differ from the real system.\n"}}
+[debug] [2023-02-15T17:21:56.156Z] Feb 15, 2023 5:21:56 PM com.google.cloud.pubsub.testing.v1.Main main
+INFO: IAM integration is disabled. IAM policy methods and ACL checks are not supported
+ {"metadata":{"emulator":{"name":"pubsub"},"message":"Feb 15, 2023 5:21:56 PM com.google.cloud.pubsub.testing.v1.Main main\nINFO: IAM integration is disabled. IAM policy methods and ACL checks are not supported\n"}}
+[debug] [2023-02-15T17:21:56.372Z] Feb 15, 2023 5:21:56 PM io.gapi.emulators.netty.NettyUtil applyJava7LongHostnameWorkaround
+INFO: Applied Java 7 long hostname workaround.
+ {"metadata":{"emulator":{"name":"pubsub"},"message":"Feb 15, 2023 5:21:56 PM io.gapi.emulators.netty.NettyUtil applyJava7LongHostnameWorkaround\nINFO: Applied Java 7 long hostname workaround.\n"}}
+[debug] [2023-02-15T17:21:56.406Z] Feb 15, 2023 5:21:56 PM com.google.cloud.pubsub.testing.v1.Main main
+INFO: Server started, listening on 8085
+ {"metadata":{"emulator":{"name":"pubsub"},"message":"Feb 15, 2023 5:21:56 PM com.google.cloud.pubsub.testing.v1.Main main\nINFO: Server started, listening on 8085\n"}}
+[debug] [2023-02-15T17:21:56.542Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-02-15T17:21:56.578Z] Feb 15, 2023 5:21:56 PM io.gapi.emulators.grpc.GrpcServer$3 operationComplete
+INFO: Adding handler(s) to newly registered Channel.
+ {"metadata":{"emulator":{"name":"pubsub"},"message":"Feb 15, 2023 5:21:56 PM io.gapi.emulators.grpc.GrpcServer$3 operationComplete\nINFO: Adding handler(s) to newly registered Channel.\n"}}
+[debug] [2023-02-15T17:21:57.056Z] Temp file directory for storage emulator: /tmp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /tmp/firebase/storage/blobs"}}
+[debug] [2023-02-15T17:21:57.060Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/sites 
+[debug] [2023-02-15T17:21:57.890Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/sites 200
+[debug] [2023-02-15T17:21:57.890Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/sites {"sites":[{"name":"projects/wellbeingapp-6f99d/sites/wellbeingapp-6f99d","defaultUrl":"https://wellbeingapp-6f99d.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2023-02-15T17:21:57.891Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/webApps/-/config [none]
+[debug] [2023-02-15T17:21:58.374Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/webApps/-/config 200
+[debug] [2023-02-15T17:21:58.374Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/wellbeingapp-6f99d/webApps/-/config {"projectId":"wellbeingapp-6f99d","databaseURL":"https://wellbeingapp-6f99d-default-rtdb.europe-west1.firebasedatabase.app","storageBucket":"wellbeingapp-6f99d.appspot.com","locationId":"europe-west2","apiKey":"AIzaSyDta1AaJvT-vGS1gqjC2TUUplEnUDj3QsA","authDomain":"wellbeingapp-6f99d.firebaseapp.com","messagingSenderId":"83741111018"}
+[info] i  hosting: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
+[info] ✔  hosting: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[debug] [2023-02-15T17:21:58.386Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-02-15T17:21:58.386Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-02-15T17:21:58.386Z] Starting Emulator UI with command {"binary":"node","args":["/home/johnc/.cache/firebase/emulators/ui-v1.8.1/server/server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/home/johnc/.cache/firebase/emulators/ui-v1.8.1/server/server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2023-02-15T17:21:58.473Z] Web / API server started at localhost:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
+[info] i  functions: Watching "/home/johnc/Code/WellbeingApp/apps/backend" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/home/johnc/Code/WellbeingApp/apps/backend\" for Cloud Functions..."}}
+[debug] [2023-02-15T17:21:58.649Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2023-02-15T17:21:59.578Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^10.2.0",
+    "firebase-functions": "^3.21.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  },
+  "private": true
+}
+[debug] [2023-02-15T17:21:59.578Z] Building nodejs source
+[debug] [2023-02-15T17:21:59.578Z] Analyzing nodejs backend spec
+[debug] [2023-02-15T17:21:59.580Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-02-15T17:21:59.701Z] Serving at port 9005
+
+[debug] [2023-02-15T17:21:59.745Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"helloWorld"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-02-15T17:21:59.751Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions[us-central1-helloWorld]: http function initialized (http://localhost:5001/wellbeingapp-6f99d/us-central1/helloWorld). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/wellbeingapp-6f99d/us-central1/helloWorld)."}}
+[debug] [2023-02-15T17:21:59.756Z] >>> [apiv2][query] PUT http://localhost:9000/.settings/rules.json ns=wellbeingapp-6f99d-default-rtdb
+[debug] [2023-02-15T17:21:59.756Z] >>> [apiv2][body] PUT http://localhost:9000/.settings/rules.json "{\n  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */\n  \"rules\": {\n    \".read\": false,\n    \".write\": false\n  }\n}"
+[debug] [2023-02-15T17:21:59.904Z] 17:21:59.904 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - wellbeingapp-6f99d-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 70ms, init: 0ms
+ {"metadata":{"emulator":{"name":"database"},"message":"17:21:59.904 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - wellbeingapp-6f99d-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 70ms, init: 0ms\n"}}
+[debug] [2023-02-15T17:21:59.945Z] 17:21:59.945 [NamespaceSystem-blocking-namespace-operation-dispatcher-7:wellbeingapp-6f99d-default-rtdb$-203877001:] INFO com.firebase.core.namespace.StateManager - Namespace wellbeingapp-6f99d-default-rtdb status Active to Active
+ {"metadata":{"emulator":{"name":"database"},"message":"17:21:59.945 [NamespaceSystem-blocking-namespace-operation-dispatcher-7:wellbeingapp-6f99d-default-rtdb$-203877001:] INFO com.firebase.core.namespace.StateManager - Namespace wellbeingapp-6f99d-default-rtdb status Active to Active\n"}}
+[debug] [2023-02-15T17:21:59.965Z] <<< [apiv2][status] PUT http://localhost:9000/.settings/rules.json 200
+[debug] [2023-02-15T17:21:59.965Z] <<< [apiv2][body] PUT http://localhost:9000/.settings/rules.json {"status":"ok"}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://localhost:4000                │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬────────────────┬─────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI             │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Authentication │ localhost:9099 │ http://localhost:4000/auth      │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Functions      │ localhost:5001 │ http://localhost:4000/functions │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Firestore      │ localhost:8080 │ http://localhost:4000/firestore │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Database       │ localhost:9000 │ http://localhost:4000/database  │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Hosting        │ localhost:5000 │ n/a                             │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Pub/Sub        │ localhost:8085 │ n/a                             │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Storage        │ localhost:9199 │ http://localhost:4000/storage   │
+└────────────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at localhost:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2023-02-15T17:22:26.342Z] Feb 15, 2023 5:22:26 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:26 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2023-02-15T17:22:26.448Z] Feb 15, 2023 5:22:26 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:26 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-02-15T17:22:28.940Z] Feb 15, 2023 5:22:28 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:28 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2023-02-15T17:22:32.343Z] Feb 15, 2023 5:22:32 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:32 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2023-02-15T17:22:34.364Z] Feb 15, 2023 5:22:34 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:34 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2023-02-15T17:22:36.378Z] Feb 15, 2023 5:22:36 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:36 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2023-02-15T17:22:38.393Z] Feb 15, 2023 5:22:38 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:38 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2023-02-15T17:22:40.407Z] Feb 15, 2023 5:22:40 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:40 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2023-02-15T17:22:42.365Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2023-02-15T17:22:42.365Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2023-02-15T17:22:42.365Z] Accepted request GET /wellbeingapp-6f99d/us-central1/helloWorld --> us-central1-helloWorld
+[debug] [2023-02-15T17:22:42.375Z] [worker-pool] addWorker(us-central1-helloWorld) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-helloWorld)"}}
+[debug] [2023-02-15T17:22:42.375Z] [worker-pool] Adding worker with key us-central1-helloWorld, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-helloWorld, total=1"}}
+[debug] [2023-02-15T17:22:42.375Z] [worker-pool] submitWork(triggerId=us-central1-helloWorld) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=us-central1-helloWorld)"}}
+[debug] [2023-02-15T17:22:42.375Z] [worker-us-central1-helloWorld-afc611d8-16fe-44bf-a059-b3acd39acaca]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-helloWorld-afc611d8-16fe-44bf-a059-b3acd39acaca]: BUSY"}}
+[debug] [2023-02-15T17:22:42.968Z] [runtime-status] [2236065] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-admin@10.3.0_@firebase+app-types@0.9.0/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-admin@10.3.0_@firebase+app-types@0.9.0/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2023-02-15T17:22:42.970Z] [runtime-status] [2236065] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js\"}"}}
+[debug] [2023-02-15T17:22:42.970Z] [runtime-status] [2236065] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2023-02-15T17:22:42.971Z] [runtime-status] [2236065] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js\"}"}}
+[debug] [2023-02-15T17:22:43.002Z] [runtime-status] [2236065] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Checked functions.config() {\"config\":{}}"}}
+[debug] [2023-02-15T17:22:43.002Z] [runtime-status] [2236065] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.24.1","resolution":"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js\"}}"}}
+[debug] [2023-02-15T17:22:43.002Z] [runtime-status] [2236065] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js\"}"}}
+[debug] [2023-02-15T17:22:43.003Z] [runtime-status] [2236065] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-admin@10.3.0_@firebase+app-types@0.9.0/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-admin@10.3.0_@firebase+app-types@0.9.0/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2023-02-15T17:22:43.004Z] [runtime-status] [2236065] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-functions@3.24.1_firebase-admin@10.3.0/node_modules/firebase-functions/lib/index.js\"}"}}
+[debug] [2023-02-15T17:22:43.005Z] [runtime-status] [2236065] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.3.0","resolution":"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-admin@10.3.0_@firebase+app-types@0.9.0/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"/home/johnc/Code/WellbeingApp/node_modules/.pnpm/firebase-admin@10.3.0_@firebase+app-types@0.9.0/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2023-02-15T17:22:43.005Z] [runtime-status] [2236065] Functions runtime initialized. {"cwd":"/home/johnc/Code/WellbeingApp/apps/backend","node_version":"16.19.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Functions runtime initialized. {\"cwd\":\"/home/johnc/Code/WellbeingApp/apps/backend\",\"node_version\":\"16.19.0\"}"}}
+[debug] [2023-02-15T17:22:43.007Z] [runtime-status] [2236065] Beginning invocation function helloWorld! {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Beginning invocation function helloWorld!"}}
+[info] i  functions: Beginning execution of "helloWorld" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"Beginning execution of \"helloWorld\""}}
+[debug] [2023-02-15T17:22:43.008Z] [runtime-status] [2236065] Running helloWorld in signature http {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Running helloWorld in signature http"}}
+[debug] [2023-02-15T17:22:43.010Z] [runtime-status] [2236065] Attempting to listen to port: /tmp/fire_emu_427dc6f9a5ab82f0.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Attempting to listen to port: /tmp/fire_emu_427dc6f9a5ab82f0.sock"}}
+[debug] [2023-02-15T17:22:43.090Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2023-02-15T17:22:43.091Z] [functions] Got req.url=/wellbeingapp-6f99d/us-central1/helloWorld, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/wellbeingapp-6f99d/us-central1/helloWorld, mapping to path=/"}}
+[debug] [2023-02-15T17:22:43.093Z] [runtime-status] [2236065] Ephemeral server handling GET request {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Ephemeral server handling GET request"}}
+[info] >  {"structuredData":true,"severity":"INFO","message":"Hello logs!"} {"user":{"structuredData":true,"severity":"INFO","message":"Hello logs!"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"structuredData\":true,\"severity\":\"INFO\",\"message\":\"Hello logs!\"}"}}
+[debug] [2023-02-15T17:22:43.096Z] [runtime-status] [2236065] Ephemeral server survived. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"[runtime-status] [2236065] Ephemeral server survived."}}
+[info] i  functions: Finished "helloWorld" in ~1s {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-helloWorld"},"extension":{},"message":"Finished \"helloWorld\" in ~1s"}}
+[debug] [2023-02-15T17:22:43.098Z] [worker-us-central1-helloWorld-afc611d8-16fe-44bf-a059-b3acd39acaca]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-helloWorld-afc611d8-16fe-44bf-a059-b3acd39acaca]: IDLE"}}
+[debug] [2023-02-15T17:22:43.099Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2023-02-15T17:22:43.893Z] Functions emulator received unknown request at path /favicon.ico
+[debug] [2023-02-15T17:22:45.128Z] Feb 15, 2023 5:22:45 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 15, 2023 5:22:45 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}

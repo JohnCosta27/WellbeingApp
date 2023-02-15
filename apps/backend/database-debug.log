@@ -1,0 +1,4 @@
+17:21:50.394 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+17:21:50.497 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+17:21:59.904 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - wellbeingapp-6f99d-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 70ms, init: 0ms
+17:21:59.945 [NamespaceSystem-blocking-namespace-operation-dispatcher-7:wellbeingapp-6f99d-default-rtdb$-203877001:] INFO com.firebase.core.namespace.StateManager - Namespace wellbeingapp-6f99d-default-rtdb status Active to Active
