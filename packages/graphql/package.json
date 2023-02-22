@@ -1,0 +1,5 @@
+{
+  "name": "@wellbeing/graphql-types",
+  "main": "src/index.ts",
+  "private": true
+}

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": ".",
+    "module": "NodeNext",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@wellbeing/graphql-types": ["./packages/graphql/src/index.ts"]
+    }
+  },
+  "include": ["./apps/**/*", "./packages/**/*"],
+  "ts-node": {
+    "swc": true,
+    "transpileOnly": true
+  }
+}
