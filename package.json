@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "graphql:generate": "graphql-codegen --config codegen.yml",
-    "graphql:compile": "pnpm run graphql:generate && tsc"
+    "graphql:compile": "pnpm run graphql:generate && tsc",
+    "frontend:build": "cd apps/frontend && npm run build"
   },
   "keywords": [],
   "author": "",
