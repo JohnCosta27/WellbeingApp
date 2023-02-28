@@ -9,9 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build
+      - run: npm install pnpm
+      - run: npx pnpm install --no-frozen-lockfile
+      - run: npm run frontend:build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WELLBEINGAPP_6F99D }}'
           projectId: wellbeingapp-6f99d
+          entryPoint: apps/backend
