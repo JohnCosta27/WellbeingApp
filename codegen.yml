@@ -1,4 +1,4 @@
- # This configuration file tells GraphQL Code Generator how
+# This configuration file tells GraphQL Code Generator how
 # to generate types based on our schema.
 schema: "./packages/graphql/schema.graphql"
 generates:
