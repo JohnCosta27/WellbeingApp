@@ -1,14 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
+import { App } from "./App";
 import { Login } from "./Auth/Login";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <div className="w-full h-screen bg-base-100 flex justify-center items-center text-5xl">
-        Hello Well-being App!
-      </div>
-    ),
+    element: <App />
   },
   {
     path: "/login",
