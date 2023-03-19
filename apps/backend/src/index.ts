@@ -6,10 +6,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { MentalEnergy, Resolvers } from "@wellbeing/graphql-types";
 import express from "express";
 
-// @ts-ignore
 import cors from "cors";
-
-// @ts-ignore
 import { json } from "body-parser";
 
 import AuthRouter from "./auth";
