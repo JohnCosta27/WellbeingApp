@@ -11,6 +11,7 @@ import cors from "cors";
 
 // @ts-ignore
 import { json } from 'body-parser';
+import AuthRouter from "./auth";
 
 const file = fs.readFileSync(path.join(__dirname, "../../../packages/graphql/schema.graphql"), "utf8");
 
@@ -33,11 +34,20 @@ const server = new ApolloServer({
 });
 
 const app = express();
+
+app.use(json());
 app.use(cors());
+
+app.use((_, res, next) => {
+  res.contentType('application/json');
+  next();
+})
+
+app.use('/auth', AuthRouter);
 
 (async () => {
   await server.start();
-  app.use("/graphql", json(), expressMiddleware(server));
+  app.use("/graphql", expressMiddleware(server));
   app.listen(3030, () => {
     console.log("Server running");
   });

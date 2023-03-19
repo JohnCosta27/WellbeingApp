@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { GraphQLResolveInfo } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -11,7 +11,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: any;
 };
 
 export type BrandWords = {
@@ -21,7 +20,7 @@ export type BrandWords = {
 
 export type FeelingChanges = {
   __typename?: 'FeelingChanges';
-  date: Scalars['Date'];
+  date: Scalars['Int'];
   state: Scalars['Float'];
 };
 
@@ -33,8 +32,13 @@ export type Feelings = {
 
 export type MentalEnergy = {
   __typename?: 'MentalEnergy';
-  date: Scalars['Date'];
+  date: Scalars['Int'];
   level: Scalars['Float'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  MentalEnergy: MentalEnergy;
 };
 
 export type User = {
@@ -119,11 +123,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   BrandWords: ResolverTypeWrapper<BrandWords>;
-  Date: ResolverTypeWrapper<Scalars['Date']>;
   FeelingChanges: ResolverTypeWrapper<FeelingChanges>;
   Feelings: ResolverTypeWrapper<Feelings>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
+  Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
   UserBrand: ResolverTypeWrapper<UserBrand>;
@@ -133,11 +138,12 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   BrandWords: BrandWords;
-  Date: Scalars['Date'];
   FeelingChanges: FeelingChanges;
   Feelings: Feelings;
   Float: Scalars['Float'];
+  Int: Scalars['Int'];
   MentalEnergy: MentalEnergy;
+  Query: {};
   String: Scalars['String'];
   User: User;
   UserBrand: UserBrand;
@@ -148,12 +154,8 @@ export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
-  name: 'Date';
-}
-
 export type FeelingChangesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeelingChanges'] = ResolversParentTypes['FeelingChanges']> = {
-  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   state?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -165,9 +167,13 @@ export type FeelingsResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type MentalEnergyResolvers<ContextType = any, ParentType extends ResolversParentTypes['MentalEnergy'] = ResolversParentTypes['MentalEnergy']> = {
-  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  MentalEnergy?: Resolver<ResolversTypes['MentalEnergy'], ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -183,10 +189,10 @@ export type UserBrandResolvers<ContextType = any, ParentType extends ResolversPa
 
 export type Resolvers<ContextType = any> = {
   BrandWords?: BrandWordsResolvers<ContextType>;
-  Date?: GraphQLScalarType;
   FeelingChanges?: FeelingChangesResolvers<ContextType>;
   Feelings?: FeelingsResolvers<ContextType>;
   MentalEnergy?: MentalEnergyResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserBrand?: UserBrandResolvers<ContextType>;
 };
