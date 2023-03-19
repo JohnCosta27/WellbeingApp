@@ -4,7 +4,10 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev src/index.ts"
+    "dev": "ts-node-dev src/index.ts",
+    "prisma:gen": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:gen:push": "pnpm run prisma:gen && pnpm run prisma:push"
   },
   "keywords": [],
   "author": "",
