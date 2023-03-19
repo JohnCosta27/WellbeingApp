@@ -9,6 +9,9 @@ import express from "express";
 // @ts-ignore
 import cors from "cors";
 
+// @ts-ignore
+import { json } from 'body-parser';
+
 const file = fs.readFileSync(path.join(__dirname, "../../../packages/graphql/schema.graphql"), "utf8");
 
 const resolvers = {
@@ -34,7 +37,7 @@ app.use(cors());
 
 (async () => {
   await server.start();
-  app.use("/graphql", expressMiddleware(server));
+  app.use("/graphql", json(), expressMiddleware(server));
   app.listen(3030, () => {
     console.log("Server running");
   });
