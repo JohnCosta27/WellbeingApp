@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { App } from "./App";
-import { ProtectedRoute, FinishSignin, Login } from "./Auth";
+import { ProtectedRoute, Login } from "./Auth";
 
 export const router = createBrowserRouter([
   {
@@ -15,8 +15,4 @@ export const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-  {
-    path: "/complete-auth",
-    element: <FinishSignin />,
-  }
 ]);

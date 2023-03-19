@@ -1,23 +1,13 @@
-import { sendSignInLinkToEmail } from "@firebase/auth";
-import { FC, SyntheticEvent, useCallback, useState } from "react";
-import { useAuth } from "./AuthProvider";
+import { FC, SyntheticEvent, useCallback, useState }  from "react";
 
 export const Login: FC = () => {
   const [email, setEmail] = useState("");
 
-  const auth = useAuth();
-
   const onSubmitEmail = useCallback(
     (e: SyntheticEvent) => {
       e.preventDefault();
-      sendSignInLinkToEmail(auth, email, {
-        url: "http://localhost:5173/complete-auth",
-        handleCodeInApp: true,
-      })
-        .then(() => window.localStorage.setItem("emailForSignIn", email))
-        .catch((e) => console.log("Error has occured: ", e));
     },
-    [email, auth]
+    []
   );
 
   return (
