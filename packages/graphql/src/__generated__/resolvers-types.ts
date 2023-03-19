@@ -31,6 +31,12 @@ export type Feelings = {
   name: Scalars['String'];
 };
 
+export type MentalEnergy = {
+  __typename?: 'MentalEnergy';
+  date: Scalars['Date'];
+  level: Scalars['Float'];
+};
+
 export type User = {
   __typename?: 'User';
   brand: UserBrand;
@@ -117,6 +123,7 @@ export type ResolversTypes = {
   FeelingChanges: ResolverTypeWrapper<FeelingChanges>;
   Feelings: ResolverTypeWrapper<Feelings>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
+  MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
   UserBrand: ResolverTypeWrapper<UserBrand>;
@@ -130,6 +137,7 @@ export type ResolversParentTypes = {
   FeelingChanges: FeelingChanges;
   Feelings: Feelings;
   Float: Scalars['Float'];
+  MentalEnergy: MentalEnergy;
   String: Scalars['String'];
   User: User;
   UserBrand: UserBrand;
@@ -156,6 +164,12 @@ export type FeelingsResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MentalEnergyResolvers<ContextType = any, ParentType extends ResolversParentTypes['MentalEnergy'] = ResolversParentTypes['MentalEnergy']> = {
+  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   brand?: Resolver<ResolversTypes['UserBrand'], ParentType, ContextType>;
   feelings?: Resolver<Array<ResolversTypes['Feelings']>, ParentType, ContextType>;
@@ -172,6 +186,7 @@ export type Resolvers<ContextType = any> = {
   Date?: GraphQLScalarType;
   FeelingChanges?: FeelingChangesResolvers<ContextType>;
   Feelings?: FeelingsResolvers<ContextType>;
+  MentalEnergy?: MentalEnergyResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserBrand?: UserBrandResolvers<ContextType>;
 };

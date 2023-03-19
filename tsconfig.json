@@ -14,9 +14,5 @@
       "@wellbeing/graphql-types": ["./packages/graphql/src/index.ts"]
     }
   },
-  "include": ["./apps/**/*", "./packages/**/*"],
-  "ts-node": {
-    "swc": true,
-    "transpileOnly": true
-  }
+  "include": ["./apps/**/*", "./packages/**/*"]
 }

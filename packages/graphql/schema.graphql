@@ -1,12 +1,10 @@
-scalar Date
-
 type Feelings {
   name: String!
   changes: [FeelingChanges!]
 }
 
 type FeelingChanges {
-  date: Date!
+  date: Int!
   state: Float!
 }
 
@@ -18,7 +16,16 @@ type UserBrand {
   words: [BrandWords!]!
 }
 
+type MentalEnergy {
+  date: Int!
+  level: Float!
+}
+
 type User {
   feelings: [Feelings!]!
   brand: UserBrand!
+}
+
+type Query {
+  MentalEnergy: MentalEnergy!
 }

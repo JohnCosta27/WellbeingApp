@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@graphql-codegen/cli": "^3.2.0",
+    "@graphql-codegen/gql-tag-operations-preset": "^2.1.0",
     "@graphql-codegen/typescript": "^3.0.1",
     "@graphql-codegen/typescript-resolvers": "^3.1.0",
     "graphql": "^16.6.0"
