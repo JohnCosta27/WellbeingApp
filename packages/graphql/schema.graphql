@@ -27,5 +27,9 @@ type User {
 }
 
 type Query {
-  MentalEnergy: MentalEnergy!
+  MentalEnergy: [MentalEnergy!]!
+}
+
+type Mutation {
+  addMentalEnergy(level: Float!): MentalEnergy
 }

@@ -4,6 +4,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -36,9 +37,19 @@ export type MentalEnergy = {
   level: Scalars['Float'];
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  addMentalEnergy?: Maybe<MentalEnergy>;
+};
+
+
+export type MutationAddMentalEnergyArgs = {
+  level: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  MentalEnergy: MentalEnergy;
+  MentalEnergy: Array<MentalEnergy>;
 };
 
 export type User = {
@@ -128,6 +139,7 @@ export type ResolversTypes = {
   Float: ResolverTypeWrapper<Scalars['Float']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
@@ -143,6 +155,7 @@ export type ResolversParentTypes = {
   Float: Scalars['Float'];
   Int: Scalars['Int'];
   MentalEnergy: MentalEnergy;
+  Mutation: {};
   Query: {};
   String: Scalars['String'];
   User: User;
@@ -172,8 +185,12 @@ export type MentalEnergyResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  MentalEnergy?: Resolver<ResolversTypes['MentalEnergy'], ParentType, ContextType>;
+  MentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -192,6 +209,7 @@ export type Resolvers<ContextType = any> = {
   FeelingChanges?: FeelingChangesResolvers<ContextType>;
   Feelings?: FeelingsResolvers<ContextType>;
   MentalEnergy?: MentalEnergyResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserBrand?: UserBrandResolvers<ContextType>;

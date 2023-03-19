@@ -11,9 +11,11 @@ import cors from "cors";
 
 // @ts-ignore
 import { json } from "body-parser";
+
 import AuthRouter from "./auth";
 import { verifyJwt } from "./util/jwt";
 import { GraphQLError } from "graphql";
+import { prisma } from "./prisma";
 
 const file = fs.readFileSync(
   path.join(__dirname, "../../../packages/graphql/schema.graphql"),
@@ -26,13 +28,40 @@ interface Context {
 
 const resolvers: Resolvers<Context> = {
   Query: {
-    async MentalEnergy(_parent, _args, context): Promise<MentalEnergy> {
-      return {
-        date: 50,
-        level: 123,
-      };
+    async MentalEnergy(_parent, _args, context): Promise<Array<MentalEnergy>> {
+      const mentalEnergy = await prisma.mentalEnergy.findMany({
+        where: {
+          user_id: context.uuid,
+        }
+      });
+
+      const value: Array<MentalEnergy> = mentalEnergy.map(i => ({
+        level: i.level,
+        date: Math.floor(new Date(i.date).getTime() / 1000),
+      }))
+
+      return value;
     },
   },
+  Mutation: {
+    async addMentalEnergy(_parent, { level }, context): Promise<MentalEnergy> {
+      if (level < 0 || level > 1) {
+        throw GetBadValueError();
+      }
+
+      const mentalEnergy = await prisma.mentalEnergy.create({
+        data: {
+          level,
+          user_id: context.uuid,
+        }
+      });
+
+      return {
+        level: mentalEnergy.level,
+        date: Math.floor(new Date(mentalEnergy.date).getTime() / 1000),
+      };
+    }
+  }
 };
 
 const server = new ApolloServer<Context>({
@@ -90,5 +119,16 @@ function GetAuthorizedError(): GraphQLError {
         status: 401,
       }
     }
-  })
+  });
+}
+
+function GetBadValueError(): GraphQLError {
+  return new GraphQLError('Value is wrong', {
+    extensions: {
+      code: 'INVALID',
+      http: {
+        status: 400,
+      }
+    }
+  });
 }
