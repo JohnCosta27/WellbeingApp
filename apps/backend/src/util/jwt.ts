@@ -1,6 +1,11 @@
 import jwt from "jsonwebtoken";
 
 type JwtType = "access" | "refresh";
+type Token = {
+  type: JwtType,
+  uuid: string,
+  exp: number,
+}
 
 export const generateJwt = (uuid: string, type: JwtType): string => {
   let expiryDate = 0;
@@ -24,11 +29,11 @@ export const generateJwt = (uuid: string, type: JwtType): string => {
   );
 };
 
-export const verifyJwt = (token: string): string | undefined => {
+export const verifyJwt = (token: string): Token | undefined => {
   try {
-    const verified = jwt.verify(token, 'goodsecret');
+    const verified = jwt.verify(token, 'goodsecret') as Token;
     //TODO: Return uuid;
-    return 'allgood';
+    return verified;
   } catch (err) {
     return undefined;
   }

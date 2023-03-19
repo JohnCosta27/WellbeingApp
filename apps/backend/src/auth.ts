@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { sha512 } from "js-sha512";
 import { prisma } from "./prisma";
-import { generateJwt } from "./util/jwt";
+import { generateJwt, verifyJwt } from "./util/jwt";
 import randomstring from "./util/randomstring";
 
 const AuthRouter = express.Router();
@@ -70,46 +70,31 @@ AuthRouter.post("/login", async (req: Request, res: Response) => {
   }
 });
 
-/*
-authRouter.post(
-  '/refresh',
-  async (req: Request, res: Response) => {
-    try {
-      const refreshToken = verifyJwt(req.body.refresh);
-      if (!refreshToken) {
-        res.status(400).send("Invalid JWT");
-        return;
-      }
-
-        if (refreshToken.token) {
-          const refreshTokenObject: token = refreshToken.token;
-          // TODO: modify this for the new expirary date
-          if (refreshTokenObject.exp < (new Date().getTime() / 1000)) {
-            res.status(400).send(getExpiredJwtMessage("refresh"));
-            return;
-          } else {
-            const foundUser: users | null = await prisma.users.findUnique({
-              where: {
-                id: refreshTokenObject.uuid,
-              },
-            });
-
-            if (foundUser == null) {
-              res.status(403).send(getInvalidUserError());
-            } else {
-              res.status(200).send({
-                access: generateJwt(foundUser, "ACCESS"),
-              });
-            }
-          }
-      }
-    } catch (error) {
-      console.error("Access Token Refresh Error: "+error);
-      res.status(400).send({ error: "Access token refresh error" });
-      return;
-    }
+AuthRouter.post("/refresh", async (req: Request, res: Response) => {
+  const refreshToken = verifyJwt(req.body.refresh);
+  if (!refreshToken) {
+    res.status(400).send({ error: "Invalid JWT" });
+    return;
   }
-);
-*/
+
+  const dateNow = new Date().getTime() / 1000;
+  if (refreshToken.exp < dateNow) {
+    res.status(403).send({ error: "Invalid JWT" });
+    return;
+  }
+  const foundUser = await prisma.users.findUnique({
+    where: {
+      id: refreshToken.uuid,
+    },
+  });
+
+  if (!foundUser) {
+    res.status(403).send({ error: "Invalid JWT" });
+    return;
+  }
+  res.status(200).send({
+    access: generateJwt(foundUser.id, "access"),
+  });
+});
 
 export default AuthRouter;
