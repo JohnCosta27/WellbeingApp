@@ -1,3 +1,4 @@
+import { Auth } from "@wellbeing/graphql-types";
 import express, { Request, Response } from "express";
 import { sha512 } from "js-sha512";
 import { prisma } from "./prisma";
@@ -20,9 +21,12 @@ AuthRouter.post("/register", async (req: Request, res: Response) => {
       },
     });
 
-    const returnData = {
-      refresh: generateJwt(createNewUser.id, "refresh"),
-      access: generateJwt(createNewUser.id, "access"),
+    const returnData: Auth.Response = {
+      type: 'success',
+      body: {
+        refresh: generateJwt(createNewUser.id, "refresh"),
+        access: generateJwt(createNewUser.id, "access"),
+      }
     };
 
     res.status(200).send(returnData);
@@ -56,9 +60,12 @@ AuthRouter.post("/login", async (req: Request, res: Response) => {
       return;
     }
 
-    const returnData = {
-      refresh: generateJwt(foundUser.id, "refresh"),
-      access: generateJwt(foundUser.id, "access"),
+    const returnData: Auth.Response = {
+      type: 'success',
+      body: {
+        refresh: generateJwt(foundUser.id, "refresh"),
+        access: generateJwt(foundUser.id, "access"),
+      }
     };
 
     res.status(200).send(returnData);
@@ -92,9 +99,15 @@ AuthRouter.post("/refresh", async (req: Request, res: Response) => {
     res.status(403).send({ error: "Invalid JWT" });
     return;
   }
-  res.status(200).send({
+
+  const response: Auth.RefreshResponse = {
+    type: 'success',
+    body: {
     access: generateJwt(foundUser.id, "access"),
-  });
+    }
+  }
+
+  res.status(200).send(response);
 });
 
 export default AuthRouter;
