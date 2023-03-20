@@ -1,14 +1,11 @@
-import { FC, ReactNode } from "react";
-import { Navigate } from "react-router";
+import { FC } from "react";
+import { Navigate, Outlet } from "react-router";
+import { isTokenValid } from "./isTokenValid";
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
-
-export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-  if (false) {
+export const ProtectedRoute: FC = () => {
+  if (!isTokenValid('access')) {
     return <Navigate to="/login" />
   }
 
-  return <>{children}</>;
+  return <Outlet />
 };

@@ -4,15 +4,17 @@ import { ProtectedRoute, Login } from "./Auth";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <ProtectedRoute>
-        <App />
-      </ProtectedRoute>
-    ),
-  },
-  {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/",
+    element: <ProtectedRoute />,
+    children: [
+      {
+        index: true,
+        element: <App />,
+      },
+    ],
   },
 ]);
