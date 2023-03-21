@@ -22,18 +22,6 @@ export type BrandWords = {
   word: Scalars['String'];
 };
 
-export type FeelingChanges = {
-  __typename?: 'FeelingChanges';
-  date: Scalars['Float'];
-  state: Scalars['Float'];
-};
-
-export type Feelings = {
-  __typename?: 'Feelings';
-  changes?: Maybe<Array<FeelingChanges>>;
-  name: Scalars['String'];
-};
-
 export type MentalEnergy = {
   __typename?: 'MentalEnergy';
   date: Scalars['Float'];
@@ -42,7 +30,13 @@ export type MentalEnergy = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addHowAmIWords?: Maybe<Scalars['String']>;
   addMentalEnergy?: Maybe<MentalEnergy>;
+};
+
+
+export type MutationAddHowAmIWordsArgs = {
+  word: Scalars['String'];
 };
 
 
@@ -52,13 +46,15 @@ export type MutationAddMentalEnergyArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  MentalEnergy: Array<MentalEnergy>;
+  howAmIWords: Array<Scalars['String']>;
+  mentalEnergy: Array<MentalEnergy>;
 };
 
 export type User = {
   __typename?: 'User';
   brand: UserBrand;
-  feelings: Array<Feelings>;
+  howAmIWords: Array<Scalars['String']>;
+  mentalEnergy: Array<MentalEnergy>;
 };
 
 export type UserBrand = {
@@ -137,8 +133,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   BrandWords: ResolverTypeWrapper<BrandWords>;
-  FeelingChanges: ResolverTypeWrapper<FeelingChanges>;
-  Feelings: ResolverTypeWrapper<Feelings>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -152,8 +146,6 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   BrandWords: BrandWords;
-  FeelingChanges: FeelingChanges;
-  Feelings: Feelings;
   Float: Scalars['Float'];
   MentalEnergy: MentalEnergy;
   Mutation: {};
@@ -168,18 +160,6 @@ export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FeelingChangesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeelingChanges'] = ResolversParentTypes['FeelingChanges']> = {
-  date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  state?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type FeelingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Feelings'] = ResolversParentTypes['Feelings']> = {
-  changes?: Resolver<Maybe<Array<ResolversTypes['FeelingChanges']>>, ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type MentalEnergyResolvers<ContextType = any, ParentType extends ResolversParentTypes['MentalEnergy'] = ResolversParentTypes['MentalEnergy']> = {
   date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -187,16 +167,19 @@ export type MentalEnergyResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addHowAmIWords?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddHowAmIWordsArgs, 'word'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  MentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
+  howAmIWords?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   brand?: Resolver<ResolversTypes['UserBrand'], ParentType, ContextType>;
-  feelings?: Resolver<Array<ResolversTypes['Feelings']>, ParentType, ContextType>;
+  howAmIWords?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -207,8 +190,6 @@ export type UserBrandResolvers<ContextType = any, ParentType extends ResolversPa
 
 export type Resolvers<ContextType = any> = {
   BrandWords?: BrandWordsResolvers<ContextType>;
-  FeelingChanges?: FeelingChangesResolvers<ContextType>;
-  Feelings?: FeelingsResolvers<ContextType>;
   MentalEnergy?: MentalEnergyResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -227,7 +208,7 @@ export type AddMentalEnergyMutation = { __typename?: 'Mutation', addMentalEnergy
 export type MentalEnergyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MentalEnergyQuery = { __typename?: 'Query', MentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> };
+export type MentalEnergyQuery = { __typename?: 'Query', mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -265,8 +246,8 @@ export type AddMentalEnergyMutationHookResult = ReturnType<typeof useAddMentalEn
 export type AddMentalEnergyMutationResult = Apollo.MutationResult<AddMentalEnergyMutation>;
 export type AddMentalEnergyMutationOptions = Apollo.BaseMutationOptions<AddMentalEnergyMutation, AddMentalEnergyMutationVariables>;
 export const MentalEnergyDocument = gql`
-    query MentalEnergy {
-  MentalEnergy {
+    query mentalEnergy {
+  mentalEnergy {
     date
     level
   }
@@ -301,7 +282,7 @@ export type MentalEnergyLazyQueryHookResult = ReturnType<typeof useMentalEnergyL
 export type MentalEnergyQueryResult = Apollo.QueryResult<MentalEnergyQuery, MentalEnergyQueryVariables>;
 export const namedOperations = {
   Query: {
-    MentalEnergy: 'MentalEnergy'
+    mentalEnergy: 'mentalEnergy'
   },
   Mutation: {
     addMentalEnergy: 'addMentalEnergy'

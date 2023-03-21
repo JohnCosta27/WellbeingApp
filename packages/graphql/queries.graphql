@@ -1,5 +1,5 @@
-query MentalEnergy {
-  MentalEnergy {
+query mentalEnergy {
+  mentalEnergy {
     date
     level
   }

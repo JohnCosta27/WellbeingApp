@@ -1,12 +1,7 @@
-type Feelings {
-  name: String!
-  changes: [FeelingChanges!]
-}
-
-type FeelingChanges {
-  date: Float!
-  state: Float!
-}
+# ------------------------------------- #
+# Brand Words                           #
+# Preset from a common list of words    #
+# ------------------------------------- #
 
 type BrandWords {
   word: String!
@@ -16,20 +11,32 @@ type UserBrand {
   words: [BrandWords!]!
 }
 
+# ------------------------------------- #
+# Mental Energy                         #
+# ------------------------------------- #
+
 type MentalEnergy {
   date: Float!
   level: Float!
 }
 
+# ------------------------------------- #
+# How Am I                              #
+# Preset from words                     #
+# ------------------------------------- #
+
 type User {
-  feelings: [Feelings!]!
   brand: UserBrand!
+  mentalEnergy: [MentalEnergy!]!
+  howAmIWords: [String!]!
 }
 
 type Query {
-  MentalEnergy: [MentalEnergy!]!
+  howAmIWords: [String!]!
+  mentalEnergy: [MentalEnergy!]!
 }
 
 type Mutation {
   addMentalEnergy(level: Float!): MentalEnergy
+  addHowAmIWords(word: String!): String
 }
