@@ -1,10 +1,13 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -21,7 +24,7 @@ export type BrandWords = {
 
 export type FeelingChanges = {
   __typename?: 'FeelingChanges';
-  date: Scalars['Int'];
+  date: Scalars['Float'];
   state: Scalars['Float'];
 };
 
@@ -33,7 +36,7 @@ export type Feelings = {
 
 export type MentalEnergy = {
   __typename?: 'MentalEnergy';
-  date: Scalars['Int'];
+  date: Scalars['Float'];
   level: Scalars['Float'];
 };
 
@@ -137,7 +140,6 @@ export type ResolversTypes = {
   FeelingChanges: ResolverTypeWrapper<FeelingChanges>;
   Feelings: ResolverTypeWrapper<Feelings>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -153,7 +155,6 @@ export type ResolversParentTypes = {
   FeelingChanges: FeelingChanges;
   Feelings: Feelings;
   Float: Scalars['Float'];
-  Int: Scalars['Int'];
   MentalEnergy: MentalEnergy;
   Mutation: {};
   Query: {};
@@ -168,7 +169,7 @@ export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type FeelingChangesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeelingChanges'] = ResolversParentTypes['FeelingChanges']> = {
-  date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   state?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -180,7 +181,7 @@ export type FeelingsResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type MentalEnergyResolvers<ContextType = any, ParentType extends ResolversParentTypes['MentalEnergy'] = ResolversParentTypes['MentalEnergy']> = {
-  date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -215,3 +216,94 @@ export type Resolvers<ContextType = any> = {
   UserBrand?: UserBrandResolvers<ContextType>;
 };
 
+
+export type AddMentalEnergyMutationVariables = Exact<{
+  level: Scalars['Float'];
+}>;
+
+
+export type AddMentalEnergyMutation = { __typename?: 'Mutation', addMentalEnergy?: { __typename?: 'MentalEnergy', level: number, date: number } | null };
+
+export type MentalEnergyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MentalEnergyQuery = { __typename?: 'Query', MentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> };
+
+
+export const AddMentalEnergyDocument = gql`
+    mutation addMentalEnergy($level: Float!) {
+  addMentalEnergy(level: $level) {
+    level
+    date
+  }
+}
+    `;
+export type AddMentalEnergyMutationFn = Apollo.MutationFunction<AddMentalEnergyMutation, AddMentalEnergyMutationVariables>;
+
+/**
+ * __useAddMentalEnergyMutation__
+ *
+ * To run a mutation, you first call `useAddMentalEnergyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddMentalEnergyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addMentalEnergyMutation, { data, loading, error }] = useAddMentalEnergyMutation({
+ *   variables: {
+ *      level: // value for 'level'
+ *   },
+ * });
+ */
+export function useAddMentalEnergyMutation(baseOptions?: Apollo.MutationHookOptions<AddMentalEnergyMutation, AddMentalEnergyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddMentalEnergyMutation, AddMentalEnergyMutationVariables>(AddMentalEnergyDocument, options);
+      }
+export type AddMentalEnergyMutationHookResult = ReturnType<typeof useAddMentalEnergyMutation>;
+export type AddMentalEnergyMutationResult = Apollo.MutationResult<AddMentalEnergyMutation>;
+export type AddMentalEnergyMutationOptions = Apollo.BaseMutationOptions<AddMentalEnergyMutation, AddMentalEnergyMutationVariables>;
+export const MentalEnergyDocument = gql`
+    query MentalEnergy {
+  MentalEnergy {
+    date
+    level
+  }
+}
+    `;
+
+/**
+ * __useMentalEnergyQuery__
+ *
+ * To run a query within a React component, call `useMentalEnergyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMentalEnergyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMentalEnergyQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMentalEnergyQuery(baseOptions?: Apollo.QueryHookOptions<MentalEnergyQuery, MentalEnergyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MentalEnergyQuery, MentalEnergyQueryVariables>(MentalEnergyDocument, options);
+      }
+export function useMentalEnergyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MentalEnergyQuery, MentalEnergyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MentalEnergyQuery, MentalEnergyQueryVariables>(MentalEnergyDocument, options);
+        }
+export type MentalEnergyQueryHookResult = ReturnType<typeof useMentalEnergyQuery>;
+export type MentalEnergyLazyQueryHookResult = ReturnType<typeof useMentalEnergyLazyQuery>;
+export type MentalEnergyQueryResult = Apollo.QueryResult<MentalEnergyQuery, MentalEnergyQueryVariables>;
+export const namedOperations = {
+  Query: {
+    MentalEnergy: 'MentalEnergy'
+  },
+  Mutation: {
+    addMentalEnergy: 'addMentalEnergy'
+  }
+}

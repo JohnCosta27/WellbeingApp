@@ -3,12 +3,27 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router";
 import { router } from "./Router";
 import "./index.css";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3030/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('access');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ?? ""
+    }
+  }
+});
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3030/graphql',
-  cache: new InMemoryCache(),
-})
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

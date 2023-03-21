@@ -4,7 +4,7 @@ type Feelings {
 }
 
 type FeelingChanges {
-  date: Int!
+  date: Float!
   state: Float!
 }
 
@@ -17,7 +17,7 @@ type UserBrand {
 }
 
 type MentalEnergy {
-  date: Int!
+  date: Float!
   level: Float!
 }
 

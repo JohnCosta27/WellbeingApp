@@ -1,0 +1,6 @@
+mutation addMentalEnergy($level: Float!) {
+  addMentalEnergy(level: $level) {
+    level
+    date
+  }
+}

@@ -34,7 +34,7 @@ const resolvers: Resolvers<Context> = {
 
       const value: Array<MentalEnergy> = mentalEnergy.map(i => ({
         level: i.level,
-        date: Math.floor(new Date(i.date).getTime() / 1000),
+        date: Math.floor(new Date(i.date).getTime()),
       }))
 
       return value;
@@ -55,7 +55,7 @@ const resolvers: Resolvers<Context> = {
 
       return {
         level: mentalEnergy.level,
-        date: Math.floor(new Date(mentalEnergy.date).getTime() / 1000),
+        date: Math.floor(new Date(mentalEnergy.date).getTime()),
       };
     }
   }

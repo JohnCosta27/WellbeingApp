@@ -1,0 +1,6 @@
+query MentalEnergy {
+  MentalEnergy {
+    date
+    level
+  }
+}
