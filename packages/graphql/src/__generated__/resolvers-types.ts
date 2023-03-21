@@ -54,6 +54,7 @@ export type Query = {
   __typename?: 'Query';
   howAmIWords: Array<HowAmIWords>;
   mentalEnergy: Array<MentalEnergy>;
+  userHowAmIWords: Array<UserHowAmIWords>;
 };
 
 export type User = {
@@ -66,6 +67,12 @@ export type User = {
 export type UserBrand = {
   __typename?: 'UserBrand';
   words: Array<BrandWords>;
+};
+
+export type UserHowAmIWords = {
+  __typename?: 'UserHowAmIWords';
+  date: Scalars['Float'];
+  word: HowAmIWords;
 };
 
 
@@ -147,6 +154,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
   UserBrand: ResolverTypeWrapper<UserBrand>;
+  UserHowAmIWords: ResolverTypeWrapper<UserHowAmIWords>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -161,6 +169,7 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   User: User;
   UserBrand: UserBrand;
+  UserHowAmIWords: UserHowAmIWords;
 };
 
 export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['BrandWords'] = ResolversParentTypes['BrandWords']> = {
@@ -188,6 +197,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   howAmIWords?: Resolver<Array<ResolversTypes['HowAmIWords']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
+  userHowAmIWords?: Resolver<Array<ResolversTypes['UserHowAmIWords']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -202,6 +212,12 @@ export type UserBrandResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserHowAmIWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserHowAmIWords'] = ResolversParentTypes['UserHowAmIWords']> = {
+  date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  word?: Resolver<ResolversTypes['HowAmIWords'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   BrandWords?: BrandWordsResolvers<ContextType>;
   HowAmIWords?: HowAmIWordsResolvers<ContextType>;
@@ -210,6 +226,7 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserBrand?: UserBrandResolvers<ContextType>;
+  UserHowAmIWords?: UserHowAmIWordsResolvers<ContextType>;
 };
 
 

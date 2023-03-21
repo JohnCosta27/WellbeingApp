@@ -16,7 +16,7 @@ export const App: FC = () => {
     variables: {
       level: energyLevel / RANGE_MAX,
     },
-    refetchQueries: [namedOperations.Query.MentalEnergy],
+    refetchQueries: [namedOperations.Query.mentalEnergy],
   });
 
   return (
@@ -25,7 +25,7 @@ export const App: FC = () => {
         <h1>Mental Energy</h1>
         {!loading && data && (
           <div className="flex flex-col gap-4">
-            {data.MentalEnergy.map((i) => (
+            {data.mentalEnergy.map((i) => (
               <div key={i.date}>
                 {new Date(i.date).toISOString()} - {i.level}
               </div>
