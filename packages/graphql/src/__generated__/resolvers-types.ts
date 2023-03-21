@@ -22,6 +22,12 @@ export type BrandWords = {
   word: Scalars['String'];
 };
 
+export type HowAmIWords = {
+  __typename?: 'HowAmIWords';
+  id: Scalars['String'];
+  word: Scalars['String'];
+};
+
 export type MentalEnergy = {
   __typename?: 'MentalEnergy';
   date: Scalars['Float'];
@@ -46,14 +52,14 @@ export type MutationAddMentalEnergyArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  howAmIWords: Array<Scalars['String']>;
+  howAmIWords: Array<HowAmIWords>;
   mentalEnergy: Array<MentalEnergy>;
 };
 
 export type User = {
   __typename?: 'User';
   brand: UserBrand;
-  howAmIWords: Array<Scalars['String']>;
+  howAmIWords: Array<HowAmIWords>;
   mentalEnergy: Array<MentalEnergy>;
 };
 
@@ -134,6 +140,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   BrandWords: ResolverTypeWrapper<BrandWords>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
+  HowAmIWords: ResolverTypeWrapper<HowAmIWords>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -147,6 +154,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   BrandWords: BrandWords;
   Float: Scalars['Float'];
+  HowAmIWords: HowAmIWords;
   MentalEnergy: MentalEnergy;
   Mutation: {};
   Query: {};
@@ -156,6 +164,12 @@ export type ResolversParentTypes = {
 };
 
 export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['BrandWords'] = ResolversParentTypes['BrandWords']> = {
+  word?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type HowAmIWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['HowAmIWords'] = ResolversParentTypes['HowAmIWords']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   word?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -172,13 +186,13 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  howAmIWords?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  howAmIWords?: Resolver<Array<ResolversTypes['HowAmIWords']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   brand?: Resolver<ResolversTypes['UserBrand'], ParentType, ContextType>;
-  howAmIWords?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  howAmIWords?: Resolver<Array<ResolversTypes['HowAmIWords']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -190,6 +204,7 @@ export type UserBrandResolvers<ContextType = any, ParentType extends ResolversPa
 
 export type Resolvers<ContextType = any> = {
   BrandWords?: BrandWordsResolvers<ContextType>;
+  HowAmIWords?: HowAmIWordsResolvers<ContextType>;
   MentalEnergy?: MentalEnergyResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

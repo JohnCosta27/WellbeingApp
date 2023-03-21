@@ -3,7 +3,7 @@ import path from "path";
 
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import { MentalEnergy, Resolvers } from "@wellbeing/graphql-types";
+import { HowAmIWords, MentalEnergy, Resolvers } from "@wellbeing/graphql-types";
 import express from "express";
 
 import cors from "cors";
@@ -25,20 +25,36 @@ interface Context {
 
 const resolvers: Resolvers<Context> = {
   Query: {
-    async MentalEnergy(_parent, _args, context): Promise<Array<MentalEnergy>> {
-      const mentalEnergy = await prisma.mentalEnergy.findMany({
+    async mentalEnergy(_parent, _args, context): Promise<Array<MentalEnergy>> {
+      const newEnergy = await prisma.mentalEnergy.findMany({
         where: {
           user_id: context.uuid,
         }
       });
 
-      const value: Array<MentalEnergy> = mentalEnergy.map(i => ({
+      const value: Array<MentalEnergy> = newEnergy.map(i => ({
         level: i.level,
         date: Math.floor(new Date(i.date).getTime()),
       }))
 
       return value;
     },
+    async howAmIWords(_parent, _args, context): Promise<Array<HowAmIWords>> {
+      const words = await prisma.howAmIWords.findMany({
+        include: {
+          user_words: {
+            where: {
+              user_id: context.uuid,
+            }
+          }
+        }
+      });
+
+      return words.map(w => ({
+        id: w.id,
+        word: w.word,
+      }));
+    }
   },
   Mutation: {
     async addMentalEnergy(_parent, { level }, context): Promise<MentalEnergy> {

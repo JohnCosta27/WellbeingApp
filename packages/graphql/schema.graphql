@@ -23,16 +23,27 @@ type MentalEnergy {
 # ------------------------------------- #
 # How Am I                              #
 # Preset from words                     #
+# Accessable to the user with a date    #
 # ------------------------------------- #
+
+type HowAmIWords {
+  id: String!
+  word: String!
+}
+
+type UserHowAmIWords {
+  word: HowAmIWords!
+  date: Float!
+}
 
 type User {
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
-  howAmIWords: [String!]!
+  howAmIWords: [HowAmIWords!]!
 }
 
 type Query {
-  howAmIWords: [String!]!
+  howAmIWords: [HowAmIWords!]!
   mentalEnergy: [MentalEnergy!]!
 }
 
