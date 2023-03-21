@@ -1,6 +1,12 @@
-query mentalEnergy {
-  mentalEnergy {
-    date
-    level
+query CurrentUser {
+  currentUser {
+    howAmIWords {
+      id
+      word
+    }
+    mentalEnergy {
+      date
+      level
+    }
   }
 }

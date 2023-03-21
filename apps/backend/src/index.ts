@@ -3,7 +3,13 @@ import path from "path";
 
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import { HowAmIWords, MentalEnergy, Resolvers, UserHowAmIWords } from "@wellbeing/graphql-types";
+import {
+  HowAmIWords,
+  MentalEnergy,
+  Resolvers,
+  User,
+  UserHowAmIWords,
+} from "@wellbeing/graphql-types";
 import express from "express";
 
 import cors from "cors";
@@ -23,38 +29,60 @@ interface Context {
   uuid: string;
 }
 
+async function getUserMentalEnergy(uuid: string): Promise<Array<MentalEnergy>> {
+  const newEnergy = await prisma.mentalEnergy.findMany({
+    where: {
+      user_id: uuid,
+    },
+  });
+
+  const value: Array<MentalEnergy> = newEnergy.map((i) => ({
+    level: i.level,
+    date: Math.floor(new Date(i.date).getTime()),
+  }));
+
+  return value;
+}
+
 const resolvers: Resolvers<Context> = {
   Query: {
     async mentalEnergy(_parent, _args, context): Promise<Array<MentalEnergy>> {
-      const newEnergy = await prisma.mentalEnergy.findMany({
-        where: {
-          user_id: context.uuid,
-        }
-      });
-
-      const value: Array<MentalEnergy> = newEnergy.map(i => ({
-        level: i.level,
-        date: Math.floor(new Date(i.date).getTime()),
-      }))
-
-      return value;
+      return await getUserMentalEnergy(context.uuid);
     },
-    async howAmIWords(_parent, _args, context): Promise<Array<HowAmIWords>> {
+    async howAmIWords(): Promise<Array<HowAmIWords>> {
       const words = await prisma.howAmIWords.findMany();
 
-      return words.map(w => ({
+      return words.map((w) => ({
         id: w.id,
         word: w.word,
       }));
     },
-    async userHowAmIWords(_parent, _args, context): Promise<Array<UserHowAmIWords>> {
-      const words = await prisma.userHowAmIWords.findMany({
+    async currentUser(_parent, _args, context): Promise<User> {
+      const words = await prisma.howAmIWords.findMany({
         include: {
-        
-        }
+          user_words: {
+            where: {
+              user_id: context.uuid,
+            },
+          },
+        },
       });
-      return [];
-    }
+
+      const energy = await getUserMentalEnergy(context.uuid);
+
+      const user: User = {
+        brand: {
+          words: [],
+        },
+        mentalEnergy: energy,
+        howAmIWords: words.map((w) => ({
+          id: w.id,
+          word: w.word,
+        })),
+      };
+
+      return user;
+    },
   },
   Mutation: {
     async addMentalEnergy(_parent, { level }, context): Promise<MentalEnergy> {
@@ -66,15 +94,15 @@ const resolvers: Resolvers<Context> = {
         data: {
           level,
           user_id: context.uuid,
-        }
+        },
       });
 
       return {
         level: mentalEnergy.level,
         date: Math.floor(new Date(mentalEnergy.date).getTime()),
       };
-    }
-  }
+    },
+  },
 };
 
 const server = new ApolloServer<Context>({
@@ -102,7 +130,6 @@ app.use("/auth", AuthRouter);
     "/graphql",
     expressMiddleware(server as any, {
       context: async ({ req }) => {
-
         if (!req.headers.authorization) {
           throw GetAuthorizedError();
         }
@@ -125,23 +152,23 @@ app.use("/auth", AuthRouter);
 })();
 
 function GetAuthorizedError(): GraphQLError {
-  return new GraphQLError('User is authorizated', {
+  return new GraphQLError("User is authorizated", {
     extensions: {
-      code: 'UNAUTHORIZED',
+      code: "UNAUTHORIZED",
       http: {
         status: 401,
-      }
-    }
+      },
+    },
   });
 }
 
 function GetBadValueError(): GraphQLError {
-  return new GraphQLError('Value is wrong', {
+  return new GraphQLError("Value is wrong", {
     extensions: {
-      code: 'INVALID',
+      code: "INVALID",
       http: {
         status: 400,
-      }
-    }
+      },
+    },
   });
 }

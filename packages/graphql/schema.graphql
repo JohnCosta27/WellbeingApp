@@ -44,8 +44,8 @@ type User {
 
 type Query {
   howAmIWords: [HowAmIWords!]!
-  userHowAmIWords: [UserHowAmIWords!]!
   mentalEnergy: [MentalEnergy!]!
+  currentUser: User!
 }
 
 type Mutation {

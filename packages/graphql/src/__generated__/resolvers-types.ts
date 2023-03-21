@@ -52,9 +52,9 @@ export type MutationAddMentalEnergyArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  currentUser: User;
   howAmIWords: Array<HowAmIWords>;
   mentalEnergy: Array<MentalEnergy>;
-  userHowAmIWords: Array<UserHowAmIWords>;
 };
 
 export type User = {
@@ -195,9 +195,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  currentUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   howAmIWords?: Resolver<Array<ResolversTypes['HowAmIWords']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
-  userHowAmIWords?: Resolver<Array<ResolversTypes['UserHowAmIWords']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -237,10 +237,10 @@ export type AddMentalEnergyMutationVariables = Exact<{
 
 export type AddMentalEnergyMutation = { __typename?: 'Mutation', addMentalEnergy?: { __typename?: 'MentalEnergy', level: number, date: number } | null };
 
-export type MentalEnergyQueryVariables = Exact<{ [key: string]: never; }>;
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MentalEnergyQuery = { __typename?: 'Query', mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIWords: Array<{ __typename?: 'HowAmIWords', id: string, word: string }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> } };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -277,44 +277,50 @@ export function useAddMentalEnergyMutation(baseOptions?: Apollo.MutationHookOpti
 export type AddMentalEnergyMutationHookResult = ReturnType<typeof useAddMentalEnergyMutation>;
 export type AddMentalEnergyMutationResult = Apollo.MutationResult<AddMentalEnergyMutation>;
 export type AddMentalEnergyMutationOptions = Apollo.BaseMutationOptions<AddMentalEnergyMutation, AddMentalEnergyMutationVariables>;
-export const MentalEnergyDocument = gql`
-    query mentalEnergy {
-  mentalEnergy {
-    date
-    level
+export const CurrentUserDocument = gql`
+    query CurrentUser {
+  currentUser {
+    howAmIWords {
+      id
+      word
+    }
+    mentalEnergy {
+      date
+      level
+    }
   }
 }
     `;
 
 /**
- * __useMentalEnergyQuery__
+ * __useCurrentUserQuery__
  *
- * To run a query within a React component, call `useMentalEnergyQuery` and pass it any options that fit your needs.
- * When your component renders, `useMentalEnergyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMentalEnergyQuery({
+ * const { data, loading, error } = useCurrentUserQuery({
  *   variables: {
  *   },
  * });
  */
-export function useMentalEnergyQuery(baseOptions?: Apollo.QueryHookOptions<MentalEnergyQuery, MentalEnergyQueryVariables>) {
+export function useCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MentalEnergyQuery, MentalEnergyQueryVariables>(MentalEnergyDocument, options);
+        return Apollo.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
       }
-export function useMentalEnergyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MentalEnergyQuery, MentalEnergyQueryVariables>) {
+export function useCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MentalEnergyQuery, MentalEnergyQueryVariables>(MentalEnergyDocument, options);
+          return Apollo.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
         }
-export type MentalEnergyQueryHookResult = ReturnType<typeof useMentalEnergyQuery>;
-export type MentalEnergyLazyQueryHookResult = ReturnType<typeof useMentalEnergyLazyQuery>;
-export type MentalEnergyQueryResult = Apollo.QueryResult<MentalEnergyQuery, MentalEnergyQueryVariables>;
+export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
+export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
+export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, CurrentUserQueryVariables>;
 export const namedOperations = {
   Query: {
-    mentalEnergy: 'mentalEnergy'
+    CurrentUser: 'CurrentUser'
   },
   Mutation: {
     addMentalEnergy: 'addMentalEnergy'
