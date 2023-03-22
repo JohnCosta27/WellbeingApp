@@ -14,7 +14,7 @@ export const DashboardLayout: FC = () => {
           How
         </div>
         <div className="w-full h-48 bg-neutral rounded-xl shadow-md flex justify-center items-center text-base-300">
-          Why
+          Who
         </div>
         <div className="w-full h-48 bg-neutral rounded-xl shadow-md flex justify-center items-center text-base-300">
           IBrand
