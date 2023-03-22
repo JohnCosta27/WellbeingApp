@@ -10,3 +10,10 @@ query CurrentUser {
     }
   }
 }
+
+query HowAmIWords {
+  howAmIWords {
+    word
+    id
+  }
+}

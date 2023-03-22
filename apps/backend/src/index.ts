@@ -8,7 +8,6 @@ import {
   MentalEnergy,
   Resolvers,
   User,
-  UserHowAmIWords,
 } from "@wellbeing/graphql-types";
 import express from "express";
 
@@ -58,14 +57,13 @@ const resolvers: Resolvers<Context> = {
       }));
     },
     async currentUser(_parent, _args, context): Promise<User> {
-      const words = await prisma.howAmIWords.findMany({
-        include: {
-          user_words: {
-            where: {
-              user_id: context.uuid,
-            },
-          },
+      const userWords = await prisma.userHowAmIWords.findMany({
+        where: {
+          user_id: context.uuid,
         },
+        include: {
+          word: true
+        }
       });
 
       const energy = await getUserMentalEnergy(context.uuid);
@@ -75,9 +73,9 @@ const resolvers: Resolvers<Context> = {
           words: [],
         },
         mentalEnergy: energy,
-        howAmIWords: words.map((w) => ({
-          id: w.id,
-          word: w.word,
+        howAmIWords: userWords.map((w) => ({
+          id: w.word.id,
+          word: w.word.word,
         })),
       };
 
@@ -101,6 +99,21 @@ const resolvers: Resolvers<Context> = {
         level: mentalEnergy.level,
         date: Math.floor(new Date(mentalEnergy.date).getTime()),
       };
+    },
+    async addHowAmIWord(_parent, { id }, context): Promise<boolean> {
+      try {
+        await prisma.userHowAmIWords.create({
+          data: {
+            how_am_i_word_id: id,
+            user_id: context.uuid,
+          },
+        });
+
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
     },
   },
 };

@@ -1,8 +1,10 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import {
   namedOperations,
+  useAddHowAmIWordMutation,
   useAddMentalEnergyMutation,
   useCurrentUserQuery,
+  useHowAmIWordsQuery,
 } from "@wellbeing/graphql-types";
 
 const RANGE_MAX = 10000;
@@ -11,6 +13,7 @@ export const App: FC = () => {
   const [energyLevel, setEnergyLevel] = useState(0);
 
   const { data, loading, error } = useCurrentUserQuery();
+  const { data: wordsData, loading: wordsLoading } = useHowAmIWordsQuery();
 
   const [addMentalEnergy] = useAddMentalEnergyMutation({
     variables: {
@@ -18,6 +21,18 @@ export const App: FC = () => {
     },
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
+
+  const [addHowAmIWord] = useAddHowAmIWordMutation({
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  })
+
+  const onAddWord = useCallback((wordId: string) => {
+    addHowAmIWord({
+      variables: {
+        addHowAmIWordId: wordId,
+      }
+    })
+  }, [addHowAmIWord]);
 
   return (
     <div className="w-full h-screen bg-base-100 flex justify-center items-center text-5xl">
@@ -46,18 +61,22 @@ export const App: FC = () => {
           Submit Energy
         </button>
       </div>
-      <div className="w-full h-full">
+      <div className="w-full h-full flex flex-col gap-4">
         <h1>Users How am I words</h1>
-        {!loading && data && (
-          <div className="flex flex-col gap-4">
-            {data.currentUser.howAmIWords.map((w) => (
-              <div key={w.id}>
-                {w.word}
-              </div>
-            ))}
-          </div>
-        )}
+        {!loading &&
+          data &&
+          data.currentUser.howAmIWords.map((w) => (
+            <div key={w.id}>{w.word}</div>
+          ))}
         {error && <>Error has occured</>}
+        <h2>Available words</h2>
+        {!wordsLoading &&
+          wordsData &&
+          wordsData.howAmIWords.map((w) => (
+            <div key={w.id}>{w.word}
+              <button className="btn btn-secondary" onClick={() => onAddWord(w.id)}>Add Word</button>
+            </div>
+          ))}
       </div>
     </div>
   );

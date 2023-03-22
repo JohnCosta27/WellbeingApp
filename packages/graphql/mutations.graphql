@@ -4,3 +4,7 @@ mutation addMentalEnergy($level: Float!) {
     date
   }
 }
+
+mutation addHowAmIWord($addHowAmIWordId: String!) {
+  addHowAmIWord(id: $addHowAmIWordId)
+}

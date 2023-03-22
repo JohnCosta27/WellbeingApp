@@ -29,6 +29,7 @@ type MentalEnergy {
 type HowAmIWords {
   id: String!
   word: String!
+  date: Float
 }
 
 type UserHowAmIWords {
@@ -50,5 +51,5 @@ type Query {
 
 type Mutation {
   addMentalEnergy(level: Float!): MentalEnergy
-  addHowAmIWords(word: String!): String
+  addHowAmIWord(id: String!): Boolean
 }

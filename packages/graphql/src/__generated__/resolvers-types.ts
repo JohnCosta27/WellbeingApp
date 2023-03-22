@@ -24,6 +24,7 @@ export type BrandWords = {
 
 export type HowAmIWords = {
   __typename?: 'HowAmIWords';
+  date?: Maybe<Scalars['Float']>;
   id: Scalars['String'];
   word: Scalars['String'];
 };
@@ -36,13 +37,13 @@ export type MentalEnergy = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addHowAmIWords?: Maybe<Scalars['String']>;
+  addHowAmIWord?: Maybe<Scalars['Boolean']>;
   addMentalEnergy?: Maybe<MentalEnergy>;
 };
 
 
-export type MutationAddHowAmIWordsArgs = {
-  word: Scalars['String'];
+export type MutationAddHowAmIWordArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -178,6 +179,7 @@ export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type HowAmIWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['HowAmIWords'] = ResolversParentTypes['HowAmIWords']> = {
+  date?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   word?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -190,7 +192,7 @@ export type MentalEnergyResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addHowAmIWords?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddHowAmIWordsArgs, 'word'>>;
+  addHowAmIWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIWordArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
 };
 
@@ -237,10 +239,22 @@ export type AddMentalEnergyMutationVariables = Exact<{
 
 export type AddMentalEnergyMutation = { __typename?: 'Mutation', addMentalEnergy?: { __typename?: 'MentalEnergy', level: number, date: number } | null };
 
+export type AddHowAmIWordMutationVariables = Exact<{
+  addHowAmIWordId: Scalars['String'];
+}>;
+
+
+export type AddHowAmIWordMutation = { __typename?: 'Mutation', addHowAmIWord?: boolean | null };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIWords: Array<{ __typename?: 'HowAmIWords', id: string, word: string }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> } };
+
+export type HowAmIWordsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HowAmIWordsQuery = { __typename?: 'Query', howAmIWords: Array<{ __typename?: 'HowAmIWords', word: string, id: string }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -277,6 +291,37 @@ export function useAddMentalEnergyMutation(baseOptions?: Apollo.MutationHookOpti
 export type AddMentalEnergyMutationHookResult = ReturnType<typeof useAddMentalEnergyMutation>;
 export type AddMentalEnergyMutationResult = Apollo.MutationResult<AddMentalEnergyMutation>;
 export type AddMentalEnergyMutationOptions = Apollo.BaseMutationOptions<AddMentalEnergyMutation, AddMentalEnergyMutationVariables>;
+export const AddHowAmIWordDocument = gql`
+    mutation addHowAmIWord($addHowAmIWordId: String!) {
+  addHowAmIWord(id: $addHowAmIWordId)
+}
+    `;
+export type AddHowAmIWordMutationFn = Apollo.MutationFunction<AddHowAmIWordMutation, AddHowAmIWordMutationVariables>;
+
+/**
+ * __useAddHowAmIWordMutation__
+ *
+ * To run a mutation, you first call `useAddHowAmIWordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddHowAmIWordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addHowAmIWordMutation, { data, loading, error }] = useAddHowAmIWordMutation({
+ *   variables: {
+ *      addHowAmIWordId: // value for 'addHowAmIWordId'
+ *   },
+ * });
+ */
+export function useAddHowAmIWordMutation(baseOptions?: Apollo.MutationHookOptions<AddHowAmIWordMutation, AddHowAmIWordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddHowAmIWordMutation, AddHowAmIWordMutationVariables>(AddHowAmIWordDocument, options);
+      }
+export type AddHowAmIWordMutationHookResult = ReturnType<typeof useAddHowAmIWordMutation>;
+export type AddHowAmIWordMutationResult = Apollo.MutationResult<AddHowAmIWordMutation>;
+export type AddHowAmIWordMutationOptions = Apollo.BaseMutationOptions<AddHowAmIWordMutation, AddHowAmIWordMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -318,11 +363,48 @@ export function useCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
 export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
 export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, CurrentUserQueryVariables>;
+export const HowAmIWordsDocument = gql`
+    query HowAmIWords {
+  howAmIWords {
+    word
+    id
+  }
+}
+    `;
+
+/**
+ * __useHowAmIWordsQuery__
+ *
+ * To run a query within a React component, call `useHowAmIWordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHowAmIWordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHowAmIWordsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHowAmIWordsQuery(baseOptions?: Apollo.QueryHookOptions<HowAmIWordsQuery, HowAmIWordsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HowAmIWordsQuery, HowAmIWordsQueryVariables>(HowAmIWordsDocument, options);
+      }
+export function useHowAmIWordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HowAmIWordsQuery, HowAmIWordsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HowAmIWordsQuery, HowAmIWordsQueryVariables>(HowAmIWordsDocument, options);
+        }
+export type HowAmIWordsQueryHookResult = ReturnType<typeof useHowAmIWordsQuery>;
+export type HowAmIWordsLazyQueryHookResult = ReturnType<typeof useHowAmIWordsLazyQuery>;
+export type HowAmIWordsQueryResult = Apollo.QueryResult<HowAmIWordsQuery, HowAmIWordsQueryVariables>;
 export const namedOperations = {
   Query: {
-    CurrentUser: 'CurrentUser'
+    CurrentUser: 'CurrentUser',
+    HowAmIWords: 'HowAmIWords'
   },
   Mutation: {
-    addMentalEnergy: 'addMentalEnergy'
+    addMentalEnergy: 'addMentalEnergy',
+    addHowAmIWord: 'addHowAmIWord'
   }
 }
