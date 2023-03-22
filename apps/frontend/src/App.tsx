@@ -38,13 +38,13 @@ export const App: FC = () => {
   );
 
   return (
-    <div className="w-full h-screen bg-base-100 flex justify-center items-center text-5xl">
-      <div className="w-full h-full">
-        <h1>Mental Energy</h1>
+    <div className="w-full h-screen bg-base-200 flex justify-center items-center text-5xl p-16 gap-8">
+      <div className="w-full h-full bg-neutral rounded-xl p-4 flex flex-col gap-4">
+        <h1 className="text-base-300 mb-4">Mental Energy</h1>
         {!loading && data && (
-          <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {data.currentUser.mentalEnergy.map((i) => (
-              <div key={i.date}>
+              <div key={i.date} className="text-base-300 text-xl">
                 {new Date(i.date).toISOString()} - {i.level}
               </div>
             ))}
@@ -53,36 +53,36 @@ export const App: FC = () => {
         {error && <>Error has occured</>}
         <input
           type="range"
-          className="range range-secondary"
+          className="range range-primary"
           max={RANGE_MAX}
           min={0}
           step={1}
           value={energyLevel}
           onChange={(e) => setEnergyLevel(parseInt(e.target.value))}
         />
-        <button className="btn btn-secondary" onClick={() => addMentalEnergy()}>
+        <button className="btn btn-primary text-base-300 text-2xl" onClick={() => addMentalEnergy()}>
           Submit Energy
         </button>
       </div>
-      <div className="w-full h-full flex flex-col gap-4">
-        <h1>Users How am I words</h1>
+      <div className="w-full h-full bg-neutral rounded-xl p-4 flex flex-col gap-4">
+        <h1 className="text-base-300 mb-4">Users How am I words</h1>
         {!loading &&
           data &&
           data.currentUser.howAmIWords.map((w) => (
-            <div key={w.id + (w.date ?? Math.random())}>
+            <div key={w.id + (w.date ?? Math.random())} className="text-base-300 text-xl">
               {w.word}
               {w.date && <> - Added: {new Date(w.date).toISOString()}</>}
             </div>
           ))}
         {error && <>Error has occured</>}
-        <h2>Available words</h2>
+        <h2 className="text-base-300 mb-4 text-4xl my-4">Available words</h2>
         {!wordsLoading &&
           wordsData &&
           wordsData.howAmIWords.map((w) => (
-            <div key={w.id}>
-              {w.word}
+            <div key={w.id} className="flex justify-between px-16 text-base-300">
+              - {w.word}
               <button
-                className="btn btn-secondary"
+                className="btn btn-primary text-2xl"
                 onClick={() => onAddWord(w.id)}
               >
                 Add Word
