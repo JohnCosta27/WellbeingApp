@@ -38,7 +38,7 @@ export const App: FC = () => {
   );
 
   return (
-    <div className="w-full h-screen bg-base-200 flex justify-center items-center text-5xl p-16 gap-8">
+    <div className="w-full h-full flex justify-center items-center text-5xl gap-8">
       <div className="w-full h-full bg-neutral rounded-xl p-4 flex flex-col gap-4">
         <h1 className="text-base-300 mb-4">Mental Energy</h1>
         {!loading && data && (
