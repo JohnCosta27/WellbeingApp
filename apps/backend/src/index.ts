@@ -68,8 +68,6 @@ const resolvers: Resolvers<Context> = {
 
       const energy = await getUserMentalEnergy(context.uuid);
 
-      userWords.forEach(w => console.log(w));
-
       const user: User = {
         brand: {
           words: [],
