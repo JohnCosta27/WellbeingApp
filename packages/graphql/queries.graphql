@@ -3,6 +3,7 @@ query CurrentUser {
     howAmIWords {
       id
       word
+      date
     }
     mentalEnergy {
       date

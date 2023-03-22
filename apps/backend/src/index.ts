@@ -68,6 +68,8 @@ const resolvers: Resolvers<Context> = {
 
       const energy = await getUserMentalEnergy(context.uuid);
 
+      userWords.forEach(w => console.log(w));
+
       const user: User = {
         brand: {
           words: [],
@@ -76,6 +78,7 @@ const resolvers: Resolvers<Context> = {
         howAmIWords: userWords.map((w) => ({
           id: w.word.id,
           word: w.word.word,
+          date: new Date(w.date_added).getTime(),
         })),
       };
 

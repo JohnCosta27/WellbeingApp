@@ -249,7 +249,7 @@ export type AddHowAmIWordMutation = { __typename?: 'Mutation', addHowAmIWord?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIWords: Array<{ __typename?: 'HowAmIWords', id: string, word: string }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIWords: Array<{ __typename?: 'HowAmIWords', id: string, word: string, date?: number | null }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> } };
 
 export type HowAmIWordsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -328,6 +328,7 @@ export const CurrentUserDocument = gql`
     howAmIWords {
       id
       word
+      date
     }
     mentalEnergy {
       date

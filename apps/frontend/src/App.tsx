@@ -15,6 +15,8 @@ export const App: FC = () => {
   const { data, loading, error } = useCurrentUserQuery();
   const { data: wordsData, loading: wordsLoading } = useHowAmIWordsQuery();
 
+  console.log(data);
+
   const [addMentalEnergy] = useAddMentalEnergyMutation({
     variables: {
       level: energyLevel / RANGE_MAX,
@@ -24,15 +26,18 @@ export const App: FC = () => {
 
   const [addHowAmIWord] = useAddHowAmIWordMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
-  })
+  });
 
-  const onAddWord = useCallback((wordId: string) => {
-    addHowAmIWord({
-      variables: {
-        addHowAmIWordId: wordId,
-      }
-    })
-  }, [addHowAmIWord]);
+  const onAddWord = useCallback(
+    (wordId: string) => {
+      addHowAmIWord({
+        variables: {
+          addHowAmIWordId: wordId,
+        },
+      });
+    },
+    [addHowAmIWord]
+  );
 
   return (
     <div className="w-full h-screen bg-base-100 flex justify-center items-center text-5xl">
@@ -66,15 +71,24 @@ export const App: FC = () => {
         {!loading &&
           data &&
           data.currentUser.howAmIWords.map((w) => (
-            <div key={w.id}>{w.word}</div>
+            <div key={w.id + (w.date ?? Math.random())}>
+              {w.word}
+              {w.date && <> - Added: {new Date(w.date).toISOString()}</>}
+            </div>
           ))}
         {error && <>Error has occured</>}
         <h2>Available words</h2>
         {!wordsLoading &&
           wordsData &&
           wordsData.howAmIWords.map((w) => (
-            <div key={w.id}>{w.word}
-              <button className="btn btn-secondary" onClick={() => onAddWord(w.id)}>Add Word</button>
+            <div key={w.id}>
+              {w.word}
+              <button
+                className="btn btn-secondary"
+                onClick={() => onAddWord(w.id)}
+              >
+                Add Word
+              </button>
             </div>
           ))}
       </div>
