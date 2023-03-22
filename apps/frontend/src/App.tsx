@@ -15,8 +15,6 @@ export const App: FC = () => {
   const { data, loading, error } = useCurrentUserQuery();
   const { data: wordsData, loading: wordsLoading } = useHowAmIWordsQuery();
 
-  console.log(data);
-
   const [addMentalEnergy] = useAddMentalEnergyMutation({
     variables: {
       level: energyLevel / RANGE_MAX,
