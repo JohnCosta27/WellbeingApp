@@ -4,6 +4,7 @@ import path from "path";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import {
+    BrandWords,
   HowAmIPhrase,
   MentalEnergy,
   Resolvers,
@@ -28,27 +29,12 @@ interface Context {
   uuid: string;
 }
 
-async function getUserMentalEnergy(uuid: string): Promise<Array<MentalEnergy>> {
-  const newEnergy = await prisma.mentalEnergy.findMany({
-    where: {
-      user_id: uuid,
-    },
-  });
-
-  const value: Array<MentalEnergy> = newEnergy.map((i) => ({
-    level: i.level,
-    date: Math.floor(new Date(i.date).getTime()),
-  }));
-
-  return value;
+function timestamp(date: Date): number {
+  return Math.floor(new Date(date).getTime())
 }
 
 const resolvers: Resolvers<Context> = {
   Query: {
-    async mentalEnergy(_parent, _args, context): Promise<Array<MentalEnergy>> {
-      return await getUserMentalEnergy(context.uuid);
-    },
-
     async howAmIPhrase(): Promise<Array<HowAmIPhrase>> {
       const phrases = await prisma.howAmIPhrase.findMany();
 
@@ -58,30 +44,52 @@ const resolvers: Resolvers<Context> = {
       }));
     },
 
+    async brandWords(): Promise<Array<BrandWords>> {
+      return await prisma.brandWords.findMany();
+    },
+
     async currentUser(_parent, _args, context): Promise<User> {
-      const userPhrases = await prisma.userHowAmIPhrase.findMany({
+      const user = await prisma.users.findUnique({
         where: {
-          user_id: context.uuid,
+          id: context.uuid,
         },
         include: {
-          phrase: true,
-        },
+          mental_energy: true,
+          how_am_i_phrases: {
+            include: {
+              phrase: true,
+            }
+          },
+          brand_words: {
+            include: {
+              brand_word: true,
+            }
+          }
+        }
       });
 
-      const energy = await getUserMentalEnergy(context.uuid);
+      if (!user) {
+        throw new Error("Context user not found");
+      }
 
-      const user: User = {
+      const returnUser: User = {
         brand: {
-          words: [],
+          words: user.brand_words.map(w => ({
+            id: w.brand_word_id,
+            word: w.brand_word.word,
+          })),
         },
-        mentalEnergy: energy,
-        howAmIPhrase: userPhrases.map((w) => ({
+        mentalEnergy: user.mental_energy.map(m => ({
+          date: timestamp(m.date),
+          level: m.level,
+        })),
+        howAmIPhrase: user.how_am_i_phrases.map((w) => ({
+          date: timestamp(w.date_added),
           phrase: w.phrase,
-          date: new Date(w.date_added).getTime(),
         })),
       };
 
-      return user;
+      return returnUser;
     },
   },
 
@@ -119,6 +127,21 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error, most likely ID not found");
       }
     },
+
+    async addBrandWord(_parent, { wordId }, context): Promise<boolean> {
+      try {
+        await prisma.userBrandWords.create({
+          data: {
+            brand_word_id: wordId,
+            user_id: context.uuid,
+          }
+        })
+      } catch(err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+      return true;
+    }
   },
 };
 

@@ -19,6 +19,7 @@ export type Scalars = {
 
 export type BrandWords = {
   __typename?: 'BrandWords';
+  id: Scalars['String'];
   word: Scalars['String'];
 };
 
@@ -37,8 +38,14 @@ export type MentalEnergy = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addBrandWord?: Maybe<Scalars['Boolean']>;
   addHowAmIPhrase?: Maybe<Scalars['Boolean']>;
   addMentalEnergy?: Maybe<MentalEnergy>;
+};
+
+
+export type MutationAddBrandWordArgs = {
+  wordId: Scalars['String'];
 };
 
 
@@ -53,6 +60,7 @@ export type MutationAddMentalEnergyArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  brandWords: Array<BrandWords>;
   currentUser: User;
   howAmIPhrase: Array<HowAmIPhrase>;
   mentalEnergy: Array<MentalEnergy>;
@@ -174,6 +182,7 @@ export type ResolversParentTypes = {
 };
 
 export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['BrandWords'] = ResolversParentTypes['BrandWords']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   word?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -192,11 +201,13 @@ export type MentalEnergyResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddBrandWordArgs, 'wordId'>>;
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  brandWords?: Resolver<Array<ResolversTypes['BrandWords']>, ParentType, ContextType>;
   currentUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['HowAmIPhrase']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
@@ -246,15 +257,27 @@ export type AddHowAmIPhraseMutationVariables = Exact<{
 
 export type AddHowAmIPhraseMutation = { __typename?: 'Mutation', addHowAmIPhrase?: boolean | null };
 
+export type AddBrandWordMutationVariables = Exact<{
+  addBrandWord: Scalars['String'];
+}>;
+
+
+export type AddBrandWordMutation = { __typename?: 'Mutation', addBrandWord?: boolean | null };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', word: string }> } } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HowAmIPhraseQuery = { __typename?: 'Query', howAmIPhrase: Array<{ __typename?: 'HowAmIPhrase', phrase: string, id: string }> };
+
+export type BrandWordsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BrandWordsQuery = { __typename?: 'Query', brandWords: Array<{ __typename?: 'BrandWords', id: string, word: string }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -322,6 +345,37 @@ export function useAddHowAmIPhraseMutation(baseOptions?: Apollo.MutationHookOpti
 export type AddHowAmIPhraseMutationHookResult = ReturnType<typeof useAddHowAmIPhraseMutation>;
 export type AddHowAmIPhraseMutationResult = Apollo.MutationResult<AddHowAmIPhraseMutation>;
 export type AddHowAmIPhraseMutationOptions = Apollo.BaseMutationOptions<AddHowAmIPhraseMutation, AddHowAmIPhraseMutationVariables>;
+export const AddBrandWordDocument = gql`
+    mutation addBrandWord($addBrandWord: String!) {
+  addBrandWord(wordId: $addBrandWord)
+}
+    `;
+export type AddBrandWordMutationFn = Apollo.MutationFunction<AddBrandWordMutation, AddBrandWordMutationVariables>;
+
+/**
+ * __useAddBrandWordMutation__
+ *
+ * To run a mutation, you first call `useAddBrandWordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddBrandWordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addBrandWordMutation, { data, loading, error }] = useAddBrandWordMutation({
+ *   variables: {
+ *      addBrandWord: // value for 'addBrandWord'
+ *   },
+ * });
+ */
+export function useAddBrandWordMutation(baseOptions?: Apollo.MutationHookOptions<AddBrandWordMutation, AddBrandWordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddBrandWordMutation, AddBrandWordMutationVariables>(AddBrandWordDocument, options);
+      }
+export type AddBrandWordMutationHookResult = ReturnType<typeof useAddBrandWordMutation>;
+export type AddBrandWordMutationResult = Apollo.MutationResult<AddBrandWordMutation>;
+export type AddBrandWordMutationOptions = Apollo.BaseMutationOptions<AddBrandWordMutation, AddBrandWordMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -335,6 +389,11 @@ export const CurrentUserDocument = gql`
     mentalEnergy {
       date
       level
+    }
+    brand {
+      words {
+        word
+      }
     }
   }
 }
@@ -401,13 +460,50 @@ export function useHowAmIPhraseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type HowAmIPhraseQueryHookResult = ReturnType<typeof useHowAmIPhraseQuery>;
 export type HowAmIPhraseLazyQueryHookResult = ReturnType<typeof useHowAmIPhraseLazyQuery>;
 export type HowAmIPhraseQueryResult = Apollo.QueryResult<HowAmIPhraseQuery, HowAmIPhraseQueryVariables>;
+export const BrandWordsDocument = gql`
+    query BrandWords {
+  brandWords {
+    id
+    word
+  }
+}
+    `;
+
+/**
+ * __useBrandWordsQuery__
+ *
+ * To run a query within a React component, call `useBrandWordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBrandWordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBrandWordsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBrandWordsQuery(baseOptions?: Apollo.QueryHookOptions<BrandWordsQuery, BrandWordsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BrandWordsQuery, BrandWordsQueryVariables>(BrandWordsDocument, options);
+      }
+export function useBrandWordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BrandWordsQuery, BrandWordsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BrandWordsQuery, BrandWordsQueryVariables>(BrandWordsDocument, options);
+        }
+export type BrandWordsQueryHookResult = ReturnType<typeof useBrandWordsQuery>;
+export type BrandWordsLazyQueryHookResult = ReturnType<typeof useBrandWordsLazyQuery>;
+export type BrandWordsQueryResult = Apollo.QueryResult<BrandWordsQuery, BrandWordsQueryVariables>;
 export const namedOperations = {
   Query: {
     CurrentUser: 'CurrentUser',
-    HowAmIPhrase: 'HowAmIPhrase'
+    HowAmIPhrase: 'HowAmIPhrase',
+    BrandWords: 'BrandWords'
   },
   Mutation: {
     addMentalEnergy: 'addMentalEnergy',
-    addHowAmIPhrase: 'addHowAmIPhrase'
+    addHowAmIPhrase: 'addHowAmIPhrase',
+    addBrandWord: 'addBrandWord'
   }
 }

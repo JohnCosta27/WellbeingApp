@@ -11,6 +11,11 @@ query CurrentUser {
       date
       level
     }
+    brand {
+      words {
+        word
+      }
+    }
   }
 }
 
@@ -18,5 +23,12 @@ query HowAmIPhrase {
   howAmIPhrase {
     phrase
     id
+  }
+}
+
+query BrandWords {
+  brandWords {
+    id
+    word
   }
 }

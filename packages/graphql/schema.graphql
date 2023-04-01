@@ -4,6 +4,7 @@
 # ------------------------------------- #
 
 type BrandWords {
+  id: String!
   word: String!
 }
 
@@ -44,6 +45,7 @@ type User {
 }
 
 type Query {
+  brandWords: [BrandWords!]!
   howAmIPhrase: [HowAmIPhrase!]!
   mentalEnergy: [MentalEnergy!]!
   currentUser: User!
@@ -52,4 +54,5 @@ type Query {
 type Mutation {
   addMentalEnergy(level: Float!): MentalEnergy
   addHowAmIPhrase(id: String!): Boolean
+  addBrandWord(wordId: String!): Boolean
 }
