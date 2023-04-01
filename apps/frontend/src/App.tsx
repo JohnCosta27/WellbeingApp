@@ -14,8 +14,9 @@ const RANGE_MAX = 10000;
 export const App: FC = () => {
   const [energyLevel, setEnergyLevel] = useState(0);
 
+  const [brandWordError, setBrandwordError] = useState(false);
+
   const { data, loading, error } = useCurrentUserQuery();
-  console.log(data);
 
   const { data: phraseData, loading: wordsLoading } = useHowAmIPhraseQuery();
   const { data: brandWords, loading: brandWordsLoading } = useBrandWordsQuery();
@@ -33,6 +34,9 @@ export const App: FC = () => {
 
   const [addBrandWord] = useAddBrandWordMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
+    onError: () => {
+      setBrandwordError(true);
+    },
   });
 
   const onAddBrandWord = useCallback(
@@ -131,22 +135,29 @@ export const App: FC = () => {
         {error && <>Error has occured</>}
         <h2 className="text-base-300 mb-4 text-4xl my-4">Available Phrases</h2>
         {!brandWordsLoading &&
+          data &&
           brandWords &&
-          brandWords.brandWords.map((w) => (
-            <div
-              key={w.id}
-              className="flex justify-between px-16 text-base-300"
-            >
-              - {w.word}
-              <button
-                className="btn btn-primary text-2xl"
-                onClick={() => onAddBrandWord(w.id)}
+          brandWords.brandWords
+            .filter(
+              (w) =>
+                !data.currentUser.brand.words.find(
+                  (userWord) => userWord.word === w.word
+                )
+            )
+            .map((w) => (
+              <div
+                key={w.id}
+                className="flex justify-between px-16 text-base-300"
               >
-                Add Word
-              </button>
-            </div>
-
-          ))}
+                - {w.word}
+                <button
+                  className="btn btn-primary text-2xl"
+                  onClick={() => onAddBrandWord(w.id)}
+                >
+                  Add Word
+                </button>
+              </div>
+            ))}
       </div>
     </div>
   );

@@ -130,10 +130,21 @@ const resolvers: Resolvers<Context> = {
 
     async addBrandWord(_parent, { wordId }, context): Promise<boolean> {
       try {
+        const exists = await prisma.userBrandWords.findMany({
+          where: {
+            user_id: context.uuid,
+            brand_word_id: wordId,
+          }
+        });
+
+        if (exists.length > 1) {
+          throw new Error("User already has this word");
+        }
+
         await prisma.userBrandWords.create({
           data: {
-            brand_word_id: wordId,
             user_id: context.uuid,
+            brand_word_id: wordId,
           }
         })
       } catch(err) {
