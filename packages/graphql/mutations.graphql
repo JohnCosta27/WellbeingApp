@@ -5,6 +5,6 @@ mutation addMentalEnergy($level: Float!) {
   }
 }
 
-mutation addHowAmIWord($addHowAmIWordId: String!) {
-  addHowAmIWord(id: $addHowAmIWordId)
+mutation addHowAmIPhrase($addHowAmIPhraseId: String!) {
+  addHowAmIPhrase(id: $addHowAmIPhraseId)
 }

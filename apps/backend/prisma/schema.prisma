@@ -14,7 +14,7 @@ model Users {
   password String
   password_salt String
   mental_energy MentalEnergy[]
-  how_am_i_words UserHowAmIWords[]
+  how_am_i_words UserHowAmIPhrase[]
 }
 
 model MentalEnergy {
@@ -26,19 +26,19 @@ model MentalEnergy {
   user Users @relation(fields: [user_id], references: [id])
 }
 
-model HowAmIWords {
+model HowAmIPhrase {
   id String @id @default(uuid())
-  word String
+  phrase String
 
-  user_words UserHowAmIWords[]
+  user_phrases UserHowAmIPhrase[]
 }
 
-model UserHowAmIWords {
+model UserHowAmIPhrase {
   id String @id @default(uuid())
   date_added DateTime @default(now())
 
-  how_am_i_word_id String
+  how_am_i_phrase_id String
   user_id String
-  word HowAmIWords @relation(fields: [how_am_i_word_id], references: [id])
+  phrase HowAmIPhrase @relation(fields: [how_am_i_phrase_id], references: [id])
   user Users @relation(fields: [user_id], references: [id])
 }

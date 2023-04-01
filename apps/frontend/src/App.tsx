@@ -1,10 +1,10 @@
 import { FC, useCallback, useState } from "react";
 import {
   namedOperations,
-  useAddHowAmIWordMutation,
+  useAddHowAmIPhraseMutation,
   useAddMentalEnergyMutation,
   useCurrentUserQuery,
-  useHowAmIWordsQuery,
+  useHowAmIPhraseQuery,
 } from "@wellbeing/graphql-types";
 
 const RANGE_MAX = 10000;
@@ -13,7 +13,7 @@ export const App: FC = () => {
   const [energyLevel, setEnergyLevel] = useState(0);
 
   const { data, loading, error } = useCurrentUserQuery();
-  const { data: wordsData, loading: wordsLoading } = useHowAmIWordsQuery();
+  const { data: phraseData, loading: wordsLoading } = useHowAmIPhraseQuery();
 
   const [addMentalEnergy] = useAddMentalEnergyMutation({
     variables: {
@@ -22,7 +22,7 @@ export const App: FC = () => {
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  const [addHowAmIWord] = useAddHowAmIWordMutation({
+  const [addHowAmIWord] = useAddHowAmIPhraseMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
@@ -30,7 +30,7 @@ export const App: FC = () => {
     (wordId: string) => {
       addHowAmIWord({
         variables: {
-          addHowAmIWordId: wordId,
+          addHowAmIPhraseId: wordId,
         },
       });
     },
@@ -60,7 +60,10 @@ export const App: FC = () => {
           value={energyLevel}
           onChange={(e) => setEnergyLevel(parseInt(e.target.value))}
         />
-        <button className="btn btn-primary text-base-300 text-2xl" onClick={() => addMentalEnergy()}>
+        <button
+          className="btn btn-primary text-base-300 text-2xl"
+          onClick={() => addMentalEnergy()}
+        >
           Submit Energy
         </button>
       </div>
@@ -68,19 +71,25 @@ export const App: FC = () => {
         <h1 className="text-base-300 mb-4">Users How am I words</h1>
         {!loading &&
           data &&
-          data.currentUser.howAmIWords.map((w) => (
-            <div key={w.id + (w.date ?? Math.random())} className="text-base-300 text-xl">
-              {w.word}
+          data.currentUser.howAmIPhrase.map((w) => (
+            <div
+              key={w.phrase.id + (w.date ?? Math.random())}
+              className="text-base-300 text-xl"
+            >
+              {w.phrase.phrase}
               {w.date && <> - Added: {new Date(w.date).toISOString()}</>}
             </div>
           ))}
         {error && <>Error has occured</>}
         <h2 className="text-base-300 mb-4 text-4xl my-4">Available words</h2>
         {!wordsLoading &&
-          wordsData &&
-          wordsData.howAmIWords.map((w) => (
-            <div key={w.id} className="flex justify-between px-16 text-base-300">
-              - {w.word}
+          phraseData &&
+          phraseData.howAmIPhrase.map((w) => (
+            <div
+              key={w.id}
+              className="flex justify-between px-16 text-base-300"
+            >
+              - {w.phrase}
               <button
                 className="btn btn-primary text-2xl"
                 onClick={() => onAddWord(w.id)}

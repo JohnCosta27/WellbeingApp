@@ -26,30 +26,30 @@ type MentalEnergy {
 # Accessable to the user with a date    #
 # ------------------------------------- #
 
-type HowAmIWords {
+type HowAmIPhrase {
   id: String!
-  word: String!
+  phrase: String!
   date: Float
 }
 
-type UserHowAmIWords {
-  word: HowAmIWords!
+type UserHowAmIPhrase {
+  phrase: HowAmIPhrase!
   date: Float!
 }
 
 type User {
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
-  howAmIWords: [HowAmIWords!]!
+  howAmIPhrase: [UserHowAmIPhrase!]!
 }
 
 type Query {
-  howAmIWords: [HowAmIWords!]!
+  howAmIPhrase: [HowAmIPhrase!]!
   mentalEnergy: [MentalEnergy!]!
   currentUser: User!
 }
 
 type Mutation {
   addMentalEnergy(level: Float!): MentalEnergy
-  addHowAmIWord(id: String!): Boolean
+  addHowAmIPhrase(id: String!): Boolean
 }

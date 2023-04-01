@@ -1,8 +1,10 @@
 query CurrentUser {
   currentUser {
-    howAmIWords {
-      id
-      word
+    howAmIPhrase {
+      phrase {
+        id
+        phrase
+      }
       date
     }
     mentalEnergy {
@@ -12,9 +14,9 @@ query CurrentUser {
   }
 }
 
-query HowAmIWords {
-  howAmIWords {
-    word
+query HowAmIPhrase {
+  howAmIPhrase {
+    phrase
     id
   }
 }

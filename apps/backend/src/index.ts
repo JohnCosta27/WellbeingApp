@@ -4,7 +4,7 @@ import path from "path";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import {
-  HowAmIWords,
+  HowAmIPhrase,
   MentalEnergy,
   Resolvers,
   User,
@@ -48,22 +48,24 @@ const resolvers: Resolvers<Context> = {
     async mentalEnergy(_parent, _args, context): Promise<Array<MentalEnergy>> {
       return await getUserMentalEnergy(context.uuid);
     },
-    async howAmIWords(): Promise<Array<HowAmIWords>> {
-      const words = await prisma.howAmIWords.findMany();
 
-      return words.map((w) => ({
+    async howAmIPhrase(): Promise<Array<HowAmIPhrase>> {
+      const phrases = await prisma.howAmIPhrase.findMany();
+
+      return phrases.map((w) => ({
         id: w.id,
-        word: w.word,
+        phrase: w.phrase,
       }));
     },
+
     async currentUser(_parent, _args, context): Promise<User> {
-      const userWords = await prisma.userHowAmIWords.findMany({
+      const userPhrases = await prisma.userHowAmIPhrase.findMany({
         where: {
           user_id: context.uuid,
         },
         include: {
-          word: true
-        }
+          phrase: true,
+        },
       });
 
       const energy = await getUserMentalEnergy(context.uuid);
@@ -73,9 +75,8 @@ const resolvers: Resolvers<Context> = {
           words: [],
         },
         mentalEnergy: energy,
-        howAmIWords: userWords.map((w) => ({
-          id: w.word.id,
-          word: w.word.word,
+        howAmIPhrase: userPhrases.map((w) => ({
+          phrase: w.phrase,
           date: new Date(w.date_added).getTime(),
         })),
       };
@@ -83,6 +84,7 @@ const resolvers: Resolvers<Context> = {
       return user;
     },
   },
+
   Mutation: {
     async addMentalEnergy(_parent, { level }, context): Promise<MentalEnergy> {
       if (level < 0 || level > 1) {
@@ -101,11 +103,12 @@ const resolvers: Resolvers<Context> = {
         date: Math.floor(new Date(mentalEnergy.date).getTime()),
       };
     },
-    async addHowAmIWord(_parent, { id }, context): Promise<boolean> {
+
+    async addHowAmIPhrase(_parent, { id }, context): Promise<boolean> {
       try {
-        await prisma.userHowAmIWords.create({
+        await prisma.userHowAmIPhrase.create({
           data: {
-            how_am_i_word_id: id,
+            how_am_i_phrase_id: id,
             user_id: context.uuid,
           },
         });
