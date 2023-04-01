@@ -63,12 +63,12 @@ export const App: FC = () => {
 
   return (
     <div className="w-full h-full flex justify-center items-center text-5xl gap-8">
-      <div className="w-full h-full bg-neutral rounded-xl p-4 flex flex-col gap-4">
-        <h1 className="text-base-300 mb-4">Mental Energy</h1>
+      <div className="w-full h-full bg-base-300 rounded-xl p-4 flex flex-col gap-4">
+        <h1 className="text-base-content mb-4">Mental Energy</h1>
         {!loading && data && (
           <div className="grid grid-cols-2 gap-4">
             {data.currentUser.mentalEnergy.map((i) => (
-              <div key={i.date} className="text-base-300 text-xl">
+              <div key={i.date} className="text-base-content text-xl">
                 {new Date(i.date).toISOString()} - {i.level}
               </div>
             ))}
@@ -91,27 +91,27 @@ export const App: FC = () => {
           Submit Energy
         </button>
       </div>
-      <div className="w-full h-full bg-neutral rounded-xl p-4 flex flex-col gap-4">
-        <h1 className="text-base-300 mb-4">How am I feeling</h1>
+      <div className="w-full h-full bg-base-300 rounded-xl p-4 flex flex-col gap-4">
+        <h1 className="text-base-content mb-4">How am I feeling</h1>
         {!loading &&
           data &&
           data.currentUser.howAmIPhrase.map((w) => (
             <div
               key={w.phrase.id + (w.date ?? Math.random())}
-              className="text-base-300 text-xl"
+              className="text-base-content text-xl"
             >
               {w.phrase.phrase}
               {w.date && <> - Added: {new Date(w.date).toISOString()}</>}
             </div>
           ))}
         {error && <>Error has occured</>}
-        <h2 className="text-base-300 mb-4 text-4xl my-4">Available Phrases</h2>
+        <h2 className="text-base-content mb-4 text-4xl my-4">Available Phrases</h2>
         {!wordsLoading &&
           phraseData &&
           phraseData.howAmIPhrase.map((w) => (
             <div
               key={w.id}
-              className="flex justify-between px-16 text-base-300"
+              className="flex justify-between px-16 text-base-content"
             >
               - {w.phrase}
               <button
@@ -123,17 +123,17 @@ export const App: FC = () => {
             </div>
           ))}
       </div>
-      <div className="w-full h-full bg-neutral rounded-xl p-4 flex flex-col gap-4">
-        <h1 className="text-base-300 mb-4">IBrand Words</h1>
+      <div className="w-full h-full bg-base-300 rounded-xl p-4 flex flex-col gap-4">
+        <h1 className="text-base-content mb-4">IBrand Words</h1>
         {!loading &&
           data &&
           data.currentUser.brand.words.map((w) => (
-            <div key={w.word} className="text-base-300 text-xl">
+            <div key={w.word} className="text-base-content text-xl">
               {w.word}
             </div>
           ))}
         {error && <>Error has occured</>}
-        <h2 className="text-base-300 mb-4 text-4xl my-4">Available Phrases</h2>
+        <h2 className="text-base-content mb-4 text-4xl my-4">Available Phrases</h2>
         {!brandWordsLoading &&
           data &&
           brandWords &&
