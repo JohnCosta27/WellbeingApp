@@ -1,28 +1,32 @@
-import { FC } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { FC, ReactNode } from "react";
+import { Outlet } from "react-router";
+import { Link } from "react-router-dom";
 
 export const DashboardLayout: FC = () => {
-  const nav = useNavigate();
-
   return (
-    <div className="w-full h-screen bg-base-100 flex flex-col text-5xl p-16 gap-8">
-      <div className="w-full flex justify-between gap-8">
-        <div
-          className="w-full h-48 bg-secondary rounded-xl shadow-md shadow-secondary-focus flex justify-center items-center text-base-content"
-          onClick={() => nav("/how")}
-        >
-          How
-        </div>
-        <div className="w-full h-48 bg-secondary rounded-xl shadow-md shadow-secondary-focus flex justify-center items-center text-base-content">
-          Who
-        </div>
-        <div className="w-full h-48 bg-secondary rounded-xl shadow-md shadow-secondary-focus flex justify-center items-center text-base-content">
-          IBrand
-        </div>
+    <div className="w-full h-screen bg-base-100 flex">
+      <div className="w-64 flex flex-col bg-neutral px-2 py-8">
+        <TopbarItem onNav="/how">How</TopbarItem>
+        <TopbarItem onNav="/how">Who</TopbarItem>
+        <TopbarItem onNav="/how">IBrand</TopbarItem>
       </div>
-      <div className="w-full h-full">
+      <div className="w-full h-full p-6">
         <Outlet />
       </div>
     </div>
   );
 };
+
+interface TopBarItemProps {
+  onNav: string;
+  children: ReactNode;
+}
+
+export const TopbarItem: FC<TopBarItemProps> = ({ onNav, children }) => (
+  <Link
+    to={onNav}
+    className="w-full p-4 flex justify-center items-center text-3xl text-base-200 hover:bg-neutral-500 rounded-xl transition-all"
+  >
+    {children}
+  </Link>
+);

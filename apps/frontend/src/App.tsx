@@ -14,8 +14,6 @@ const RANGE_MAX = 10000;
 export const App: FC = () => {
   const [energyLevel, setEnergyLevel] = useState(0);
 
-  const [brandWordError, setBrandwordError] = useState(false);
-
   const { data, loading, error } = useCurrentUserQuery();
 
   const { data: phraseData, loading: wordsLoading } = useHowAmIPhraseQuery();
@@ -34,9 +32,6 @@ export const App: FC = () => {
 
   const [addBrandWord] = useAddBrandWordMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
-    onError: () => {
-      setBrandwordError(true);
-    },
   });
 
   const onAddBrandWord = useCallback(
@@ -77,7 +72,7 @@ export const App: FC = () => {
         {error && <>Error has occured</>}
         <input
           type="range"
-          className="range range-primary"
+          className="range range-accent"
           max={RANGE_MAX}
           min={0}
           step={1}
@@ -85,7 +80,7 @@ export const App: FC = () => {
           onChange={(e) => setEnergyLevel(parseInt(e.target.value))}
         />
         <button
-          className="btn btn-primary text-base-300 text-2xl"
+          className="btn btn-accent text-base-300 text-2xl"
           onClick={() => addMentalEnergy()}
         >
           Submit Energy
@@ -115,7 +110,7 @@ export const App: FC = () => {
             >
               - {w.phrase}
               <button
-                className="btn btn-primary text-2xl"
+                className="btn btn-accent text-2xl"
                 onClick={() => onAddPhrase(w.id)}
               >
                 Add Word
@@ -151,7 +146,7 @@ export const App: FC = () => {
               >
                 - {w.word}
                 <button
-                  className="btn btn-primary text-2xl"
+                  className="btn btn-accent text-2xl"
                   onClick={() => onAddBrandWord(w.id)}
                 >
                   Add Word
