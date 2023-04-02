@@ -1,5 +1,10 @@
-import { FC } from "react";
-import { MentalEnergy, useCurrentUserQuery } from "@wellbeing/graphql-types";
+import { FC, useState } from "react";
+import {
+  MentalEnergy,
+  namedOperations,
+  useAddMentalEnergyMutation,
+  useCurrentUserQuery,
+} from "@wellbeing/graphql-types";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,7 +15,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
+} from "chart.js";
 
 ChartJS.register(
   CategoryScale,
@@ -22,12 +27,26 @@ ChartJS.register(
   Legend
 );
 
+const RANGE_MAX = 10000;
+
 export const HowDashboard: FC = () => {
   const { data } = useCurrentUserQuery();
+  const sortedEnergy = !data
+    ? []
+    : data.currentUser.mentalEnergy.slice().sort((a, b) => a.date - b.date).slice(-10);
 
   const energyAverage = data
     ? getLast7DaysEnergy(data.currentUser.mentalEnergy)
     : 0;
+
+  const [energyLevel, setEnergyLevel] = useState(RANGE_MAX / 1.5);
+
+  const [addMentalEnergy] = useAddMentalEnergyMutation({
+    variables: {
+      level: energyLevel / RANGE_MAX,
+    },
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  });
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -42,33 +61,54 @@ export const HowDashboard: FC = () => {
             </p>
           </div>
         </div>
-      </div>
-        <div className="w-full flex bg-base-200 rounded-xl shadow-xl p-4">
-          {data && (
-            <Line
-              data={{
-                labels: data.currentUser.mentalEnergy.map((m) =>
-                  new Date(m.date).toLocaleString()
-                ).slice(0, 10),
-                datasets: [
-                  {
-                    label: "Your energy",
-                    data: data.currentUser.mentalEnergy.map((m) => m.level).slice(0, 10),
-                  },
-                ],
-              }}
-              options={
-                {
-                  elements: {
-                    line: {
-                      tension: 0.3, 
-                    }
-                  }
-                }
-              }
+        <div className="w-full flex justify-center items-center px-16">
+          <div className="w-full max-w-2xl flex flex-col justify-center gap-4">
+            <h2 className="text-4xl">How you feeling?</h2>
+            <input
+              type="range"
+              className="range range-accent"
+              max={RANGE_MAX}
+              min={0}
+              step={1}
+              value={energyLevel}
+              onChange={(e) => setEnergyLevel(parseInt(e.target.value))}
             />
-          )}
+            <p className="text-accent text-2xl">
+              {getMessage(energyLevel / RANGE_MAX)}
+            </p>
+            <button
+              className="btn btn-accent text-base-300 text-2xl"
+              onClick={() => addMentalEnergy()}
+            >
+              Submit Energy
+            </button>
+          </div>
         </div>
+      </div>
+      <div className="w-full flex bg-base-200 rounded-xl shadow-xl p-4">
+        {data && (
+          <Line
+            data={{
+              labels: sortedEnergy.map((m) =>
+                new Date(m.date).toLocaleString()
+              ),
+              datasets: [
+                {
+                  label: "Your energy",
+                  data: sortedEnergy.map((m) => m.level).slice(0, 10),
+                },
+              ],
+            }}
+            options={{
+              elements: {
+                line: {
+                  tension: 0.3,
+                },
+              },
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };
