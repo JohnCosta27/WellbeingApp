@@ -65,7 +65,7 @@ export const HowDashboard: FC = () => {
       <div
         className="w-full grid grid-cols-3 gap-x-4 gap-y-6"
         style={{
-          gridTemplateRows: "repeat(3, 290px)",
+          gridTemplateRows: "repeat(3, 28vh)",
         }}
       >
         <Card title="Mental Energy">
