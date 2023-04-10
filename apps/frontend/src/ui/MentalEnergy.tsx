@@ -42,13 +42,13 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
             value={energyLevel}
             onChange={(e) => setEnergyLevel(parseInt(e.target.value, 10))}
           />
-          <p className="text-accent text-2xl">
+          <p className="text-accent text-sm">
             {getMessage(energyLevel / RANGE_MAX)}
           </p>
           <button
             type="button"
-            className="btn btn-accent text-base-300 text-2xl"
-            onClick={() => onEnergySubmit(energyLevel)}
+            className="w-full btn btn-accent btn-sm btn-outline text-base-300"
+            onClick={() => onEnergySubmit(energyLevel / RANGE_MAX)}
           >
             Submit Energy
           </button>

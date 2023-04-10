@@ -33,6 +33,7 @@ ChartJS.register(
 
 export const HowDashboard: FC = () => {
   const { data, loading } = useCurrentUserQuery();
+  console.log(data);
 
   const words = useHowAmIPhraseQuery();
 
@@ -81,7 +82,7 @@ export const HowDashboard: FC = () => {
       <div
         className="w-full grid grid-cols-3 gap-x-4 gap-y-6"
         style={{
-          gridTemplateRows: "repeat(3, 300px)",
+          gridTemplateRows: "repeat(3, 350px)",
         }}
       >
         <Card title="Mental Energy">
@@ -132,6 +133,26 @@ export const HowDashboard: FC = () => {
                   ],
                 }}
                 options={{
+                  scales: {
+                    y: {
+                      ticks: {
+                        callback: (value) => {
+                          if (value === 1) {
+                            return "1 - Feeling Good";
+                          }
+                          if (value === 0) {
+                            return "0 - Need help";
+                          }
+                          if (value > 1) {
+                            return "";
+                          }
+                          return value;
+                        },
+                      },
+                      min: 0,
+                      max: 1.2,
+                    },
+                  },
                   maintainAspectRatio: false,
                   elements: {
                     line: {
