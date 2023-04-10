@@ -31,6 +31,7 @@ const RANGE_MAX = 10000;
 
 export const HowDashboard: FC = () => {
   const { data } = useCurrentUserQuery();
+  console.log(data);
   const sortedEnergy = !data
     ? []
     : data.currentUser.mentalEnergy.slice().sort((a, b) => a.date - b.date).slice(-10);
@@ -86,6 +87,7 @@ export const HowDashboard: FC = () => {
         </div>
       </div>
       <div className="w-full flex bg-base-200 rounded-xl shadow-xl p-4">
+        <div className="w-full h-[40vh]">
         {data && (
           <Line
             data={{
@@ -100,6 +102,7 @@ export const HowDashboard: FC = () => {
               ],
             }}
             options={{
+              maintainAspectRatio: false,
               elements: {
                 line: {
                   tension: 0.3,
@@ -108,6 +111,7 @@ export const HowDashboard: FC = () => {
             }}
           />
         )}
+        </div>
       </div>
     </div>
   );
