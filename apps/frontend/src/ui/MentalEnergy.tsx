@@ -25,7 +25,7 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
 
   const canUseNextEnergy = lastEnergyTime + SIX_HOURS - new Date().getTime();
 
-  function test() {
+  function getEnergyComponent() {
     if (loading) {
       return <span>Loading...</span>;
     }
@@ -76,8 +76,8 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
       <p className="text-md text-info-content">
         {!loading && getMessage(energyAverage)}
       </p>
-      {test()}
-      <div className="mt-4 w-full">
+      {getEnergyComponent()}
+      <div className="mt-auto w-full">
         <button type="button" className="w-full btn btn-secondary btn-md">
           View all energy
         </button>
