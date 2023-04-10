@@ -83,11 +83,15 @@ export const HowDashboard: FC = () => {
         <Card title="Mental Energy">
           <div className="w-full flex justify-between">
             <span className="font-bold">Last 7 Days:</span>
-            {Math.floor(energyAverage * 100)}%
+            <span className="text-secondary text-bold text-lg">
+              {Math.floor(energyAverage * 100)}%
+            </span>
           </div>
           <div className="w-full flex justify-between">
             <span className="font-bold">Average:</span>
-            {Math.floor(energyAverage * 100)}%
+            <span className="text-secondary text-bold text-lg">
+              {Math.floor(energyAverage * 100)}%
+            </span>
           </div>
           <p className="text-md text-info-content">
             {data && getMessage(energyAverage)}
