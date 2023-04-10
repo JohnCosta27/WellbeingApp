@@ -4,7 +4,7 @@ import path from "path";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import {
-    BrandWords,
+  BrandWords,
   HowAmIPhrase,
   MentalEnergy,
   Resolvers,
@@ -30,7 +30,7 @@ interface Context {
 }
 
 function timestamp(date: Date): number {
-  return Math.floor(new Date(date).getTime())
+  return Math.floor(new Date(date).getTime());
 }
 
 const resolvers: Resolvers<Context> = {
@@ -58,14 +58,14 @@ const resolvers: Resolvers<Context> = {
           how_am_i_phrases: {
             include: {
               phrase: true,
-            }
+            },
           },
           brand_words: {
             include: {
               brand_word: true,
-            }
-          }
-        }
+            },
+          },
+        },
       });
 
       if (!user) {
@@ -74,12 +74,12 @@ const resolvers: Resolvers<Context> = {
 
       const returnUser: User = {
         brand: {
-          words: user.brand_words.map(w => ({
+          words: user.brand_words.map((w) => ({
             id: w.brand_word_id,
             word: w.brand_word.word,
           })),
         },
-        mentalEnergy: user.mental_energy.map(m => ({
+        mentalEnergy: user.mental_energy.map((m) => ({
           date: timestamp(m.date),
           level: m.level,
         })),
@@ -134,7 +134,7 @@ const resolvers: Resolvers<Context> = {
           where: {
             user_id: context.uuid,
             brand_word_id: wordId,
-          }
+          },
         });
 
         if (exists.length > 1) {
@@ -145,14 +145,14 @@ const resolvers: Resolvers<Context> = {
           data: {
             user_id: context.uuid,
             brand_word_id: wordId,
-          }
-        })
-      } catch(err) {
+          },
+        });
+      } catch (err) {
         console.log(err);
         throw new Error("Database error, most likely ID not found");
       }
       return true;
-    }
+    },
   },
 };
 

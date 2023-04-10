@@ -6,6 +6,7 @@ import {
   MentalEnergy,
   useHowAmIPhraseQuery,
   useAddHowAmIPhraseMutation,
+  HowAmIPhrase,
 } from "@wellbeing/graphql-types";
 import { Line } from "react-chartjs-2";
 import {
@@ -33,7 +34,6 @@ ChartJS.register(
 
 export const HowDashboard: FC = () => {
   const { data, loading } = useCurrentUserQuery();
-  console.log(data);
 
   const words = useHowAmIPhraseQuery();
 
@@ -82,7 +82,7 @@ export const HowDashboard: FC = () => {
       <div
         className="w-full grid grid-cols-3 gap-x-4 gap-y-6"
         style={{
-          gridTemplateRows: "repeat(3, 350px)",
+          gridTemplateRows: "repeat(3, 290px)",
         }}
       >
         <Card title="Mental Energy">
@@ -102,11 +102,8 @@ export const HowDashboard: FC = () => {
         <Card title="Place holder" />
         <Card title="Wellness Check" className="row-span-3">
           <WellnessCheck
-            lastWords={lastWords.map((w) => w.phrase.phrase)}
-            availableWords={
-              words.data?.howAmIPhrase.map((v) => [v.id, v.phrase]) || []
-            }
-            canSubmit={leftToSubmit > 0}
+            lastWords={lastWords}
+            availableWords={words.data?.howAmIPhrase || []}
             leftToSubmit={leftToSubmit}
             onSubmitWord={(id) => {
               addPhrase({
