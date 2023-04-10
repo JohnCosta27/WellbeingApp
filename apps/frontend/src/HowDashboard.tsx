@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import {
-  MentalEnergy,
   namedOperations,
   useAddMentalEnergyMutation,
   useCurrentUserQuery,
@@ -16,7 +15,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Card } from "./ui";
+import { Card, MentalEnergy } from "./ui";
 
 ChartJS.register(
   CategoryScale,
@@ -28,13 +27,8 @@ ChartJS.register(
   Legend
 );
 
-const RANGE_MAX = 10000;
-
-// Six hours in milliseconds
-const SIX_HOURS = 6 * 60 * 60 * 1000;
-
 export const HowDashboard: FC = () => {
-  const { data } = useCurrentUserQuery();
+  const { data, loading } = useCurrentUserQuery();
 
   const sortedEnergy = !data
     ? []
@@ -47,26 +41,9 @@ export const HowDashboard: FC = () => {
     ? getLast7DaysEnergy(data.currentUser.mentalEnergy)
     : 0;
 
-  const [timeTo, setTimeTo] = useState(0);
-
-  const [energyLevel, setEnergyLevel] = useState(RANGE_MAX / 1.5);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (timeTo < 0) {
-        clearInterval(interval);
-        return;
-      }
-      if (data && data.currentUser.mentalEnergy.length > 0) {
-        setTimeTo(sortedEnergy.at(-1)!.date + SIX_HOURS - new Date().getTime());
-      }
-    }, 1000);
-  }, [timeTo]);
+  const lastEnergyTime = data?.currentUser.mentalEnergy.at(-1)?.date || -1;
 
   const [addMentalEnergy] = useAddMentalEnergyMutation({
-    variables: {
-      level: energyLevel / RANGE_MAX,
-    },
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
@@ -80,69 +57,18 @@ export const HowDashboard: FC = () => {
         </h4>
       </div>
       <div className="w-full grid grid-cols-3 gap-x-4 gap-y-6">
-        <Card title="Mental Energy">
-          <div className="w-full flex justify-between">
-            <span className="font-bold">Last 7 Days:</span>
-            <span className="text-secondary text-bold text-lg">
-              {Math.floor(energyAverage * 100)}%
-            </span>
-          </div>
-          <div className="w-full flex justify-between">
-            <span className="font-bold">Average:</span>
-            <span className="text-secondary text-bold text-lg">
-              {Math.floor(energyAverage * 100)}%
-            </span>
-          </div>
-          <p className="text-md text-info-content">
-            {data && getMessage(energyAverage)}
-          </p>
-          {timeTo < 0 ? (
-            <>
-              <input
-                type="range"
-                className="range range-accent"
-                max={RANGE_MAX}
-                min={0}
-                step={1}
-                value={energyLevel}
-                onChange={(e) => setEnergyLevel(parseInt(e.target.value, 10))}
-              />
-              <p className="text-accent text-2xl">
-                {getMessage(energyLevel / RANGE_MAX)}
-              </p>
-              <button
-                type="button"
-                className="btn btn-accent text-base-300 text-2xl"
-                onClick={() => addMentalEnergy()}
-              >
-                Submit Energy
-              </button>
-            </>
-          ) : (
-            <div>
-              <p className="text-xl text-center mt-2">Next Energy Level</p>
-              <span className="countdown font-mono text-2xl flex justify-center">
-                <span
-                  style={{ "--value": new Date(timeTo).getHours() - 1 }}
-                ></span>
-                h
-                <span
-                  style={{ "--value": new Date(timeTo).getMinutes() }}
-                ></span>
-                m
-                <span
-                  style={{ "--value": new Date(timeTo).getSeconds() }}
-                ></span>
-                s
-              </span>
-            </div>
-          )}
-          <div className="mt-4 w-full">
-            <button type="button" className="w-full btn btn-secondary btn-md">
-              View all energy
-            </button>
-          </div>
-        </Card>
+        <MentalEnergy
+          loading={loading}
+          energyAverage={energyAverage}
+          lastEnergyTime={lastEnergyTime}
+          onEnergySubmit={(energy) =>
+            addMentalEnergy({
+              variables: {
+                level: energy,
+              },
+            })
+          }
+        />
         <Card className="row-span-2" />
         <Card />
         <Card />
@@ -156,54 +82,6 @@ export const HowDashboard: FC = () => {
             <p className="text-2xl text-info-content">
               {data && getMessage(energyAverage)}
             </p>
-          </div>
-        </div>
-        <div className="w-full flex justify-center items-center px-16">
-          <div className="w-full max-w-2xl flex flex-col justify-center gap-4">
-            <h2 className="text-4xl">How you feeling?</h2>
-            {timeTo < 0 ? (
-              <>
-                <input
-                  type="range"
-                  className="range range-accent"
-                  max={RANGE_MAX}
-                  min={0}
-                  step={1}
-                  value={energyLevel}
-                  onChange={(e) => setEnergyLevel(parseInt(e.target.value, 10))}
-                />
-                <p className="text-accent text-2xl">
-                  {getMessage(energyLevel / RANGE_MAX)}
-                </p>
-                <button
-                  type="button"
-                  className="btn btn-accent text-base-300 text-2xl"
-                  onClick={() => addMentalEnergy()}
-                >
-                  Submit Energy
-                </button>
-              </>
-            ) : (
-              <>
-                <h2 className="text-center text-2xl">
-                  You can add another entry in
-                </h2>
-                <span className="countdown font-mono text-2xl flex justify-center">
-                  <span
-                    style={{ "--value": new Date(timeTo).getHours() - 1 }}
-                  ></span>
-                  h
-                  <span
-                    style={{ "--value": new Date(timeTo).getMinutes() }}
-                  ></span>
-                  m
-                  <span
-                    style={{ "--value": new Date(timeTo).getSeconds() }}
-                  ></span>
-                  s
-                </span>
-              </>
-            )}
           </div>
         </div>
       </div>
