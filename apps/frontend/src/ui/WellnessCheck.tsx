@@ -20,7 +20,6 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
   onSubmitWord,
 }) => {
   const canSubmit = leftToSubmit > 0;
-  console.log(canSubmit);
   return (
     <>
       <span className="font-bold">Last 3 words</span>
