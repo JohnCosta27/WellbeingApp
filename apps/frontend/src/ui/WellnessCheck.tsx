@@ -28,6 +28,7 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
       ))}
     </ul>
     <hr className="my-4" />
+    <span className="text-lg">Most popular phrases</span>
     <div className="grid grid-cols-3 gap-x-1 gap-y-2">
       {availableWords.map(([id, word]) => (
         <button
@@ -38,12 +39,19 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
             !canSubmit && "bg-neutral-200 hover:bg-neutral-200"
           )}
           disabled={canSubmit}
-          onClick={() => onSubmitWord(id)}
+          onClick={() => {
+            if (canSubmit) {
+              onSubmitWord(id);
+            }
+          }}
         >
           {word}
         </button>
       ))}
     </div>
+    <button type="button" className="mt-2 btn btn-sm btn-secondary btn-outline">
+      View all phrases
+    </button>
     {canSubmit && <span>Click to add how you are feeling</span>}
     {canSubmit && (
       <div className="flex justify-between items-center text-xl">
