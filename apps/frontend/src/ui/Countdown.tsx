@@ -3,7 +3,6 @@ import { FC, useEffect, useRef, useState } from "react";
 const ONE_SECOND = 1000;
 
 export const Countdown: FC<{ time: number }> = ({ time }) => {
-  console.log(time);
   const [counter, setCounter] = useState(time);
   const timerRef = useRef<NodeJS.Timer | undefined>(undefined);
 
