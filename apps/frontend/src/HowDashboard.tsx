@@ -89,6 +89,9 @@ export const HowDashboard: FC = () => {
             <span className="font-bold">Average:</span>
             {Math.floor(energyAverage * 100)}%
           </div>
+          <p className="text-md text-info-content">
+            {data && getMessage(energyAverage)}
+          </p>
           {timeTo < 0 ? (
             <>
               <input
