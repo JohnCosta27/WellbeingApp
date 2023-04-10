@@ -6,31 +6,14 @@ import {
   MentalEnergy,
   useHowAmIPhraseQuery,
   useAddHowAmIPhraseMutation,
-  HowAmIPhrase,
 } from "@wellbeing/graphql-types";
-import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Card, MentalEnergy as UIMentalEnergy, WellnessCheck } from "./ui";
+  Card,
+  EnergyChart,
+  MentalEnergy as UIMentalEnergy,
+  WellnessCheck,
+} from "./ui";
 import { isToday } from "./isToday";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 export const HowDashboard: FC = () => {
   const { data, loading } = useCurrentUserQuery();
@@ -117,46 +100,11 @@ export const HowDashboard: FC = () => {
         <Card title="Energy Level Graph" className="row-span-2 col-span-2">
           <div className="w-full h-full">
             {data && (
-              <Line
-                data={{
-                  labels: sortedEnergy.map((m) =>
-                    new Date(m.date).toLocaleString()
-                  ),
-                  datasets: [
-                    {
-                      label: "Your energy",
-                      data: sortedEnergy.map((m) => m.level).slice(0, 10),
-                    },
-                  ],
-                }}
-                options={{
-                  scales: {
-                    y: {
-                      ticks: {
-                        callback: (value) => {
-                          if (value === 1) {
-                            return "1 - Feeling Good";
-                          }
-                          if (value === 0) {
-                            return "0 - Need help";
-                          }
-                          if (value > 1) {
-                            return "";
-                          }
-                          return value;
-                        },
-                      },
-                      min: 0,
-                      max: 1.2,
-                    },
-                  },
-                  maintainAspectRatio: false,
-                  elements: {
-                    line: {
-                      tension: 0.3,
-                    },
-                  },
-                }}
+              <EnergyChart
+                labels={sortedEnergy.map((m) =>
+                  new Date(m.date).toLocaleString()
+                )}
+                energies={sortedEnergy.map((m) => m.level).slice(0, 10)}
               />
             )}
           </div>
