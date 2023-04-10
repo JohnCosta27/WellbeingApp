@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   MentalEnergy,
   namedOperations,
@@ -29,9 +29,12 @@ ChartJS.register(
 
 const RANGE_MAX = 10000;
 
+// Six hours in milliseconds
+const SIX_HOURS = 6 * 60 * 60 * 1000;
+
 export const HowDashboard: FC = () => {
   const { data } = useCurrentUserQuery();
-  console.log(data);
+
   const sortedEnergy = !data
     ? []
     : data.currentUser.mentalEnergy.slice().sort((a, b) => a.date - b.date).slice(-10);
@@ -40,7 +43,21 @@ export const HowDashboard: FC = () => {
     ? getLast7DaysEnergy(data.currentUser.mentalEnergy)
     : 0;
 
+  const [timeTo, setTimeTo] = useState(0);
+
   const [energyLevel, setEnergyLevel] = useState(RANGE_MAX / 1.5);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timeTo < 0) {
+        clearInterval(interval);
+        return;
+      }
+      if (data && data.currentUser.mentalEnergy.length > 0) {
+        setTimeTo(sortedEnergy.at(-1)!.date + SIX_HOURS - new Date().getTime());
+      }
+    }, 1000);
+  }, [timeTo])
 
   const [addMentalEnergy] = useAddMentalEnergyMutation({
     variables: {
@@ -65,6 +82,9 @@ export const HowDashboard: FC = () => {
         <div className="w-full flex justify-center items-center px-16">
           <div className="w-full max-w-2xl flex flex-col justify-center gap-4">
             <h2 className="text-4xl">How you feeling?</h2>
+            {timeTo < 0 ? 
+            (
+<>
             <input
               type="range"
               className="range range-accent"
@@ -83,6 +103,18 @@ export const HowDashboard: FC = () => {
             >
               Submit Energy
             </button>
+</>
+            ) : (
+            <>
+            <h2 className="text-center text-2xl">You can add another entry in</h2>
+<span className="countdown font-mono text-2xl flex justify-center">
+  <span style={{"--value": new Date(timeTo).getHours() - 1 }}></span>h
+  <span style={{"--value": new Date(timeTo).getMinutes() }}></span>m
+  <span style={{"--value": new Date(timeTo).getSeconds()}}></span>s
+</span>
+            </>
+            )
+            }
           </div>
         </div>
       </div>
