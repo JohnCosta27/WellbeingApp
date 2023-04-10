@@ -10,7 +10,7 @@ export const DashboardLayout: FC = () => {
         <TopbarItem onNav="/how">Who</TopbarItem>
         <TopbarItem onNav="/how">IBrand</TopbarItem>
       </div>
-      <div className="w-full h-full p-6">
+      <div className="w-full h-full p-6 overflow-y-scroll">
         <Outlet />
       </div>
     </div>
