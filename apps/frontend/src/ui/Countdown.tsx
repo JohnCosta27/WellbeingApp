@@ -1,26 +1,27 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 const ONE_SECOND = 1000;
 
 export const Countdown: FC<{ time: number }> = ({ time }) => {
   const [counter, setCounter] = useState(time);
-  const timerRef = useRef<NodeJS.Timer | undefined>();
 
   useEffect(() => {
+    let timerRef: NodeJS.Timer | undefined;
+
     function handleTimer() {
-      timerRef.current = setInterval(() => {
-        setCounter(counter - ONE_SECOND);
+      timerRef = setInterval(() => {
+        setCounter((c) => c - ONE_SECOND);
       }, ONE_SECOND);
     }
 
-    if (time > 0) {
+    if (time > 0 && !timerRef) {
       handleTimer();
     }
 
     return () => {
-      clearInterval(timerRef.current);
+      clearInterval(timerRef);
     };
-  }, [counter]);
+  }, []);
 
   return (
     <span className="countdown font-mono text-2xl flex justify-center">
