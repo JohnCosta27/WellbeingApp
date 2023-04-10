@@ -68,10 +68,13 @@ export const HowDashboard: FC = () => {
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <div className="w-full flex bg-base-200 rounded-xl shadow-xl p-4">
+      <div className="w-full">
+        <h2 className="text-3xl font-bold">How are you?</h2>
+        <h4 className="text-xl">Where you can see your past activity and let us know how you are feeling</h4>
+      </div>
+      <div className="w-full flex bg-white rounded-xl shadow-xl p-4">
         <div className="w-full flex flex-col">
           <div className="w-full flex flex-col gap-2">
-            <h2 className="text-4xl">How Am I?</h2>
             <p className="text-3xl">Last 7 Days</p>
             <Battery energy={energyAverage} />
             <p className="text-2xl text-info-content">
@@ -118,7 +121,10 @@ export const HowDashboard: FC = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex bg-base-200 rounded-xl shadow-xl p-4">
+      <div className="w-full flex bg-white rounded-xl shadow-sm p-4">
+        
+      </div>
+      <div className="w-full flex bg-white rounded-xl shadow-sm p-4">
         <div className="w-full h-[40vh]">
         {data && (
           <Line

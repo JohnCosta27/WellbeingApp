@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 export const DashboardLayout: FC = () => {
   return (
     <div className="w-full h-screen bg-base-100 flex">
-      <div className="w-64 flex flex-col bg-neutral px-2 py-8">
+      <div className="w-64 flex flex-col bg-white px-2 py-8 shadow-xl border-r-2">
         <TopbarItem onNav="/how">How</TopbarItem>
         <TopbarItem onNav="/how">Who</TopbarItem>
         <TopbarItem onNav="/how">IBrand</TopbarItem>
       </div>
-      <div className="w-full h-full p-6 overflow-y-scroll">
+      <div className="w-full h-full p-6 overflow-y-scroll bg-[#F6F8FA]">
         <Outlet />
       </div>
     </div>
@@ -25,7 +25,7 @@ interface TopBarItemProps {
 export const TopbarItem: FC<TopBarItemProps> = ({ onNav, children }) => (
   <Link
     to={onNav}
-    className="w-full p-4 flex justify-center items-center text-3xl text-base-200 hover:bg-neutral-500 rounded-xl transition-all"
+    className="w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-primary-content rounded-xl transition-all"
   >
     {children}
   </Link>
