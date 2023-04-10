@@ -25,10 +25,10 @@ export const router = createBrowserRouter([
             element: <></>,
           },
           {
-            path: '/how',
+            path: "/how",
             element: <HowDashboard />,
           },
-        ]
+        ],
       },
     ],
   },
