@@ -16,6 +16,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Card } from "./ui";
 
 ChartJS.register(
   CategoryScale,
@@ -77,6 +78,63 @@ export const HowDashboard: FC = () => {
           Where you can see your past activity and let us know how you are
           feeling
         </h4>
+      </div>
+      <div className="w-full grid grid-cols-3 gap-x-4 gap-y-6">
+        <Card title="Mental Energy">
+          <div className="w-full flex justify-between">
+            <span className="font-bold">Last 7 Days:</span>
+            {Math.floor(energyAverage * 100)}%
+          </div>
+          <div className="w-full flex justify-between">
+            <span className="font-bold">Average:</span>
+            {Math.floor(energyAverage * 100)}%
+          </div>
+          {timeTo < 0 ? (
+            <>
+              <input
+                type="range"
+                className="range range-accent"
+                max={RANGE_MAX}
+                min={0}
+                step={1}
+                value={energyLevel}
+                onChange={(e) => setEnergyLevel(parseInt(e.target.value, 10))}
+              />
+              <p className="text-accent text-2xl">
+                {getMessage(energyLevel / RANGE_MAX)}
+              </p>
+              <button
+                type="button"
+                className="btn btn-accent text-base-300 text-2xl"
+                onClick={() => addMentalEnergy()}
+              >
+                Submit Energy
+              </button>
+            </>
+          ) : (
+            <div className="mt-auto">
+              <p className="text-xl text-center mt-2">Next Energy Level</p>
+              <span className="countdown font-mono text-2xl flex justify-center">
+                <span
+                  style={{ "--value": new Date(timeTo).getHours() - 1 }}
+                ></span>
+                h
+                <span
+                  style={{ "--value": new Date(timeTo).getMinutes() }}
+                ></span>
+                m
+                <span
+                  style={{ "--value": new Date(timeTo).getSeconds() }}
+                ></span>
+                s
+              </span>
+            </div>
+          )}
+        </Card>
+        <Card />
+        <Card />
+        <Card />
+        <Card />
       </div>
       <div className="w-full flex bg-white rounded-xl shadow-xl p-4">
         <div className="w-full flex flex-col">

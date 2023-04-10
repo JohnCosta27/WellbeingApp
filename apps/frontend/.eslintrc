@@ -26,6 +26,7 @@
     "no-use-before-define": "off",
     "react/self-closing-comp": "off",
     "import/extensions": "off",
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "react/require-default-props": "off"
   }
 }
