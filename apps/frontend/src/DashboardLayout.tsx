@@ -2,20 +2,18 @@ import { FC, ReactNode } from "react";
 import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
 
-export const DashboardLayout: FC = () => {
-  return (
-    <div className="w-full h-screen bg-base-100 flex">
-      <div className="w-64 flex flex-col bg-white px-2 py-8 shadow-xl border-r-2">
-        <TopbarItem onNav="/how">How</TopbarItem>
-        <TopbarItem onNav="/how">Who</TopbarItem>
-        <TopbarItem onNav="/how">IBrand</TopbarItem>
-      </div>
-      <div className="w-full h-full p-6 overflow-y-scroll bg-[#F6F8FA]">
-        <Outlet />
-      </div>
+export const DashboardLayout: FC = () => (
+  <div className="w-full h-screen bg-base-100 flex">
+    <div className="w-64 flex flex-col bg-white px-2 py-8 shadow-xl border-r-2">
+      <TopbarItem onNav="/how">How</TopbarItem>
+      <TopbarItem onNav="/how">Who</TopbarItem>
+      <TopbarItem onNav="/how">IBrand</TopbarItem>
     </div>
-  );
-};
+    <div className="w-full h-full p-6 overflow-y-scroll bg-[#F6F8FA]">
+      <Outlet />
+    </div>
+  </div>
+);
 
 interface TopBarItemProps {
   onNav: string;
