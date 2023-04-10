@@ -3,6 +3,7 @@ import {
   namedOperations,
   useAddMentalEnergyMutation,
   useCurrentUserQuery,
+  MentalEnergy,
 } from "@wellbeing/graphql-types";
 import { Line } from "react-chartjs-2";
 import {
@@ -15,7 +16,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Card, MentalEnergy } from "./ui";
+import { Card, MentalEnergy as UIMentalEnergy } from "./ui";
 
 ChartJS.register(
   CategoryScale,
@@ -57,7 +58,7 @@ export const HowDashboard: FC = () => {
         </h4>
       </div>
       <div className="w-full grid grid-cols-3 gap-x-4 gap-y-6">
-        <MentalEnergy
+        <UIMentalEnergy
           loading={loading}
           energyAverage={energyAverage}
           lastEnergyTime={lastEnergyTime}

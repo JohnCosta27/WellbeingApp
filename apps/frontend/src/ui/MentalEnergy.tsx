@@ -23,26 +23,15 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
 }) => {
   const [energyLevel, setEnergyLevel] = useState(RANGE_MAX / 1.5);
 
-  const canUseNextEnergy = lastEnergyTime + SIX_HOURS < new Date().getTime();
+  const canUseNextEnergy = lastEnergyTime + SIX_HOURS - new Date().getTime();
 
-  return (
-    <Card title="Mental Energy">
-      <div className="w-full flex justify-between">
-        <span className="font-bold">Last 7 Days:</span>
-        <span className="text-secondary text-bold text-lg">
-          {Math.floor(energyAverage * 100)}%
-        </span>
-      </div>
-      <div className="w-full flex justify-between">
-        <span className="font-bold">Average:</span>
-        <span className="text-secondary text-bold text-lg">
-          {Math.floor(energyAverage * 100)}%
-        </span>
-      </div>
-      <p className="text-md text-info-content">
-        {!loading && getMessage(energyAverage)}
-      </p>
-      {canUseNextEnergy && !loading ? (
+  function test() {
+    if (loading) {
+      return <span>Loading...</span>;
+    }
+
+    if (canUseNextEnergy < 0) {
+      return (
         <>
           <input
             type="range"
@@ -64,9 +53,30 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
             Submit Energy
           </button>
         </>
-      ) : (
-        <Countdown time={lastEnergyTime + SIX_HOURS - new Date().getTime()} />
-      )}
+      );
+    }
+
+    return <Countdown time={canUseNextEnergy} />;
+  }
+
+  return (
+    <Card title="Mental Energy">
+      <div className="w-full flex justify-between">
+        <span className="font-bold">Last 7 Days:</span>
+        <span className="text-secondary text-bold text-lg">
+          {Math.floor(energyAverage * 100)}%
+        </span>
+      </div>
+      <div className="w-full flex justify-between">
+        <span className="font-bold">Average:</span>
+        <span className="text-secondary text-bold text-lg">
+          {Math.floor(energyAverage * 100)}%
+        </span>
+      </div>
+      <p className="text-md text-info-content">
+        {!loading && getMessage(energyAverage)}
+      </p>
+      {test()}
       <div className="mt-4 w-full">
         <button type="button" className="w-full btn btn-secondary btn-md">
           View all energy
