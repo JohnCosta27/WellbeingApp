@@ -119,7 +119,7 @@ export const HowDashboard: FC = () => {
               </button>
             </>
           ) : (
-            <div className="mt-auto">
+            <div>
               <p className="text-xl text-center mt-2">Next Energy Level</p>
               <span className="countdown font-mono text-2xl flex justify-center">
                 <span
@@ -137,8 +137,13 @@ export const HowDashboard: FC = () => {
               </span>
             </div>
           )}
+          <div className="mt-4 w-full">
+            <button type="button" className="w-full btn btn-secondary btn-md">
+              View all energy
+            </button>
+          </div>
         </Card>
-        <Card />
+        <Card className="row-span-2" />
         <Card />
         <Card />
         <Card />
