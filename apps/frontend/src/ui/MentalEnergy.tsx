@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Card, Countdown } from ".";
+import { Countdown } from ".";
 import { getMessage } from "./utils";
 
 const RANGE_MAX = 10000;
@@ -60,7 +60,7 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
   }
 
   return (
-    <Card title="Mental Energy">
+    <>
       <div className="w-full flex justify-between">
         <span className="font-bold">Last 7 Days:</span>
         <span className="text-secondary text-bold text-lg">
@@ -76,12 +76,12 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
       <p className="text-md text-info-content">
         {!loading && getMessage(energyAverage)}
       </p>
-      {getEnergyComponent()}
+      <div className="my-2">{getEnergyComponent()}</div>
       <div className="mt-auto w-full">
         <button type="button" className="w-full btn btn-secondary btn-md">
           View all energy
         </button>
       </div>
-    </Card>
+    </>
   );
 };

@@ -1,9 +1,11 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import {
   namedOperations,
   useAddMentalEnergyMutation,
   useCurrentUserQuery,
   MentalEnergy,
+  useHowAmIPhraseQuery,
+  useAddHowAmIPhraseMutation,
 } from "@wellbeing/graphql-types";
 import { Line } from "react-chartjs-2";
 import {
@@ -16,7 +18,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Card, MentalEnergy as UIMentalEnergy } from "./ui";
+import { Card, MentalEnergy as UIMentalEnergy, WellnessCheck } from "./ui";
+import { isToday } from "./isToday";
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +33,8 @@ ChartJS.register(
 
 export const HowDashboard: FC = () => {
   const { data, loading } = useCurrentUserQuery();
+
+  const words = useHowAmIPhraseQuery();
 
   const sortedEnergy = !data
     ? []
@@ -48,6 +53,22 @@ export const HowDashboard: FC = () => {
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
+  const lastWords = !data
+    ? []
+    : data.currentUser.howAmIPhrase.slice().sort((a, b) => b.date - a.date);
+
+  const leftToSubmit =
+    lastWords.length < 3
+      ? 3 - lastWords.length
+      : Math.max(
+          0,
+          3 - lastWords.filter((w) => isToday(new Date(w.date))).length
+        );
+
+  const [addPhrase] = useAddHowAmIPhraseMutation({
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  });
+
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="w-full">
@@ -58,19 +79,37 @@ export const HowDashboard: FC = () => {
         </h4>
       </div>
       <div className="w-full grid grid-cols-3 gap-x-4 gap-y-6">
-        <UIMentalEnergy
-          loading={loading}
-          energyAverage={energyAverage}
-          lastEnergyTime={lastEnergyTime}
-          onEnergySubmit={(energy) =>
-            addMentalEnergy({
-              variables: {
-                level: energy,
-              },
-            })
-          }
-        />
-        <Card className="row-span-2" />
+        <Card title="Mental Energy">
+          <UIMentalEnergy
+            loading={loading}
+            energyAverage={energyAverage}
+            lastEnergyTime={lastEnergyTime}
+            onEnergySubmit={(energy) =>
+              addMentalEnergy({
+                variables: {
+                  level: energy,
+                },
+              })
+            }
+          />
+        </Card>
+        <Card title="Wellness Check" className="row-span-2">
+          <WellnessCheck
+            lastWords={lastWords.map((w) => w.phrase.phrase)}
+            availableWords={
+              words.data?.howAmIPhrase.map((v) => [v.id, v.phrase]) || []
+            }
+            canSubmit={leftToSubmit > 0}
+            leftToSubmit={leftToSubmit}
+            onSubmitWord={(id) => {
+              addPhrase({
+                variables: {
+                  addHowAmIPhraseId: id,
+                },
+              });
+            }}
+          />
+        </Card>
         <Card />
         <Card />
         <Card />
