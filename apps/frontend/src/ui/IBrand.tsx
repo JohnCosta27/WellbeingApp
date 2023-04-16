@@ -17,7 +17,7 @@ export const IBrand: FC<IBrandProps> = ({ brandWords }) => {
 
   const data = brandWords.map((w) => ({
     text: w.word,
-    value: 1000,
+    value: 15000 / w.word.length,
   }));
 
   useEffect(() => {
