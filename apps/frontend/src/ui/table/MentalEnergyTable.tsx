@@ -4,6 +4,7 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { Table } from "./Table";
@@ -38,47 +39,69 @@ export const MentalEnergyTable: FC<MentalEnergyTable> = ({ mentalEnergy }) => {
     data: mentalEnergy,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   return (
-    <Table
-      header={table.getHeaderGroups().map((headerGroup) => (
-        <tr key={headerGroup.id}>
-          {headerGroup.headers.map((header) => (
-            <th key={header.id}>
-              {header.isPlaceholder
-                ? null
-                : flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-            </th>
-          ))}
-        </tr>
-      ))}
-      body={table.getRowModel().rows.map((row) => (
-        <tr key={row.id}>
-          {row.getVisibleCells().map((cell) => (
-            <td key={cell.id}>
-              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </td>
-          ))}
-        </tr>
-      ))}
-      footer={table.getFooterGroups().map((footerGroup) => (
-        <tr key={footerGroup.id}>
-          {footerGroup.headers.map((header) => (
-            <th key={header.id}>
-              {header.isPlaceholder
-                ? null
-                : flexRender(
-                    header.column.columnDef.footer,
-                    header.getContext()
-                  )}
-            </th>
-          ))}
-        </tr>
-      ))}
-    />
+    <>
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={table.previousPage}
+        disabled={!table.getCanPreviousPage()}
+      >
+        Previous
+      </button>
+      <span>
+        {table.getState().pagination.pageIndex} of {table.getPageCount()}
+      </span>
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={table.nextPage}
+        disabled={!table.getCanNextPage()}
+      >
+        Next
+      </button>
+      <Table
+        header={table.getHeaderGroups().map((headerGroup) => (
+          <tr key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <th key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+              </th>
+            ))}
+          </tr>
+        ))}
+        body={table.getRowModel().rows.map((row) => (
+          <tr key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <td key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </td>
+            ))}
+          </tr>
+        ))}
+        footer={table.getFooterGroups().map((footerGroup) => (
+          <tr key={footerGroup.id}>
+            {footerGroup.headers.map((header) => (
+              <th key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.footer,
+                      header.getContext()
+                    )}
+              </th>
+            ))}
+          </tr>
+        ))}
+      />
+    </>
   );
 };

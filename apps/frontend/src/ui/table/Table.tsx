@@ -7,7 +7,7 @@ interface TableProps {
 }
 
 export const Table: FC<TableProps> = ({ header, body, footer }) => (
-  <div className="w-full h-full overflow-x-auto">
+  <div className="w-full overflow-x-auto">
     <table className="table w-full">
       <thead>{header}</thead>
       <tbody>{body}</tbody>

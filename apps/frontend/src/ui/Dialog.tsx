@@ -19,7 +19,7 @@ export const Dialog: FC<DialogProps> = ({ open, setOpen, title, children }) => (
           <UIDialog.Title as="h3" className="text-2xl font-bold">
             {title}
           </UIDialog.Title>
-          <div className="w-full h-full py-4">{children}</div>
+          <div className="w-full h-full py-4 overflow-y-auto">{children}</div>
         </UIDialog.Panel>
       </div>
     </div>
