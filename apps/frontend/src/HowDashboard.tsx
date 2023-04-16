@@ -76,6 +76,7 @@ export const HowDashboard: FC = () => {
             loading={loading}
             energyAverage={energyAverage}
             lastEnergyTime={lastEnergyTime}
+            energies={data?.currentUser.mentalEnergy ?? []}
             onEnergySubmit={(energy) =>
               addMentalEnergy({
                 variables: {

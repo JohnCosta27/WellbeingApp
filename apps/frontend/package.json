@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.10",
+    "@headlessui/react": "^1.7.14",
+    "@tanstack/react-table": "^8.8.5",
     "@types/d3": "^7.4.0",
     "@types/d3-cloud": "^1.2.5",
     "@wellbeing/graphql-types": "workspace:*",

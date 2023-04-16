@@ -1,5 +1,6 @@
+import { MentalEnergy as MentalEnergyType } from "@wellbeing/graphql-types";
 import { FC, useState } from "react";
-import { Countdown } from ".";
+import { Countdown, Dialog, MentalEnergyTable } from ".";
 import { getMessage } from "./utils";
 
 const RANGE_MAX = 10000;
@@ -12,6 +13,8 @@ interface MentalEnergyProps {
   energyAverage: number;
   lastEnergyTime: number;
 
+  energies: Array<MentalEnergyType>;
+
   onEnergySubmit: (eneryg: number) => void;
 }
 
@@ -19,9 +22,11 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
   loading,
   energyAverage,
   lastEnergyTime,
+  energies,
   onEnergySubmit,
 }) => {
   const [energyLevel, setEnergyLevel] = useState(RANGE_MAX / 1.5);
+  const [openTable, setOpenTable] = useState(false);
 
   const canUseNextEnergy = lastEnergyTime + SIX_HOURS - new Date().getTime();
 
@@ -78,10 +83,21 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
       </p>
       <div className="my-2">{getEnergyComponent()}</div>
       <div className="mt-auto w-full">
-        <button type="button" className="w-full btn btn-secondary btn-md">
+        <button
+          type="button"
+          className="w-full btn btn-secondary btn-md"
+          onClick={() => setOpenTable(true)}
+        >
           View all energy
         </button>
       </div>
+      <Dialog
+        open={openTable}
+        setOpen={setOpenTable}
+        title="Mental Energy Table"
+      >
+        <MentalEnergyTable mentalEnergy={energies} />
+      </Dialog>
     </>
   );
 };

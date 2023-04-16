@@ -5,3 +5,7 @@ export * from "./Countdown";
 export * from "./WellnessCheck";
 export * from "./IBrand";
 export * from "./AddBrandWords";
+export * from "./Dialog";
+
+export * from "./table/Table";
+export * from "./table/MentalEnergyTable";
