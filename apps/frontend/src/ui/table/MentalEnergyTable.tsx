@@ -1,10 +1,12 @@
 import { MentalEnergy } from "@wellbeing/graphql-types";
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { Table } from "./Table";
@@ -35,11 +37,18 @@ interface MentalEnergyTable {
 }
 
 export const MentalEnergyTable: FC<MentalEnergyTable> = ({ mentalEnergy }) => {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data: mentalEnergy,
     columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
@@ -68,12 +77,17 @@ export const MentalEnergyTable: FC<MentalEnergyTable> = ({ mentalEnergy }) => {
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <th key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                <button
+                  type="button"
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </button>
               </th>
             ))}
           </tr>
