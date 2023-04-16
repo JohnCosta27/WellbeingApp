@@ -1,8 +1,8 @@
-import { createBrowserRouter } from "react-router-dom";
-import { App } from "./App";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { ProtectedRoute, Login, Register } from "./Auth";
 import { DashboardLayout } from "./DashboardLayout";
 import { HowDashboard } from "./HowDashboard";
+import { WhoDashboard } from "./WhoDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -22,11 +22,15 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <></>,
+            element: <Navigate to="/how" />,
           },
           {
             path: "/how",
             element: <HowDashboard />,
+          },
+          {
+            path: "/who",
+            element: <WhoDashboard />,
           },
         ],
       },

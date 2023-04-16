@@ -68,6 +68,9 @@ export const HowDashboard: FC = () => {
           gridTemplateRows: "repeat(3, 28vh)",
         }}
       >
+        <Card title="Your stats">
+          This is a place to display the average stats
+        </Card>
         <Card title="Mental Energy">
           <UIMentalEnergy
             loading={loading}
@@ -82,8 +85,7 @@ export const HowDashboard: FC = () => {
             }
           />
         </Card>
-        <Card title="Place holder" />
-        <Card title="Wellness Check" className="row-span-3">
+        <Card title="Wellness Check" className="row-span-2">
           <WellnessCheck
             lastWords={lastWords}
             availableWords={words.data?.howAmIPhrase || []}
@@ -109,6 +111,7 @@ export const HowDashboard: FC = () => {
             )}
           </div>
         </Card>
+        <Card title="Quick Help">A place to display links for help</Card>
       </div>
     </div>
   );
