@@ -1,9 +1,19 @@
-import { useBrandWordsQuery } from "@wellbeing/graphql-types";
+import {
+  namedOperations,
+  useAddBrandWordMutation,
+  useBrandWordsQuery,
+  useCurrentUserQuery,
+} from "@wellbeing/graphql-types";
 import { FC } from "react";
-import { Card, IBrand } from "./ui";
+import { AddBrandWords, Card, IBrand } from "./ui";
 
 export const WhoDashboard: FC = () => {
   const { data } = useBrandWordsQuery();
+  const { data: userBrandWords } = useCurrentUserQuery();
+
+  const [addBrandWords] = useAddBrandWordMutation({
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  });
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -20,9 +30,20 @@ export const WhoDashboard: FC = () => {
         }}
       >
         <Card title="IBrand" className="row-span-2 col-span-2">
-          <IBrand brandWords={data?.brandWords ?? []} />
+          <IBrand brandWords={userBrandWords?.currentUser.brand.words ?? []} />
         </Card>
-        <Card title="Add Brand Words" className="row-span-2"></Card>
+        <Card title="Add Brand Words" className="row-span-2">
+          <AddBrandWords
+            brandWords={data?.brandWords ?? []}
+            onAddWord={(id) => {
+              addBrandWords({
+                variables: {
+                  addBrandWord: id,
+                },
+              });
+            }}
+          />
+        </Card>
         <Card title="Placeholder" className="col-span-3" />
       </div>
     </div>

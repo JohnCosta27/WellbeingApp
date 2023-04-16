@@ -1,5 +1,5 @@
 import { BrandWords } from "@wellbeing/graphql-types";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import WordCloud from "react-d3-cloud";
@@ -12,22 +12,33 @@ interface IBrandProps {
 export const IBrand: FC<IBrandProps> = ({ brandWords }) => {
   const wrapper = useRef<HTMLDivElement>(null);
 
+  /** First number is the width, second is the height */
+  const [[width, height], setSizes] = useState<[number, number]>([0, 0]);
+
   const data = brandWords.map((w) => ({
     text: w.word,
     value: 1000,
   }));
 
-  const boundingRect = wrapper.current?.getBoundingClientRect();
+  useEffect(() => {
+    if (!wrapper.current) return;
+
+    setSizes([wrapper.current.clientWidth, wrapper.current.clientHeight]);
+  }, [wrapper.current]);
 
   return (
     <div ref={wrapper} className="w-full h-full">
-      <WordCloud
-        width={boundingRect?.width || 0}
-        height={boundingRect?.height || 0}
-        data={data}
-        rotate={() => 0}
-        font="sans-serif"
-      />
+      {wrapper.current && (
+        <WordCloud
+          width={width}
+          height={height}
+          data={data}
+          padding={10}
+          random={() => 0.5}
+          rotate={() => 0}
+          font="sans-serif"
+        />
+      )}
     </div>
   );
 };

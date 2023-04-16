@@ -13,6 +13,7 @@ query CurrentUser {
     }
     brand {
       words {
+        id
         word
       }
     }

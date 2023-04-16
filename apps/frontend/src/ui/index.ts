@@ -4,3 +4,4 @@ export * from "./MentalEnergy";
 export * from "./Countdown";
 export * from "./WellnessCheck";
 export * from "./IBrand";
+export * from "./AddBrandWords";
