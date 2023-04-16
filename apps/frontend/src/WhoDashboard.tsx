@@ -22,6 +22,8 @@ export const WhoDashboard: FC = () => {
         <Card title="IBrand" className="row-span-2 col-span-2">
           <IBrand brandWords={data?.brandWords ?? []} />
         </Card>
+        <Card title="Add Brand Words" className="row-span-2"></Card>
+        <Card title="Placeholder" className="col-span-3" />
       </div>
     </div>
   );
