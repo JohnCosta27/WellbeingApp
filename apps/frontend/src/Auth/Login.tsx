@@ -82,7 +82,7 @@ export const Register: FC = () => {
 
       nav("/");
     },
-    [email, password, nav]
+    [email, password, confirmPassword, nav]
   );
 
   return (
