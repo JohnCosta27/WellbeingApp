@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import clsx from "clsx";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
 
@@ -19,15 +20,36 @@ const HamburgerIcon = () => (
   </svg>
 );
 
+const MD_SIZE = 768;
+
 export const DashboardLayout: FC = () => {
   const [openSidebar, setOpenSidebar] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setOpenSidebar(window.innerWidth > MD_SIZE);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="w-full h-screen bg-base-100 flex flex-col overflow-hidden">
       <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
         <div className="w-full flex items-center gap-4">
           <div className="flex md:hidden">
-            <button type="button" onClick={() => setOpenSidebar(!openSidebar)}>
+            <button
+              type="button"
+              onClick={() => {
+                if (window.innerWidth < MD_SIZE) {
+                  setOpenSidebar(!openSidebar);
+                }
+              }}
+            >
               <HamburgerIcon />
             </button>
           </div>
@@ -35,13 +57,20 @@ export const DashboardLayout: FC = () => {
         </div>
       </div>
       <div className="w-full h-full flex">
-        {openSidebar && (
-          <div className="w-64 flex-col bg-white px-2 py-8 shadow-xl border-r-2">
-            <TopbarItem onNav="/how">How</TopbarItem>
-            <TopbarItem onNav="/who">Who</TopbarItem>
-            <TopbarItem onNav="/how">What</TopbarItem>
-          </div>
-        )}
+        <div
+          className={clsx(
+            "w-64 flex-col bg-white shadow-xl fixed h-screen md:relative transition-all",
+            !openSidebar && "w-0"
+          )}
+        >
+          {openSidebar && (
+            <>
+              <TopbarItem onNav="/how">How</TopbarItem>
+              <TopbarItem onNav="/who">Who</TopbarItem>
+              <TopbarItem onNav="/how">What</TopbarItem>
+            </>
+          )}
+        </div>
         <div className="w-full h-full overflow-y-auto bg-[#F6F8FA]">
           <div className="w-full h-full p-6">
             <Outlet />
