@@ -30,8 +30,8 @@ export const Login: FC = () => {
   );
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center bg-base-300">
-      <div className="py-16 px-8 max-w-5xl flex flex-col gap-4 bg-neutral rounded-xl">
+    <div className="w-full h-screen flex flex-col justify-center items-center bg-base-100">
+      <div className="py-16 px-8 max-w-5xl flex flex-col gap-4 bg-white rounded-xl">
         <input
           type="email"
           className="input"
@@ -86,8 +86,8 @@ export const Register: FC = () => {
   );
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center bg-base-300">
-      <div className="py-16 px-8 max-w-5xl flex flex-col gap-4 bg-neutral rounded-xl">
+    <div className="w-full h-screen flex flex-col justify-center items-center bg-base-100">
+      <div className="py-16 px-8 max-w-5xl flex flex-col gap-4 bg-white rounded-xl">
         <input
           type="email"
           className="input"
