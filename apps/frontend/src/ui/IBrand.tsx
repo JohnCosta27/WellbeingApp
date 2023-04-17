@@ -24,7 +24,7 @@ export const IBrand: FC<IBrandProps> = ({ brandWords }) => {
     if (!wrapper.current) return;
 
     setSizes([wrapper.current.clientWidth, wrapper.current.clientHeight]);
-  }, [wrapper.current]);
+  }, []);
 
   return (
     <div ref={wrapper} className="w-full h-full">
@@ -32,7 +32,7 @@ export const IBrand: FC<IBrandProps> = ({ brandWords }) => {
         <WordCloud
           width={width}
           height={height}
-          data={data}
+          data={data.length > 0 ? data : [{ text: "No words", value: 10000 }]}
           padding={10}
           random={() => 0.5}
           rotate={() => 0}

@@ -12,7 +12,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   brandWords,
   onAddWord,
 }) => (
-  <div className="grid grid-cols-2 gap-2">
+  <div className="grid grid-cols-2 gap-2 auto-rows-min overflow-y-auto">
     {brandWords.map((w) => (
       <button
         key={w.id}

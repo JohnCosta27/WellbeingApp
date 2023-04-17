@@ -23,16 +23,14 @@ export const WhoDashboard: FC = () => {
           Here you can view who you are personally and professionally.
         </h4>
       </div>
-      <div
-        className="w-full grid grid-cols-3 gap-x-4 gap-y-6"
-        style={{
-          gridTemplateRows: "repeat(3, 28vh)",
-        }}
-      >
+      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
         <Card title="IBrand" className="row-span-2 col-span-2">
           <IBrand brandWords={userBrandWords?.currentUser.brand.words ?? []} />
         </Card>
-        <Card title="Add Brand Words" className="row-span-2">
+        <Card
+          title="Add Brand Words"
+          className="row-span-2 col-span-2 lg:col-span-1"
+        >
           <AddBrandWords
             brandWords={data?.brandWords ?? []}
             onAddWord={(id) => {
