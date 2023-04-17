@@ -19,9 +19,9 @@ const columnHelper = createColumnHelper<UserHowAmIPhrase>();
 const columns = [
   columnHelper.accessor("date", {
     header: () => "Date",
-    cell: (info) => new Date(info.getValue()).toLocaleDateString(),
+    cell: (info) => new Date(info.getValue()).toLocaleString(),
     footer: (info) => info.column.id,
-    aggregatedCell: ({ getValue }) => new Date(getValue()).toLocaleDateString(),
+    aggregatedCell: ({ getValue }) => new Date(getValue()).toLocaleString(),
   }),
   columnHelper.accessor("phrase.phrase", {
     header: () => "Word",
