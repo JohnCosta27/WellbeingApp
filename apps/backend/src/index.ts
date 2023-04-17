@@ -197,7 +197,7 @@ app.use("/auth", AuthRouter);
       },
     })
   );
-  app.listen(3030, () => {
+  app.listen(process.env.PORT || 3030, () => {
     console.log("Server running");
   });
 })();
