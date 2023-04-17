@@ -9,3 +9,4 @@ export * from "./Dialog";
 
 export * from "./table/Table";
 export * from "./table/MentalEnergyTable";
+export * from "./table/PhrasesTable";

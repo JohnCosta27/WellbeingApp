@@ -90,6 +90,7 @@ export const HowDashboard: FC = () => {
           <WellnessCheck
             lastWords={lastWords}
             availableWords={words.data?.howAmIPhrase || []}
+            userWords={data?.currentUser.howAmIPhrase || []}
             leftToSubmit={leftToSubmit}
             onSubmitWord={(id) => {
               addPhrase({

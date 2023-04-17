@@ -1,13 +1,16 @@
 import { HowAmIPhrase, UserHowAmIPhrase } from "@wellbeing/graphql-types";
 import clsx from "clsx";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { timeUntilEndOfDay } from "../isToday";
 import { Countdown } from "./Countdown";
+import { Dialog } from "./Dialog";
+import { PhrasesTable } from "./table/PhrasesTable";
 
 interface WellnessCheckProps {
   lastWords: Array<UserHowAmIPhrase>;
   /** First parameter is the ID of the word, used for submitting */
   availableWords: Array<HowAmIPhrase>;
+  userWords: Array<UserHowAmIPhrase>;
 
   leftToSubmit: number;
   onSubmitWord: (wordId: string) => void;
@@ -16,9 +19,12 @@ interface WellnessCheckProps {
 export const WellnessCheck: FC<WellnessCheckProps> = ({
   lastWords,
   availableWords,
+  userWords,
   leftToSubmit,
   onSubmitWord,
 }) => {
+  const [openTable, setOpenTable] = useState(false);
+
   const canSubmit = leftToSubmit > 0;
   return (
     <>
@@ -75,9 +81,21 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
         </>
       )}
 
-      <button type="button" className="w-full btn btn-secondary mt-auto">
+      <button
+        type="button"
+        className="w-full btn btn-secondary mt-auto"
+        onClick={() => setOpenTable(true)}
+      >
         View past entries
       </button>
+
+      <Dialog
+        open={openTable}
+        setOpen={setOpenTable}
+        title="Wellness Check Entries"
+      >
+        <PhrasesTable phrases={userWords} />
+      </Dialog>
     </>
   );
 };
