@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router";
-import { router } from "./Router";
-import "./index.css";
 import {
   ApolloClient,
   ApolloProvider,
@@ -10,9 +8,12 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { router } from "./Router";
+
+import "./index.css";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:3030/graphql",
+  uri: `${import.meta.env.VITE_BACKEND_URL}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
