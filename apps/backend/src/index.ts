@@ -19,6 +19,7 @@ import AuthRouter from "./auth";
 import { verifyJwt } from "./util/jwt";
 import { GraphQLError } from "graphql";
 import { prisma } from "./prisma";
+import winston from "winston";
 
 const file = fs.readFileSync(
   path.join(__dirname, "../../../packages/graphql/schema.graphql"),
@@ -174,6 +175,20 @@ app.use((_, res, next) => {
 });
 
 app.use("/auth", AuthRouter);
+
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [new winston.transports.Console()],
+});
+
+app.use((req, _res, next) => {
+  logger.info(`${req.method} ${req.url}`);
+  next();
+});
 
 (async () => {
   await server.start();
