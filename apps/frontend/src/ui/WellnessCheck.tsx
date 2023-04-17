@@ -31,7 +31,7 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
       <span className="font-bold">Last 3 words</span>
       <ul className="list-disc px-4">
         {lastWords.slice(0, 3).map((w) => (
-          <li key={w.phrase.id}>{w.phrase.phrase}</li>
+          <li key={w.date}>{w.phrase.phrase}</li>
         ))}
       </ul>
       <hr className="my-4" />
@@ -58,12 +58,6 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
           </button>
         ))}
       </div>
-      <button
-        type="button"
-        className="mt-2 btn btn-sm btn-secondary btn-outline"
-      >
-        View all phrases
-      </button>
       {canSubmit && <span>Click to add how you are feeling</span>}
       {canSubmit && (
         <div className="flex justify-between items-center text-xl">
