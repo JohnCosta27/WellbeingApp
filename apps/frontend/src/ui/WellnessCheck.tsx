@@ -36,13 +36,13 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
       </ul>
       <hr className="my-4" />
       <span className="text-lg">Most popular phrases</span>
-      <div className="grid grid-cols-3 gap-x-1 gap-y-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-1 gap-y-2 overflow-y-auto h-full auto-rows-min">
         {availableWords.map((w) => (
           <button
             type="button"
             key={w.id}
             className={clsx(
-              "cursor-pointer rounded shadow-sm p-2 ",
+              "cursor-pointer rounded shadow-sm p-2",
               !canSubmit
                 ? "bg-neutral-200 hover:bg-neutral-200"
                 : "bg-primary hover:bg-primary-focus transition-all"

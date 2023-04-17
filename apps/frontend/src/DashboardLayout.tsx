@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const DashboardLayout: FC = () => (
   <div className="w-full h-screen bg-base-100 flex">
-    <div className="w-64 flex flex-col bg-white px-2 py-8 shadow-xl border-r-2">
+    <div className="w-64 flex-col bg-white px-2 py-8 shadow-xl border-r-2 hidden md:flex">
       <TopbarItem onNav="/how">How</TopbarItem>
       <TopbarItem onNav="/who">Who</TopbarItem>
       <TopbarItem onNav="/how">What</TopbarItem>

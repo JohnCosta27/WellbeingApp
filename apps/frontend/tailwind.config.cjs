@@ -26,7 +26,12 @@ module.exports = {
     ],
   },
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateRows: {
+        dashboard: "repeat(3, 28vh)",
+        "bigger-dashboard": "repeat(3, 35vh)",
+      },
+    },
   },
   plugins: [require("daisyui")],
 };

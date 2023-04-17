@@ -62,12 +62,7 @@ export const HowDashboard: FC = () => {
           feeling
         </h4>
       </div>
-      <div
-        className="w-full grid grid-cols-3 gap-x-4 gap-y-6"
-        style={{
-          gridTemplateRows: "repeat(3, 28vh)",
-        }}
-      >
+      <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
         <Card title="Your stats">
           This is a place to display the average stats
         </Card>
@@ -86,7 +81,10 @@ export const HowDashboard: FC = () => {
             }
           />
         </Card>
-        <Card title="Wellness Check" className="row-span-2">
+        <Card
+          title="Wellness Check"
+          className="row-span-2 col-span-2 lg:col-span-1"
+        >
           <WellnessCheck
             lastWords={lastWords}
             availableWords={words.data?.howAmIPhrase || []}
@@ -101,8 +99,11 @@ export const HowDashboard: FC = () => {
             }}
           />
         </Card>
-        <Card title="Energy Level Graph" className="row-span-2 col-span-2">
-          <div className="w-full h-full">
+        <Card
+          title="Energy Level Graph"
+          className="row-span-2 col-span-2 overflow-x-auto"
+        >
+          <div className="w-full h-full min-w-[700px]">
             {data && (
               <EnergyChart
                 labels={sortedEnergy.map((m) =>
@@ -113,7 +114,9 @@ export const HowDashboard: FC = () => {
             )}
           </div>
         </Card>
-        <Card title="Quick Help">A place to display links for help</Card>
+        <Card title="Quick Help" className="col-span-2 lg:col-span-1">
+          A place to display links for help
+        </Card>
       </div>
     </div>
   );
