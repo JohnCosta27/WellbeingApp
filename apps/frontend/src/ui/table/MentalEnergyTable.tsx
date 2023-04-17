@@ -23,7 +23,7 @@ const columns = [
     cell: (info) => (
       <div
         className="radial-progress"
-        style={{ "--value": info.getValue() * 100 } as object}
+        style={{ "--value": info.getValue() * 100, "--size": "4rem" } as object}
       >
         {Math.floor(info.getValue() * 100)}
       </div>
@@ -42,6 +42,11 @@ export const MentalEnergyTable: FC<MentalEnergyTable> = ({ mentalEnergy }) => {
   const table = useReactTable({
     data: mentalEnergy,
     columns,
+    initialState: {
+      pagination: {
+        pageSize: 8,
+      },
+    },
     state: {
       sorting,
     },
@@ -62,7 +67,7 @@ export const MentalEnergyTable: FC<MentalEnergyTable> = ({ mentalEnergy }) => {
         Previous
       </button>
       <span>
-        {table.getState().pagination.pageIndex} of {table.getPageCount()}
+        {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
       </span>
       <button
         type="button"
@@ -101,20 +106,7 @@ export const MentalEnergyTable: FC<MentalEnergyTable> = ({ mentalEnergy }) => {
             ))}
           </tr>
         ))}
-        footer={table.getFooterGroups().map((footerGroup) => (
-          <tr key={footerGroup.id}>
-            {footerGroup.headers.map((header) => (
-              <th key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.footer,
-                      header.getContext()
-                    )}
-              </th>
-            ))}
-          </tr>
-        ))}
+        footer={null}
       />
     </>
   );
