@@ -119,6 +119,7 @@ export const HowDashboard: FC = () => {
   );
 };
 
-function getLast7DaysEnergy(energies: MentalEnergy[]): number {
+function getLast7DaysEnergy(energies: MentalEnergy[]): number | undefined {
+  if (energies.length === 0) return undefined;
   return energies.reduce((p, n) => p + n.level, 0) / energies.length;
 }
