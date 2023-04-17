@@ -194,6 +194,7 @@ app.use((req, _res, next) => {
   await server.start();
   app.use(
     "/graphql",
+    cors(),
     expressMiddleware(server as any, {
       context: async ({ req }) => {
         if (!req.headers.authorization) {
