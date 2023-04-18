@@ -23,7 +23,7 @@ const HamburgerIcon = () => (
 const MD_SIZE = 768;
 
 export const DashboardLayout: FC = () => {
-  const [openSidebar, setOpenSidebar] = useState(true);
+  const [openSidebar, setOpenSidebar] = useState(window.innerWidth > MD_SIZE);
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,8 +59,8 @@ export const DashboardLayout: FC = () => {
       <div className="w-full h-full flex">
         <div
           className={clsx(
-            "w-64 flex-col bg-white shadow-xl fixed h-screen md:relative transition-all",
-            !openSidebar && "w-0"
+            "flex-col bg-white shadow-xl fixed h-screen md:relative transition-all z-10",
+            !openSidebar ? "w-0" : "w-64"
           )}
         >
           {openSidebar && (
@@ -72,7 +72,7 @@ export const DashboardLayout: FC = () => {
           )}
         </div>
         <div className="w-full h-full overflow-y-auto bg-[#F6F8FA]">
-          <div className="w-full h-full p-6">
+          <div className="w-full h-full p-2 md:p-6">
             <Outlet />
           </div>
         </div>
