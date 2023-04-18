@@ -62,11 +62,11 @@ export const HowDashboard: FC = () => {
           feeling
         </h4>
       </div>
-      <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
-        <Card title="Your stats">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
+        <Card title="Your stats" className="col-span-2 lg:col-span-1">
           This is a place to display the average stats
         </Card>
-        <Card title="Mental Energy">
+        <Card title="Mental Energy" className="col-span-2 lg:col-span-1">
           <UIMentalEnergy
             loading={loading}
             energyAverage={energyAverage}
