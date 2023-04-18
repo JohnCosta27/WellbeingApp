@@ -13,7 +13,9 @@ import { router } from "./Router";
 import "./index.css";
 
 const httpLink = createHttpLink({
-  uri: `${import.meta.env.VITE_BACKEND_URL}/graphql`,
+  uri: `${window.location.protocol}//${
+    import.meta.env.VITE_BACKEND_URL
+  }/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
