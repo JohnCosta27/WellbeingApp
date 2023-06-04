@@ -115,6 +115,7 @@ export const HowDashboard: FC = () => {
                   new Date(m.date).toLocaleString()
                 )}
                 energies={sortedEnergy.map((m) => m.level).slice(0, 10)}
+                average={energyAverage || 1}
               />
             )}
           </div>

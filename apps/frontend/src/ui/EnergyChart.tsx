@@ -22,20 +22,37 @@ ChartJS.register(
   Legend
 );
 
+// Returns a tuple with the first one being the borderColor, and second backgroundColor
+function getColours(average: number): [string, string] {
+  if (average > 0.7) {
+    return ["#7EFA6B", "#ACFAA0"];
+  }
+  if (average > 0.5) {
+    return ["#FAE73E", "#FCEF7C"];
+  }
+  return ["#DE5E47", "#FA8C78"];
+}
+
 interface EnergyChartProps {
   labels: Array<string>;
   energies: Array<number>;
+  average: number;
 }
 
-export const EnergyChart: FC<EnergyChartProps> = ({ labels, energies }) => {
+export const EnergyChart: FC<EnergyChartProps> = ({
+  labels,
+  energies,
+  average,
+}) => {
+  const [borderColor, backgroundColor] = getColours(average);
   const chartData: ChartData<"line", number[], string> = {
     labels,
     datasets: [
       {
         label: "Your energy",
         data: energies,
-        borderColor: "#36A2EB",
-        backgroundColor: "#9BD0F5",
+        borderColor,
+        backgroundColor,
       },
     ],
   };
