@@ -67,12 +67,12 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
       )}
 
       {!canSubmit && (
-        <>
-          <h3 className="text-center my-2 text-xl">
-            Time left until next words
-          </h3>
+        <div className="my-4">
+          <p className="text-center">
+            You have to wait until you can submit another wellness check.
+          </p>
           <Countdown time={timeUntilEndOfDay()} />
-        </>
+        </div>
       )}
 
       <button

@@ -61,7 +61,14 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
       );
     }
 
-    return <Countdown time={canUseNextEnergy} />;
+    return (
+      <div className="my-4">
+        <p className="text-center">
+          You have to wait until you can submit your mental energy again.
+        </p>
+        <Countdown time={canUseNextEnergy} />
+      </div>
+    );
   }
 
   return (

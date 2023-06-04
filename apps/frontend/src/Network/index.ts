@@ -7,26 +7,24 @@ const axiosClient = axios.create({
 });
 
 export const AuthRequests = {
-  login: async (body: Auth.ReqBody): Promise<AxiosResponse<Auth.Response>> => {
-    return await axiosClient.post<Auth.ReqBody, AxiosResponse<Auth.Response>>(
+  async login(body: Auth.ReqBody): Promise<AxiosResponse<Auth.Response>> {
+    return axiosClient.post<Auth.ReqBody, AxiosResponse<Auth.Response>>(
       "/auth/login",
       body
     );
   },
-  register: async (
-    body: Auth.ReqBody
-  ): Promise<AxiosResponse<Auth.Response>> => {
-    return await axiosClient.post<Auth.ReqBody, AxiosResponse<Auth.Response>>(
+  async register(body: Auth.ReqBody): Promise<AxiosResponse<Auth.Response>> {
+    return axiosClient.post<Auth.ReqBody, AxiosResponse<Auth.Response>>(
       "/auth/register",
       body
     );
   },
-  refresh: async (
+  async refresh(
     body: Auth.RefreshReqBody
-  ): Promise<AxiosResponse<Auth.Response>> => {
-    return await axiosClient.post<
-      Auth.RefreshReqBody,
-      AxiosResponse<Auth.Response>
-    >("/auth/refresh", body);
+  ): Promise<AxiosResponse<Auth.Response>> {
+    return axiosClient.post<Auth.RefreshReqBody, AxiosResponse<Auth.Response>>(
+      "/auth/refresh",
+      body
+    );
   },
 } as const;

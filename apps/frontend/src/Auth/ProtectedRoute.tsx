@@ -3,9 +3,9 @@ import { Navigate, Outlet } from "react-router";
 import { isTokenValid } from "./isTokenValid";
 
 export const ProtectedRoute: FC = () => {
-  if (!isTokenValid('access')) {
-    return <Navigate to="/login" />
+  if (!isTokenValid("access")) {
+    return <Navigate to="/login" />;
   }
 
-  return <Outlet />
+  return <Outlet />;
 };

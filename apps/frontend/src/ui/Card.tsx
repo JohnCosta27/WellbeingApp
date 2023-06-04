@@ -3,18 +3,27 @@ import { FC, ReactNode } from "react";
 
 interface CardProps {
   title?: string;
+  description?: string;
   className?: string;
   children?: ReactNode;
 }
 
-export const Card: FC<CardProps> = ({ title, className = "", children }) => (
+export const Card: FC<CardProps> = ({
+  title,
+  description,
+  className = "",
+  children,
+}) => (
   <div
     className={clsx(
       "w-full h-full min-h-[250px] bg-white shadow-xl p-4 flex flex-col",
       className
     )}
   >
-    {title && <h2 className="font-bold text-2xl">{title}</h2>}
+    <div className="mb-4">
+      {title && <h2 className="font-bold text-2xl">{title}</h2>}
+      {description && <h3 className="font-normal text-lg">{description}</h3>}
+    </div>
     {children}
   </div>
 );

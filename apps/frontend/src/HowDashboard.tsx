@@ -66,7 +66,11 @@ export const HowDashboard: FC = () => {
         <Card title="Your stats" className="col-span-2 lg:col-span-1">
           This is a place to display the average stats
         </Card>
-        <Card title="Mental Energy" className="col-span-2 lg:col-span-1">
+        <Card
+          title="Mental Energy"
+          className="col-span-2 lg:col-span-1"
+          description="Update your mental energy every 6 hours, you can do this by using the slider."
+        >
           <UIMentalEnergy
             loading={loading}
             energyAverage={energyAverage}
@@ -83,6 +87,7 @@ export const HowDashboard: FC = () => {
         </Card>
         <Card
           title="Wellness Check"
+          description="A way to describe your wellbeing using common words, you can add 3 of them every day, and we'll help you by providing resources that may help."
           className="row-span-2 col-span-2 lg:col-span-1"
         >
           <WellnessCheck
