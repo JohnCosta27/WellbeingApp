@@ -13,7 +13,7 @@ interface WellnessCheckProps {
   userWords: Array<UserHowAmIPhrase>;
 
   leftToSubmit: number;
-  onSubmitWord: (wordId: string) => void;
+  onSubmitWords: (wordIds: string[]) => void;
 }
 
 export const WellnessCheck: FC<WellnessCheckProps> = ({
@@ -21,11 +21,17 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
   availableWords,
   userWords,
   leftToSubmit,
-  onSubmitWord,
+  onSubmitWords,
 }) => {
   const [openTable, setOpenTable] = useState(false);
+  const [selectedWords, setSelectedWords] = useState<string[]>([]);
 
-  const canSubmit = leftToSubmit > 0;
+  const [submittedWords, setSubmittedWords] = useState<string[]>([]);
+
+  const [openHelpLinks, setOpenHelpLinks] = useState(false);
+
+  // const canSubmit = leftToSubmit > 0 && selectedWords.length < 3;
+  const canSubmit = (leftToSubmit > 0 && selectedWords.length < 3) || true;
   return (
     <>
       <span className="font-bold">Last 3 words</span>
@@ -45,12 +51,22 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
               "cursor-pointer rounded shadow-sm p-2",
               !canSubmit
                 ? "bg-neutral-200 hover:bg-neutral-200"
-                : "bg-primary hover:bg-primary-focus transition-all"
+                : "bg-primary hover:bg-primary-focus transition-all",
+              selectedWords.includes(w.id)
+                ? "bg-primary-focus border-primary-content border-2"
+                : "bg-primary border-primary border-0"
             )}
             {...(!canSubmit && { disabled: true })}
             onClick={() => {
               if (canSubmit) {
-                onSubmitWord(w.id);
+                const i = selectedWords.indexOf(w.id);
+                if (i > -1) {
+                  const copyArray = selectedWords.slice();
+                  copyArray.splice(i, 1);
+                  setSelectedWords(copyArray);
+                } else {
+                  setSelectedWords([...selectedWords, w.id]);
+                }
               }
             }}
           >
@@ -60,10 +76,18 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
       </div>
       {canSubmit && <span>Click to add how you are feeling</span>}
       {canSubmit && (
-        <div className="flex justify-between items-center text-xl">
-          <span className="font-bold">Phrases left: </span>
-          <span className="text-secondary">{leftToSubmit}</span>
-        </div>
+        <button
+          type="button"
+          className="btn btn-accent my-2"
+          onClick={() => {
+            setSelectedWords([]);
+            onSubmitWords(selectedWords);
+            setSubmittedWords(selectedWords);
+            setOpenHelpLinks(true);
+          }}
+        >
+          Click to submit
+        </button>
       )}
 
       {!canSubmit && (
@@ -82,6 +106,26 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
       >
         View past entries
       </button>
+
+      <Dialog
+        open={openHelpLinks}
+        setOpen={setOpenHelpLinks}
+        title="Help links"
+        width="w-1/2"
+      >
+        <p>
+          We can help you feel better, based on your wellness check, here are
+          some useful links
+        </p>
+        <ul className="list-disc">
+          {submittedWords.map((wordId) => (
+            <li key={wordId}>
+              - {availableWords.find((w) => w.id === wordId)?.phrase ?? ""}:{" "}
+              <span className="text-blue-500">A link here</span>
+            </li>
+          ))}
+        </ul>
+      </Dialog>
 
       <Dialog
         open={openTable}

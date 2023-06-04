@@ -9,6 +9,7 @@ import {
 } from "@wellbeing/graphql-types";
 import {
   Card,
+  Dialog,
   EnergyChart,
   MentalEnergy as UIMentalEnergy,
   WellnessCheck,
@@ -95,11 +96,13 @@ export const HowDashboard: FC = () => {
             availableWords={words.data?.howAmIPhrase || []}
             userWords={data?.currentUser.howAmIPhrase || []}
             leftToSubmit={leftToSubmit}
-            onSubmitWord={(id) => {
-              addPhrase({
-                variables: {
-                  addHowAmIPhraseId: id,
-                },
+            onSubmitWords={(wordIds) => {
+              wordIds.forEach((id) => {
+                addPhrase({
+                  variables: {
+                    addHowAmIPhraseId: id,
+                  },
+                });
               });
             }}
           />
