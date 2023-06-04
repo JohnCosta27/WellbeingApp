@@ -9,7 +9,6 @@ import {
 } from "@wellbeing/graphql-types";
 import {
   Card,
-  Dialog,
   EnergyChart,
   MentalEnergy as UIMentalEnergy,
   WellnessCheck,

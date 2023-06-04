@@ -21,12 +21,19 @@ AuthRouter.post("/register", async (req: Request, res: Response) => {
       },
     });
 
+    // Each new user will have an empty initial brand.
+    await prisma.brand.create({
+      data: {
+        user_id: createNewUser.id,
+      },
+    });
+
     const returnData: Auth.Response = {
-      type: 'success',
+      type: "success",
       body: {
         refresh: generateJwt(createNewUser.id, "refresh"),
         access: generateJwt(createNewUser.id, "access"),
-      }
+      },
     };
 
     res.status(200).send(returnData);
@@ -61,11 +68,11 @@ AuthRouter.post("/login", async (req: Request, res: Response) => {
     }
 
     const returnData: Auth.Response = {
-      type: 'success',
+      type: "success",
       body: {
         refresh: generateJwt(foundUser.id, "refresh"),
         access: generateJwt(foundUser.id, "access"),
-      }
+      },
     };
 
     res.status(200).send(returnData);
@@ -101,11 +108,11 @@ AuthRouter.post("/refresh", async (req: Request, res: Response) => {
   }
 
   const response: Auth.RefreshResponse = {
-    type: 'success',
+    type: "success",
     body: {
-    access: generateJwt(foundUser.id, "access"),
-    }
-  }
+      access: generateJwt(foundUser.id, "access"),
+    },
+  };
 
   res.status(200).send(response);
 });

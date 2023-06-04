@@ -65,8 +65,8 @@ export const DashboardLayout: FC = () => {
         >
           {openSidebar && (
             <>
-              <TopbarItem onNav="/how">How</TopbarItem>
               <TopbarItem onNav="/who">Who</TopbarItem>
+              <TopbarItem onNav="/how">How</TopbarItem>
               <TopbarItem onNav="/how">What</TopbarItem>
             </>
           )}

@@ -58,6 +58,12 @@ export type MutationAddMentalEnergyArgs = {
   level: Scalars['Float'];
 };
 
+export type PastUserBrand = {
+  __typename?: 'PastUserBrand';
+  date?: Maybe<Scalars['Float']>;
+  words: Array<BrandWords>;
+};
+
 export type Query = {
   __typename?: 'Query';
   brandWords: Array<BrandWords>;
@@ -75,6 +81,7 @@ export type User = {
 
 export type UserBrand = {
   __typename?: 'UserBrand';
+  pastBrand: Array<PastUserBrand>;
   words: Array<BrandWords>;
 };
 
@@ -159,6 +166,7 @@ export type ResolversTypes = {
   HowAmIPhrase: ResolverTypeWrapper<HowAmIPhrase>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
   Mutation: ResolverTypeWrapper<{}>;
+  PastUserBrand: ResolverTypeWrapper<PastUserBrand>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
@@ -174,6 +182,7 @@ export type ResolversParentTypes = {
   HowAmIPhrase: HowAmIPhrase;
   MentalEnergy: MentalEnergy;
   Mutation: {};
+  PastUserBrand: PastUserBrand;
   Query: {};
   String: Scalars['String'];
   User: User;
@@ -206,6 +215,12 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
 };
 
+export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
+  date?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  words?: Resolver<Array<ResolversTypes['BrandWords']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   brandWords?: Resolver<Array<ResolversTypes['BrandWords']>, ParentType, ContextType>;
   currentUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
@@ -221,6 +236,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type UserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserBrand'] = ResolversParentTypes['UserBrand']> = {
+  pastBrand?: Resolver<Array<ResolversTypes['PastUserBrand']>, ParentType, ContextType>;
   words?: Resolver<Array<ResolversTypes['BrandWords']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -236,6 +252,7 @@ export type Resolvers<ContextType = any> = {
   HowAmIPhrase?: HowAmIPhraseResolvers<ContextType>;
   MentalEnergy?: MentalEnergyResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  PastUserBrand?: PastUserBrandResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserBrand?: UserBrandResolvers<ContextType>;

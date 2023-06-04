@@ -61,9 +61,13 @@ const resolvers: Resolvers<Context> = {
               phrase: true,
             },
           },
-          brand_words: {
+          brands: {
             include: {
-              brand_word: true,
+              brand_word_entries: {
+                include: {
+                  brand_word: true,
+                },
+              },
             },
           },
         },
@@ -73,12 +77,19 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Context user not found");
       }
 
+      // Current brand won't be saved yet so it will be null.
+      const currentBrand = user.brands.find((b) => b.date_saved == null);
+      if (!currentBrand) {
+        throw new Error("User does not have a valid current brand");
+      }
+
       const returnUser: User = {
         brand: {
-          words: user.brand_words.map((w) => ({
-            id: w.brand_word_id,
+          words: currentBrand.brand_word_entries.map((w) => ({
+            id: w.brand_word.id,
             word: w.brand_word.word,
           })),
+          pastBrand: [],
         },
         mentalEnergy: user.mental_energy.map((m) => ({
           date: timestamp(m.date),
@@ -131,20 +142,37 @@ const resolvers: Resolvers<Context> = {
 
     async addBrandWord(_parent, { wordId }, context): Promise<boolean> {
       try {
-        const exists = await prisma.userBrandWords.findMany({
+        const activeBrand = await prisma.brand.findMany({
           where: {
             user_id: context.uuid,
-            brand_word_id: wordId,
+            date_saved: null,
+          },
+          include: {
+            brand_word_entries: {
+              include: {
+                brand_word: true,
+              },
+            },
           },
         });
 
-        if (exists.length > 1) {
+        if (activeBrand.length !== 1) {
+          throw new Error(
+            "User has more/less than 1 brand, user has: " + activeBrand.length
+          );
+        }
+
+        if (
+          activeBrand[0].brand_word_entries.find(
+            (w) => w.brand_word.id === wordId
+          )
+        ) {
           throw new Error("User already has this word");
         }
 
-        await prisma.userBrandWords.create({
+        await prisma.brandWordEntry.create({
           data: {
-            user_id: context.uuid,
+            brand_id: activeBrand[0].id,
             brand_word_id: wordId,
           },
         });

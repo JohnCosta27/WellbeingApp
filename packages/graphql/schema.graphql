@@ -8,8 +8,17 @@ type BrandWords {
   word: String!
 }
 
+# Users current brand, they can save this brand
+# and create a new one, at which point this will reset.
+
 type UserBrand {
   words: [BrandWords!]!
+  pastBrand: [PastUserBrand!]!
+}
+
+type PastUserBrand {
+  words: [BrandWords!]!
+  date: Float
 }
 
 # ------------------------------------- #
