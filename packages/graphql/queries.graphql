@@ -16,6 +16,13 @@ query CurrentUser {
         id
         word
       }
+      pastBrand {
+        words {
+          id
+          word
+        }
+        date
+      }
     }
   }
 }

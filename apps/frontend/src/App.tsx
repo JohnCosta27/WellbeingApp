@@ -79,7 +79,10 @@ export const App: FC = () => {
           value={energyLevel}
           onChange={(e) => setEnergyLevel(parseInt(e.target.value))}
         />
-        <button className="btn btn-accent text-base-300 text-2xl" onClick={() => addMentalEnergy()}>
+        <button
+          className="btn btn-accent text-base-300 text-2xl"
+          onClick={() => addMentalEnergy()}
+        >
           Submit Energy
         </button>
       </div>
@@ -88,19 +91,30 @@ export const App: FC = () => {
         {!loading &&
           data &&
           data.currentUser.howAmIPhrase.map((w) => (
-            <div key={w.phrase.id + (w.date ?? Math.random())} className="text-base-content text-xl">
+            <div
+              key={w.phrase.id + (w.date ?? Math.random())}
+              className="text-base-content text-xl"
+            >
               {w.phrase.phrase}
               {w.date && <> - Added: {new Date(w.date).toISOString()}</>}
             </div>
           ))}
         {error && <>Error has occured</>}
-        <h2 className="text-base-content mb-4 text-4xl my-4">Available Phrases</h2>
+        <h2 className="text-base-content mb-4 text-4xl my-4">
+          Available Phrases
+        </h2>
         {!wordsLoading &&
           phraseData &&
           phraseData.howAmIPhrase.map((w) => (
-            <div key={w.id} className="flex justify-between px-16 text-base-content">
+            <div
+              key={w.id}
+              className="flex justify-between px-16 text-base-content"
+            >
               - {w.phrase}
-              <button className="btn btn-accent text-2xl" onClick={() => onAddPhrase(w.id)}>
+              <button
+                className="btn btn-accent text-2xl"
+                onClick={() => onAddPhrase(w.id)}
+              >
                 Add Word
               </button>
             </div>
@@ -116,16 +130,29 @@ export const App: FC = () => {
             </div>
           ))}
         {error && <>Error has occured</>}
-        <h2 className="text-base-content mb-4 text-4xl my-4">Available Phrases</h2>
+        <h2 className="text-base-content mb-4 text-4xl my-4">
+          Available Phrases
+        </h2>
         {!brandWordsLoading &&
           data &&
           brandWords &&
           brandWords.brandWords
-            .filter((w) => !data.currentUser.brand.words.find((userWord) => userWord.word === w.word))
+            .filter(
+              (w) =>
+                !data.currentUser.brand.words.find(
+                  (userWord) => userWord.word === w.word
+                )
+            )
             .map((w) => (
-              <div key={w.id} className="flex justify-between px-16 text-base-300">
+              <div
+                key={w.id}
+                className="flex justify-between px-16 text-base-300"
+              >
                 - {w.word}
-                <button className="btn btn-accent text-2xl" onClick={() => onAddBrandWord(w.id)}>
+                <button
+                  className="btn btn-accent text-2xl"
+                  onClick={() => onAddBrandWord(w.id)}
+                >
                   Add Word
                 </button>
               </div>

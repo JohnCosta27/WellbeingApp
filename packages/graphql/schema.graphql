@@ -12,6 +12,7 @@ type BrandWords {
 # and create a new one, at which point this will reset.
 
 type UserBrand {
+  # words represents the users CURRENT active brand, naming could be better.
   words: [BrandWords!]!
   pastBrand: [PastUserBrand!]!
 }
@@ -64,4 +65,6 @@ type Mutation {
   addMentalEnergy(level: Float!): MentalEnergy
   addHowAmIPhrase(id: String!): Boolean
   addBrandWord(wordId: String!): Boolean
+  # Take the current active brand, and save it as a past brand
+  addWholeBrand: Boolean
 }

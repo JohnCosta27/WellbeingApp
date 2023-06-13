@@ -12,3 +12,7 @@ mutation addHowAmIPhrase($addHowAmIPhraseId: String!) {
 mutation addBrandWord($addBrandWord: String!) {
   addBrandWord(wordId: $addBrandWord)
 }
+
+mutation addWholeBrand {
+  addWholeBrand
+}

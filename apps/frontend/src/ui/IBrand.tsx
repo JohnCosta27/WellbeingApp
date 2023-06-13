@@ -7,9 +7,16 @@ import WordCloud from "react-d3-cloud";
 interface IBrandProps {
   /** First item of tuple is the ID of the word */
   brandWords: Array<BrandWords>;
+  isPastBrand: boolean;
+
+  onResetBrand: () => void;
 }
 
-export const IBrand: FC<IBrandProps> = ({ brandWords }) => {
+export const IBrand: FC<IBrandProps> = ({
+  brandWords,
+  isPastBrand,
+  onResetBrand,
+}) => {
   const wrapper = useRef<HTMLDivElement>(null);
 
   /** First number is the width, second is the height */
@@ -38,6 +45,11 @@ export const IBrand: FC<IBrandProps> = ({ brandWords }) => {
           rotate={() => 0}
           font="sans-serif"
         />
+      )}
+      {isPastBrand && (
+        <button type="button" className="btn" onClick={onResetBrand}>
+          Reset
+        </button>
       )}
     </div>
   );

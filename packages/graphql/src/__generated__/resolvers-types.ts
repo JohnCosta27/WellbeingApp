@@ -41,6 +41,7 @@ export type Mutation = {
   addBrandWord?: Maybe<Scalars['Boolean']>;
   addHowAmIPhrase?: Maybe<Scalars['Boolean']>;
   addMentalEnergy?: Maybe<MentalEnergy>;
+  addWholeBrand?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -213,6 +214,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddBrandWordArgs, 'wordId'>>;
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
+  addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
 };
 
 export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
@@ -281,10 +283,15 @@ export type AddBrandWordMutationVariables = Exact<{
 
 export type AddBrandWordMutation = { __typename?: 'Mutation', addBrandWord?: boolean | null };
 
+export type AddWholeBrandMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AddWholeBrandMutation = { __typename?: 'Mutation', addWholeBrand?: boolean | null };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }> } } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> } } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -393,6 +400,36 @@ export function useAddBrandWordMutation(baseOptions?: Apollo.MutationHookOptions
 export type AddBrandWordMutationHookResult = ReturnType<typeof useAddBrandWordMutation>;
 export type AddBrandWordMutationResult = Apollo.MutationResult<AddBrandWordMutation>;
 export type AddBrandWordMutationOptions = Apollo.BaseMutationOptions<AddBrandWordMutation, AddBrandWordMutationVariables>;
+export const AddWholeBrandDocument = gql`
+    mutation addWholeBrand {
+  addWholeBrand
+}
+    `;
+export type AddWholeBrandMutationFn = Apollo.MutationFunction<AddWholeBrandMutation, AddWholeBrandMutationVariables>;
+
+/**
+ * __useAddWholeBrandMutation__
+ *
+ * To run a mutation, you first call `useAddWholeBrandMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddWholeBrandMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addWholeBrandMutation, { data, loading, error }] = useAddWholeBrandMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAddWholeBrandMutation(baseOptions?: Apollo.MutationHookOptions<AddWholeBrandMutation, AddWholeBrandMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddWholeBrandMutation, AddWholeBrandMutationVariables>(AddWholeBrandDocument, options);
+      }
+export type AddWholeBrandMutationHookResult = ReturnType<typeof useAddWholeBrandMutation>;
+export type AddWholeBrandMutationResult = Apollo.MutationResult<AddWholeBrandMutation>;
+export type AddWholeBrandMutationOptions = Apollo.BaseMutationOptions<AddWholeBrandMutation, AddWholeBrandMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -411,6 +448,13 @@ export const CurrentUserDocument = gql`
       words {
         id
         word
+      }
+      pastBrand {
+        words {
+          id
+          word
+        }
+        date
       }
     }
   }
@@ -522,6 +566,7 @@ export const namedOperations = {
   Mutation: {
     addMentalEnergy: 'addMentalEnergy',
     addHowAmIPhrase: 'addHowAmIPhrase',
-    addBrandWord: 'addBrandWord'
+    addBrandWord: 'addBrandWord',
+    addWholeBrand: 'addWholeBrand'
   }
 }

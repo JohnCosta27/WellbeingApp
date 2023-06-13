@@ -79,6 +79,8 @@ const resolvers: Resolvers<Context> = {
 
       // Current brand won't be saved yet so it will be null.
       const currentBrand = user.brands.find((b) => b.date_saved == null);
+      const pastBrands = user.brands.filter((b) => b != null);
+
       if (!currentBrand) {
         throw new Error("User does not have a valid current brand");
       }
@@ -89,7 +91,13 @@ const resolvers: Resolvers<Context> = {
             id: w.brand_word.id,
             word: w.brand_word.word,
           })),
-          pastBrand: [],
+          pastBrand: pastBrands.map((b) => ({
+            words: b.brand_word_entries.map((w) => ({
+              id: w.brand_word.id,
+              word: w.brand_word.word,
+            })),
+            date: b.date_saved?.getTime() || new Date().getTime(),
+          })),
         },
         mentalEnergy: user.mental_energy.map((m) => ({
           date: timestamp(m.date),
@@ -133,6 +141,46 @@ const resolvers: Resolvers<Context> = {
           },
         });
 
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+    },
+
+    /**
+     * Lets take the active brand (In the DB this is the one with no data_saved field),
+     * add a date, and create a new one
+     */
+    async addWholeBrand(_parent, _params, context): Promise<boolean> {
+      try {
+        const activeBrand = await prisma.brand.findMany({
+          where: {
+            user_id: context.uuid,
+            date_saved: null,
+          },
+        });
+
+        if (activeBrand.length !== 1) {
+          throw new Error(
+            "User has more/less than 1 brand, user has: " + activeBrand.length
+          );
+        }
+
+        await prisma.brand.update({
+          where: {
+            id: activeBrand[0].id,
+          },
+          data: {
+            date_saved: new Date(),
+          },
+        });
+
+        await prisma.brand.create({
+          data: {
+            user_id: context.uuid,
+          },
+        });
         return true;
       } catch (err) {
         console.log(err);
