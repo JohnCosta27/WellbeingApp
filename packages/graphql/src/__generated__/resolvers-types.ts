@@ -45,8 +45,8 @@ export type MentalEnergy = {
 
 export type Module = {
   __typename?: 'Module';
-  assignments: Array<Assignments>;
   name: Scalars['String'];
+  year: Scalars['String'];
 };
 
 export type Mutation = {
@@ -98,6 +98,7 @@ export type Query = {
   currentUser: User;
   howAmIPhrase: Array<HowAmIPhrase>;
   mentalEnergy: Array<MentalEnergy>;
+  modules: Array<Module>;
 };
 
 export type User = {
@@ -105,7 +106,7 @@ export type User = {
   brand: UserBrand;
   howAmIPhrase: Array<UserHowAmIPhrase>;
   mentalEnergy: Array<MentalEnergy>;
-  modules: Array<Module>;
+  modules: Array<UserModules>;
 };
 
 export type UserBrand = {
@@ -118,6 +119,12 @@ export type UserHowAmIPhrase = {
   __typename?: 'UserHowAmIPhrase';
   date: Scalars['Float'];
   phrase: HowAmIPhrase;
+};
+
+export type UserModules = {
+  __typename?: 'UserModules';
+  assignments: Array<Assignments>;
+  module: Module;
 };
 
 
@@ -203,6 +210,7 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   UserBrand: ResolverTypeWrapper<UserBrand>;
   UserHowAmIPhrase: ResolverTypeWrapper<UserHowAmIPhrase>;
+  UserModules: ResolverTypeWrapper<UserModules>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -221,6 +229,7 @@ export type ResolversParentTypes = {
   User: User;
   UserBrand: UserBrand;
   UserHowAmIPhrase: UserHowAmIPhrase;
+  UserModules: UserModules;
 };
 
 export type AssignmentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Assignments'] = ResolversParentTypes['Assignments']> = {
@@ -250,8 +259,8 @@ export type MentalEnergyResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type ModuleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Module'] = ResolversParentTypes['Module']> = {
-  assignments?: Resolver<Array<ResolversTypes['Assignments']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  year?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -275,13 +284,14 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   currentUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['HowAmIPhrase']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
+  modules?: Resolver<Array<ResolversTypes['Module']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   brand?: Resolver<ResolversTypes['UserBrand'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['UserHowAmIPhrase']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
-  modules?: Resolver<Array<ResolversTypes['Module']>, ParentType, ContextType>;
+  modules?: Resolver<Array<ResolversTypes['UserModules']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -297,6 +307,12 @@ export type UserHowAmIPhraseResolvers<ContextType = any, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserModulesResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserModules'] = ResolversParentTypes['UserModules']> = {
+  assignments?: Resolver<Array<ResolversTypes['Assignments']>, ParentType, ContextType>;
+  module?: Resolver<ResolversTypes['Module'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Assignments?: AssignmentsResolvers<ContextType>;
   BrandWords?: BrandWordsResolvers<ContextType>;
@@ -309,6 +325,7 @@ export type Resolvers<ContextType = any> = {
   User?: UserResolvers<ContextType>;
   UserBrand?: UserBrandResolvers<ContextType>;
   UserHowAmIPhrase?: UserHowAmIPhraseResolvers<ContextType>;
+  UserModules?: UserModulesResolvers<ContextType>;
 };
 
 
@@ -357,7 +374,7 @@ export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'Module', name: string, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -368,6 +385,11 @@ export type BrandWordsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type BrandWordsQuery = { __typename?: 'Query', brandWords: Array<{ __typename?: 'BrandWords', id: string, word: string }> };
+
+export type ModulesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?: 'Module', name: string, year: string }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -588,7 +610,10 @@ export const CurrentUserDocument = gql`
       }
     }
     modules {
-      name
+      module {
+        name
+        year
+      }
       assignments {
         name
         date
@@ -695,11 +720,47 @@ export function useBrandWordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type BrandWordsQueryHookResult = ReturnType<typeof useBrandWordsQuery>;
 export type BrandWordsLazyQueryHookResult = ReturnType<typeof useBrandWordsLazyQuery>;
 export type BrandWordsQueryResult = Apollo.QueryResult<BrandWordsQuery, BrandWordsQueryVariables>;
+export const ModulesDocument = gql`
+    query Modules {
+  modules {
+    name
+    year
+  }
+}
+    `;
+
+/**
+ * __useModulesQuery__
+ *
+ * To run a query within a React component, call `useModulesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useModulesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useModulesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useModulesQuery(baseOptions?: Apollo.QueryHookOptions<ModulesQuery, ModulesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ModulesQuery, ModulesQueryVariables>(ModulesDocument, options);
+      }
+export function useModulesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ModulesQuery, ModulesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ModulesQuery, ModulesQueryVariables>(ModulesDocument, options);
+        }
+export type ModulesQueryHookResult = ReturnType<typeof useModulesQuery>;
+export type ModulesLazyQueryHookResult = ReturnType<typeof useModulesLazyQuery>;
+export type ModulesQueryResult = Apollo.QueryResult<ModulesQuery, ModulesQueryVariables>;
 export const namedOperations = {
   Query: {
     CurrentUser: 'CurrentUser',
     HowAmIPhrase: 'HowAmIPhrase',
-    BrandWords: 'BrandWords'
+    BrandWords: 'BrandWords',
+    Modules: 'Modules'
   },
   Mutation: {
     addMentalEnergy: 'addMentalEnergy',

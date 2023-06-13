@@ -7,6 +7,7 @@ import {
   BrandWords,
   HowAmIPhrase,
   MentalEnergy,
+  Module,
   Resolvers,
   User,
 } from "@wellbeing/graphql-types";
@@ -49,6 +50,12 @@ const resolvers: Resolvers<Context> = {
       return await prisma.brandWords.findMany();
     },
 
+    async modules(): Promise<Array<Module>> {
+      const modules = await prisma.modules.findMany({});
+
+      return modules;
+    },
+
     async currentUser(_parent, _args, context): Promise<User> {
       const user = await prisma.users.findUnique({
         where: {
@@ -68,6 +75,12 @@ const resolvers: Resolvers<Context> = {
                   brand_word: true,
                 },
               },
+            },
+          },
+          user_modules: {
+            include: {
+              module: true,
+              assignments: true,
             },
           },
         },
@@ -107,7 +120,17 @@ const resolvers: Resolvers<Context> = {
           date: timestamp(w.date_added),
           phrase: w.phrase,
         })),
-        modules: [],
+        modules: user.user_modules.map((m) => ({
+          module: {
+            name: m.module.name,
+            year: m.module.year,
+          },
+          assignments: m.assignments.map((a) => ({
+            name: a.name,
+            date: a.date.getTime(),
+            score: a.score,
+          })),
+        })),
       };
 
       return returnUser;

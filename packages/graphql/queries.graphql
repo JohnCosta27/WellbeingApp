@@ -25,7 +25,10 @@ query CurrentUser {
       }
     }
     modules {
-      name
+      module {
+        name
+        year
+      }
       assignments {
         name
         date
@@ -46,5 +49,12 @@ query BrandWords {
   brandWords {
     id
     word
+  }
+}
+
+query Modules {
+  modules {
+    name
+    year
   }
 }

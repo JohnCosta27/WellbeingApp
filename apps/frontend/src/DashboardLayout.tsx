@@ -68,6 +68,7 @@ export const DashboardLayout: FC = () => {
               <TopbarItem onNav="/who">Who</TopbarItem>
               <TopbarItem onNav="/how">How</TopbarItem>
               <TopbarItem onNav="/how">What</TopbarItem>
+              <TopbarItem onNav="/progress">Progress</TopbarItem>
             </>
           )}
         </div>

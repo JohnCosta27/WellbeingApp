@@ -50,7 +50,7 @@ type UserHowAmIPhrase {
 
 type Module {
   name: String!
-  assignments: [Assignments!]!
+  year: String!
 }
 
 type Assignments {
@@ -59,11 +59,16 @@ type Assignments {
   score: Float!
 }
 
+type UserModules {
+  module: Module!
+  assignments: [Assignments!]!
+}
+
 type User {
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
   howAmIPhrase: [UserHowAmIPhrase!]!
-  modules: [Module!]!
+  modules: [UserModules!]!
 }
 
 type Query {
@@ -71,6 +76,7 @@ type Query {
   howAmIPhrase: [HowAmIPhrase!]!
   mentalEnergy: [MentalEnergy!]!
   currentUser: User!
+  modules: [Module!]!
 }
 
 type Mutation {
