@@ -17,6 +17,13 @@ export type Scalars = {
   Float: number;
 };
 
+export type Assignments = {
+  __typename?: 'Assignments';
+  date: Scalars['Float'];
+  name: Scalars['String'];
+  score: Scalars['Float'];
+};
+
 export type BrandWords = {
   __typename?: 'BrandWords';
   id: Scalars['String'];
@@ -36,12 +43,27 @@ export type MentalEnergy = {
   level: Scalars['Float'];
 };
 
+export type Module = {
+  __typename?: 'Module';
+  assignments: Array<Assignments>;
+  name: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addAssignment?: Maybe<Scalars['Boolean']>;
   addBrandWord?: Maybe<Scalars['Boolean']>;
   addHowAmIPhrase?: Maybe<Scalars['Boolean']>;
   addMentalEnergy?: Maybe<MentalEnergy>;
+  addModule?: Maybe<Scalars['Boolean']>;
   addWholeBrand?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationAddAssignmentArgs = {
+  moduleId: Scalars['String'];
+  name: Scalars['String'];
+  score: Scalars['Float'];
 };
 
 
@@ -57,6 +79,11 @@ export type MutationAddHowAmIPhraseArgs = {
 
 export type MutationAddMentalEnergyArgs = {
   level: Scalars['Float'];
+};
+
+
+export type MutationAddModuleArgs = {
+  moduleId: Scalars['String'];
 };
 
 export type PastUserBrand = {
@@ -78,6 +105,7 @@ export type User = {
   brand: UserBrand;
   howAmIPhrase: Array<UserHowAmIPhrase>;
   mentalEnergy: Array<MentalEnergy>;
+  modules: Array<Module>;
 };
 
 export type UserBrand = {
@@ -161,11 +189,13 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Assignments: ResolverTypeWrapper<Assignments>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   BrandWords: ResolverTypeWrapper<BrandWords>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   HowAmIPhrase: ResolverTypeWrapper<HowAmIPhrase>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
+  Module: ResolverTypeWrapper<Module>;
   Mutation: ResolverTypeWrapper<{}>;
   PastUserBrand: ResolverTypeWrapper<PastUserBrand>;
   Query: ResolverTypeWrapper<{}>;
@@ -177,11 +207,13 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Assignments: Assignments;
   Boolean: Scalars['Boolean'];
   BrandWords: BrandWords;
   Float: Scalars['Float'];
   HowAmIPhrase: HowAmIPhrase;
   MentalEnergy: MentalEnergy;
+  Module: Module;
   Mutation: {};
   PastUserBrand: PastUserBrand;
   Query: {};
@@ -189,6 +221,13 @@ export type ResolversParentTypes = {
   User: User;
   UserBrand: UserBrand;
   UserHowAmIPhrase: UserHowAmIPhrase;
+};
+
+export type AssignmentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Assignments'] = ResolversParentTypes['Assignments']> = {
+  date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  score?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['BrandWords'] = ResolversParentTypes['BrandWords']> = {
@@ -210,10 +249,18 @@ export type MentalEnergyResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ModuleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Module'] = ResolversParentTypes['Module']> = {
+  assignments?: Resolver<Array<ResolversTypes['Assignments']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addAssignment?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddAssignmentArgs, 'moduleId' | 'name' | 'score'>>;
   addBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddBrandWordArgs, 'wordId'>>;
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
+  addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
   addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
 };
 
@@ -234,6 +281,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   brand?: Resolver<ResolversTypes['UserBrand'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['UserHowAmIPhrase']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
+  modules?: Resolver<Array<ResolversTypes['Module']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -250,9 +298,11 @@ export type UserHowAmIPhraseResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type Resolvers<ContextType = any> = {
+  Assignments?: AssignmentsResolvers<ContextType>;
   BrandWords?: BrandWordsResolvers<ContextType>;
   HowAmIPhrase?: HowAmIPhraseResolvers<ContextType>;
   MentalEnergy?: MentalEnergyResolvers<ContextType>;
+  Module?: ModuleResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PastUserBrand?: PastUserBrandResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -288,10 +338,26 @@ export type AddWholeBrandMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type AddWholeBrandMutation = { __typename?: 'Mutation', addWholeBrand?: boolean | null };
 
+export type AddModuleMutationVariables = Exact<{
+  moduleId: Scalars['String'];
+}>;
+
+
+export type AddModuleMutation = { __typename?: 'Mutation', addModule?: boolean | null };
+
+export type AddAssignmentMutationVariables = Exact<{
+  moduleId: Scalars['String'];
+  name: Scalars['String'];
+  score: Scalars['Float'];
+}>;
+
+
+export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: boolean | null };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> } } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'Module', name: string, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -430,6 +496,70 @@ export function useAddWholeBrandMutation(baseOptions?: Apollo.MutationHookOption
 export type AddWholeBrandMutationHookResult = ReturnType<typeof useAddWholeBrandMutation>;
 export type AddWholeBrandMutationResult = Apollo.MutationResult<AddWholeBrandMutation>;
 export type AddWholeBrandMutationOptions = Apollo.BaseMutationOptions<AddWholeBrandMutation, AddWholeBrandMutationVariables>;
+export const AddModuleDocument = gql`
+    mutation addModule($moduleId: String!) {
+  addModule(moduleId: $moduleId)
+}
+    `;
+export type AddModuleMutationFn = Apollo.MutationFunction<AddModuleMutation, AddModuleMutationVariables>;
+
+/**
+ * __useAddModuleMutation__
+ *
+ * To run a mutation, you first call `useAddModuleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddModuleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addModuleMutation, { data, loading, error }] = useAddModuleMutation({
+ *   variables: {
+ *      moduleId: // value for 'moduleId'
+ *   },
+ * });
+ */
+export function useAddModuleMutation(baseOptions?: Apollo.MutationHookOptions<AddModuleMutation, AddModuleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddModuleMutation, AddModuleMutationVariables>(AddModuleDocument, options);
+      }
+export type AddModuleMutationHookResult = ReturnType<typeof useAddModuleMutation>;
+export type AddModuleMutationResult = Apollo.MutationResult<AddModuleMutation>;
+export type AddModuleMutationOptions = Apollo.BaseMutationOptions<AddModuleMutation, AddModuleMutationVariables>;
+export const AddAssignmentDocument = gql`
+    mutation addAssignment($moduleId: String!, $name: String!, $score: Float!) {
+  addAssignment(moduleId: $moduleId, name: $name, score: $score)
+}
+    `;
+export type AddAssignmentMutationFn = Apollo.MutationFunction<AddAssignmentMutation, AddAssignmentMutationVariables>;
+
+/**
+ * __useAddAssignmentMutation__
+ *
+ * To run a mutation, you first call `useAddAssignmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddAssignmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addAssignmentMutation, { data, loading, error }] = useAddAssignmentMutation({
+ *   variables: {
+ *      moduleId: // value for 'moduleId'
+ *      name: // value for 'name'
+ *      score: // value for 'score'
+ *   },
+ * });
+ */
+export function useAddAssignmentMutation(baseOptions?: Apollo.MutationHookOptions<AddAssignmentMutation, AddAssignmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddAssignmentMutation, AddAssignmentMutationVariables>(AddAssignmentDocument, options);
+      }
+export type AddAssignmentMutationHookResult = ReturnType<typeof useAddAssignmentMutation>;
+export type AddAssignmentMutationResult = Apollo.MutationResult<AddAssignmentMutation>;
+export type AddAssignmentMutationOptions = Apollo.BaseMutationOptions<AddAssignmentMutation, AddAssignmentMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -455,6 +585,14 @@ export const CurrentUserDocument = gql`
           word
         }
         date
+      }
+    }
+    modules {
+      name
+      assignments {
+        name
+        date
+        score
       }
     }
   }
@@ -567,6 +705,8 @@ export const namedOperations = {
     addMentalEnergy: 'addMentalEnergy',
     addHowAmIPhrase: 'addHowAmIPhrase',
     addBrandWord: 'addBrandWord',
-    addWholeBrand: 'addWholeBrand'
+    addWholeBrand: 'addWholeBrand',
+    addModule: 'addModule',
+    addAssignment: 'addAssignment'
   }
 }

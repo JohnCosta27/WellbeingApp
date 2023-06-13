@@ -85,6 +85,8 @@ model Modules {
 model Assignments {
   id String @id @default(uuid())
   name String
+  date DateTime @default(now())
+  score Float
 
   module_id String
   module Modules @relation(fields: [module_id], references: [id])

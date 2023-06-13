@@ -48,10 +48,22 @@ type UserHowAmIPhrase {
   date: Float!
 }
 
+type Module {
+  name: String!
+  assignments: [Assignments!]!
+}
+
+type Assignments {
+  name: String!
+  date: Float!
+  score: Float!
+}
+
 type User {
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
   howAmIPhrase: [UserHowAmIPhrase!]!
+  modules: [Module!]!
 }
 
 type Query {
@@ -67,4 +79,6 @@ type Mutation {
   addBrandWord(wordId: String!): Boolean
   # Take the current active brand, and save it as a past brand
   addWholeBrand: Boolean
+  addModule(moduleId: String!): Boolean
+  addAssignment(moduleId: String!, name: String!, score: Float!): Boolean
 }

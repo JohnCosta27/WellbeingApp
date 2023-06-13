@@ -24,6 +24,14 @@ query CurrentUser {
         date
       }
     }
+    modules {
+      name
+      assignments {
+        name
+        date
+        score
+      }
+    }
   }
 }
 

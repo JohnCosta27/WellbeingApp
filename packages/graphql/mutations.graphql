@@ -16,3 +16,11 @@ mutation addBrandWord($addBrandWord: String!) {
 mutation addWholeBrand {
   addWholeBrand
 }
+
+mutation addModule($moduleId: String!) {
+  addModule(moduleId: $moduleId)
+}
+
+mutation addAssignment($moduleId: String!, $name: String!, $score: Float!) {
+  addAssignment(moduleId: $moduleId, name: $name, score: $score)
+}
