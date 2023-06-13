@@ -152,7 +152,21 @@ export const MyProgress: FC = () => {
             Submit Assignment
           </button>
         </Card>
-        <Card title="Assignments" className="col-span-2 row-span-3"></Card>
+        <Card title="Assignments" className="col-span-2 row-span-3">
+          {user.data &&
+            user.data.currentUser.modules.map((m) => (
+              <div key={m.module.id}>
+                <h2 className="text-lg">{m.module.name}</h2>
+                <ul>
+                  {m.assignments.map((a) => (
+                    <li key={a.date}>
+                      {a.name} | {a.score}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+        </Card>
       </div>
     </div>
   );
