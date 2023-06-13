@@ -78,7 +78,6 @@ model Modules {
   name String
   year String
 
-  assignments Assignments[]
   user_modules UserModules[]
 }
 
@@ -88,14 +87,15 @@ model Assignments {
   date DateTime @default(now())
   score Float
 
-  module_id String
-  module Modules @relation(fields: [module_id], references: [id])
+  user_module_id String
+  user_module UserModules @relation(fields: [user_module_id], references: [id])
 }
 
 model UserModules {
   id String @id @default(uuid())
   user_id String
   module_id String
+  assignments Assignments[]
 
   user Users @relation(fields: [user_id], references: [id])
   module Modules @relation(fields: [module_id], references: [id])

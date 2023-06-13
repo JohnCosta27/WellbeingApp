@@ -107,6 +107,7 @@ const resolvers: Resolvers<Context> = {
           date: timestamp(w.date_added),
           phrase: w.phrase,
         })),
+        modules: [],
       };
 
       return returnUser;
@@ -229,6 +230,61 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error, most likely ID not found");
       }
       return true;
+    },
+    async addModule(_parent, { moduleId }, context): Promise<boolean> {
+      try {
+        const existingModule = await prisma.userModules.findMany({
+          where: {
+            user_id: context.uuid,
+            module_id: moduleId,
+          },
+        });
+
+        if (existingModule.length > 0) {
+          throw new Error("User already has this module");
+        }
+
+        await prisma.userModules.create({
+          data: {
+            user_id: context.uuid,
+            module_id: moduleId,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+    },
+    async addAssignment(
+      _parent,
+      { moduleId, name, score },
+      context
+    ): Promise<boolean> {
+      try {
+        const userModule = await prisma.userModules.findMany({
+          where: {
+            user_id: context.uuid,
+            module_id: moduleId,
+          },
+        });
+
+        if (userModule.length !== 1) {
+          throw new Error("This user has a duplicated user module!");
+        }
+
+        await prisma.assignments.create({
+          data: {
+            user_module_id: userModule[0].id,
+            name,
+            score,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
     },
   },
 };
