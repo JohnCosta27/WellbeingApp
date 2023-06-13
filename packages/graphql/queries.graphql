@@ -26,6 +26,7 @@ query CurrentUser {
     }
     modules {
       module {
+        id
         name
         year
       }
@@ -54,6 +55,7 @@ query BrandWords {
 
 query Modules {
   modules {
+    id
     name
     year
   }

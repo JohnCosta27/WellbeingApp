@@ -11,7 +11,6 @@ import { AddBrandWords, Card, IBrand } from "./ui";
 export const WhoDashboard: FC = () => {
   const { data } = useBrandWordsQuery();
   const { data: userBrandWords, loading } = useCurrentUserQuery();
-  console.log(userBrandWords);
 
   const [addBrandWords] = useAddBrandWordMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],

@@ -122,6 +122,7 @@ const resolvers: Resolvers<Context> = {
         })),
         modules: user.user_modules.map((m) => ({
           module: {
+            id: m.module.id,
             name: m.module.name,
             year: m.module.year,
           },

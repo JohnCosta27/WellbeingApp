@@ -45,6 +45,7 @@ export type MentalEnergy = {
 
 export type Module = {
   __typename?: 'Module';
+  id: Scalars['String'];
   name: Scalars['String'];
   year: Scalars['String'];
 };
@@ -259,6 +260,7 @@ export type MentalEnergyResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type ModuleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Module'] = ResolversParentTypes['Module']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   year?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -374,7 +376,7 @@ export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -389,7 +391,7 @@ export type BrandWordsQuery = { __typename?: 'Query', brandWords: Array<{ __type
 export type ModulesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?: 'Module', name: string, year: string }> };
+export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?: 'Module', id: string, name: string, year: string }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -611,6 +613,7 @@ export const CurrentUserDocument = gql`
     }
     modules {
       module {
+        id
         name
         year
       }
@@ -723,6 +726,7 @@ export type BrandWordsQueryResult = Apollo.QueryResult<BrandWordsQuery, BrandWor
 export const ModulesDocument = gql`
     query Modules {
   modules {
+    id
     name
     year
   }
