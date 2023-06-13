@@ -72,7 +72,7 @@ export const WhoDashboard: FC = () => {
                 setIsPastBrand(true);
               }}
             >
-              {new Date(b.date).toISOString()}
+              {new Date(b.date!).toISOString()}
             </button>
           ))}
         </Card>
