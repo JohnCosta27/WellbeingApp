@@ -14,6 +14,7 @@ import {
   WellnessCheck,
 } from "./ui";
 import { isToday } from "./isToday";
+import { QuickHelp } from "./MyProgress/QuickHelp";
 
 export const HowDashboard: FC = () => {
   const { data, loading } = useCurrentUserQuery();
@@ -122,9 +123,7 @@ export const HowDashboard: FC = () => {
             )}
           </div>
         </Card>
-        <Card title="Quick Help" className="col-span-2 lg:col-span-1">
-          A place to display links for help
-        </Card>
+        <QuickHelp />
       </div>
     </div>
   );
