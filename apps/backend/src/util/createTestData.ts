@@ -40,14 +40,16 @@ export const createTestData = async () => {
 	});
 	
 	// creating mental energy entries for the user
-	const mentalEnergies = Array.from({length: 15}).map(() => {
-		return {
+	const mentalEnergies = [...Array(15)].reduce((acc, _) => {
+		acc.push({
 			id: faker.string.uuid(),
 			user_id: user.id,
-			level: faker.number.float(),
+			// the level should be the last level +/- 0.05, but not less than 0 or more than 1
+			level: faker.number.float({min: Math.max(0, acc[acc.length - 1]?.level - 0.05), max: Math.min(1, acc[acc.length - 1]?.level + 0.05)}),
 			date: faker.date.recent({days: 30}),
-		};
-	})
+		});
+		return acc;
+	}, []);
 	
 	await prisma.mentalEnergy.createMany({
 		data: mentalEnergies,
