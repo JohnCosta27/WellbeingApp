@@ -65,10 +65,13 @@ export const DashboardLayout: FC = () => {
         >
           {openSidebar && (
             <>
+            <div className="grid m-1">
               <TopbarItem onNav="/who">Who</TopbarItem>
               <TopbarItem onNav="/how">How</TopbarItem>
               <TopbarItem onNav="/how">What</TopbarItem>
               <TopbarItem onNav="/progress">Progress</TopbarItem>
+            </div>
+              
             </>
           )}
         </div>
@@ -90,7 +93,7 @@ interface TopBarItemProps {
 export const TopbarItem: FC<TopBarItemProps> = ({ onNav, children }) => (
   <Link
     to={onNav}
-    className="w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-primary-content rounded-xl transition-all"
+    className="w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-neutral-focus rounded-md transition-all"
   >
     {children}
   </Link>
