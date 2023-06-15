@@ -77,3 +77,22 @@ export const createUserTestData = async () => {
 	});
 	
 };
+
+// this function is used to clear the database, it may need re-ordering if the database is changed
+export const nukeDatabase = async () => {
+
+	await prisma.brand.deleteMany({});
+	await prisma.brandWordEntry.deleteMany({});
+	await prisma.brandWords.deleteMany({});
+
+	await prisma.userModules.deleteMany({});
+	await prisma.assignments.deleteMany({});
+	await prisma.modules.deleteMany({});
+
+	await prisma.mentalEnergy.deleteMany({});
+
+	await prisma.userHowAmIPhrase.deleteMany({});
+	await prisma.howAmIPhrase.deleteMany({});
+
+	await prisma.users.deleteMany({});
+};
