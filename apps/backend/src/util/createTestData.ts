@@ -1,6 +1,7 @@
 import { prisma } from "../prisma";
+import { Prisma } from '.prisma/client';
 import { faker } from '@faker-js/faker';
-import * as modules from './testData/modules.json';
+import modules from './testData/modules.json';
 
 export const createGeneralTestData = async () => {
 	// creating how am i phrases for the user
@@ -39,10 +40,12 @@ export const createGeneralTestData = async () => {
 	await prisma.modules.createMany({
 		data: modulesToInsert,
 	});
+
+
 };
 
 
-export const createTestData = async () => {
+export const createUserTestData = async () => {
 	// creating a user, the password is always "yeet"
 	const user = await prisma.users.create({
 		data: {
@@ -55,11 +58,15 @@ export const createTestData = async () => {
 	
 	// creating mental energy entries for the user
 	const mentalEnergies = [...Array(15)].reduce((acc, _) => {
+		const lastAcc = (acc.length > 0 ? acc[acc.length - 1].level : faker.number.float({min: 0, max: 1}));
 		acc.push({
 			id: faker.string.uuid(),
 			user_id: user.id,
 			// the level should be the last level +/- 0.05, but not less than 0 or more than 1
-			level: faker.number.float({min: Math.max(0, acc[acc.length - 1]?.level - 0.05), max: Math.min(1, acc[acc.length - 1]?.level + 0.05)}),
+			level: faker.number.float({
+				min: lastAcc - 0.1, 
+				max: lastAcc + 0.1
+			}),
 			date: faker.date.recent({days: 30}),
 		});
 		return acc;
@@ -70,4 +77,3 @@ export const createTestData = async () => {
 	});
 	
 };
-
