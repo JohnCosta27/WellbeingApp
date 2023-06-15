@@ -32,6 +32,7 @@ importers:
   apps/backend:
     specifiers:
       '@apollo/server': ^4.5.0
+      '@faker-js/faker': ^8.0.2
       '@graphql-tools/import': ^6.7.17
       '@prisma/client': ^4.11.0
       '@types/body-parser': ^1.19.2
@@ -52,6 +53,7 @@ importers:
       winston: ^3.8.2
     dependencies:
       '@apollo/server': 4.7.3_graphql@16.6.0
+      '@faker-js/faker': 8.0.2
       '@graphql-tools/import': 6.7.18_graphql@16.6.0
       '@prisma/client': 4.15.0_prisma@4.15.0
       '@types/node': 18.16.18
@@ -1247,6 +1249,11 @@ packages:
   /@eslint/js/8.42.0:
     resolution: {integrity: sha512-6SWlXpWU5AvId8Ac7zjzmIOqMOba/JWY8XZ4A7q7Gn1Vlfg/SFFIlrtHXt9nPn4op9ZPAkl91Jao+QQv3r/ukw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  /@faker-js/faker/8.0.2:
+    resolution: {integrity: sha512-Uo3pGspElQW91PCvKSIAXoEgAUlRnH29sX2/p89kg7sP1m2PzCufHINd0FhTXQf6DYGiUlVncdSPa2F9wxed2A==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: false
 
   /@graphql-codegen/add/4.0.1_graphql@16.6.0:
     resolution: {integrity: sha512-A7k+9eRfrKyyNfhWEN/0eKz09R5cp4XXxUuNLQAVm/aohmVI2xdMV4lM02rTlM6Pyou3cU/v0iZnhgo6IRpqeg==}
