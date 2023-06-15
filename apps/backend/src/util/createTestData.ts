@@ -1,9 +1,10 @@
 import { prisma } from "../prisma";
 import { faker } from '@faker-js/faker';
+import * as modules from './testData/modules.json';
 
 export const createGeneralTestData = async () => {
 	// creating how am i phrases for the user
-	const howAmIPhrases = Array.from({length: 20}).map(() => {
+	const howAmIPhrases = [...Array(5)].map(() => {
 		return {
 			id: faker.string.uuid(),
 			phrase: [...Array(5)].map(() => faker.word.sample()).join(" "),
@@ -15,7 +16,7 @@ export const createGeneralTestData = async () => {
 	});
 
 	// creating brand words for the user
-	const brandWords = Array.from({length: 20}).map(() => {
+	const brandWords = [...Array(5)].map(() => {
 		return {
 			id: faker.string.uuid(),
 			word: faker.word.sample(),
@@ -24,6 +25,19 @@ export const createGeneralTestData = async () => {
 
 	await prisma.brandWords.createMany({
 		data: brandWords,
+	});
+
+	const modulesToInsert = modules.map((module) => {
+		return {
+			id: faker.string.uuid(),
+			name: `${module.tag} : ${module.name}`,
+			year: faker.number.int({min: 1, max: 4}).toString(),
+		};
+	});
+
+	// inserting modules into the database
+	await prisma.modules.createMany({
+		data: modulesToInsert,
 	});
 };
 
