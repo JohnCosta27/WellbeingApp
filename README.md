@@ -20,3 +20,4 @@ We are using firebase, and firebase emulators to locally develop.
 
 - [ ] The user needs to have 1 brand without a date, the system should just select the most recent one in the case they have 1 brand with a date.
 - [ ] The Ibrands need to allow more only 1 of each brand to be selected (maybe with a count?) this will make the word cloud better!
+- [ ] Mental Energy vertical scaling issue on how page.
