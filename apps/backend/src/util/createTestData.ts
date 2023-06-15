@@ -59,6 +59,8 @@ export const createUserTestData = async () => {
 	// creating mental energy entries for the user
 	const mentalEnergies = [...Array(15)].reduce((acc, _) => {
 		const lastAcc = (acc.length > 0 ? acc[acc.length - 1].level : faker.number.float({min: 0, max: 1}));
+		// last date is the last date + 1 day, or 15 days ago if it's the first entry
+		const lastDate = (acc.length > 0 ? acc[acc.length - 1].date : new Date(Date.now() - 15 * 24 * 60 * 60 * 1000));
 		acc.push({
 			id: faker.string.uuid(),
 			user_id: user.id,
@@ -67,7 +69,10 @@ export const createUserTestData = async () => {
 				min: lastAcc - 0.1, 
 				max: lastAcc + 0.1
 			}),
-			date: faker.date.recent({days: 30}),
+			date: faker.date.between({
+				from: lastDate.getTime() + (6 * 60 * 60 * 1000), // from 6 hours after the last date
+				to: lastDate.getTime() + (1 * 24 * 60 * 60 * 1000) // to 1 day after the last date
+			}),
 		});
 		return acc;
 	}, []);
