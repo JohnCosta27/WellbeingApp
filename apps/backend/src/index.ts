@@ -402,13 +402,6 @@ const setupTestData = async () => {
   for(let i = 0; i < 10; i++) {
     await createUserTestData();
   }
-  await prisma.users.create({
-    data: {
-      email: "test@test.test",
-      password: "1427baf8dd99aa0505a8591d82d2cac18d03d3108f6028499d4d4392fdeafc9cf4422228334e5e13ee34794b9e415ee742cfb14ec5d11547b3cf1cf88fa485d0",
-      password_salt: "hOp92qeW8McE6ms1RTj340MNxujK33eC0utl6295EVCpv913TKM062DNgGMVgAvRAafGl4VkmsPwYxZhHBioDkvW1XFpq11f5qlnnKwd4UsPzxJO8dNykkcLYCH35dbn",
-    }
-  });
 }
 
 setupTestData();
