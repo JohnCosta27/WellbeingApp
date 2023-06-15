@@ -81,15 +81,18 @@ export const EnergyChart: FC<EnergyChartProps> = ({
   );
 };
 
-function chartLabel(value: string | number): string | number {
+function chartLabel(value: string | number): string {
   if (value === 1) {
     return "Awesome";
   }
   if (value === 0) {
     return "Need help";
   }
-  if (value > 1) {
+  if(typeof value === "string") {
+    value = parseFloat(value);
+  }
+  if (value > 1 || value < 0) {
     return "";
   }
-  return value;
+  return `${value*100}%`;
 }
