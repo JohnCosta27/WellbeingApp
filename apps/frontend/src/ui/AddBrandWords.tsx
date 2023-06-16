@@ -21,28 +21,26 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   });
 
   return (
-    <div className="h-full">
+    <div className="h-full grid gap-2 grid-cols-1">
       <div className="grid grid-cols-2 gap-2 auto-rows-min overflow-y-auto">
         {brandWords.map((w) => (
           <button
             key={w.id}
             type="button"
-            className="rounded bg-primary shadow-md h-12 text-xl"
+            className="btn btn-primary"
             onClick={() => onAddWord(w.id)}
           >
             {w.word}
           </button>
         ))}
       </div>
-      <div>
-        <button
-          type="button"
-          className="btn mt-auto"
-          onClick={() => addWholeBrandMutation()}
-        >
-          Save Brand
-        </button>
-      </div>
+      <button
+        type="button"
+        className="btn btn-secondary w-full"
+        onClick={() => addWholeBrandMutation()}
+      >
+        Save Brand
+      </button>
     </div>
   );
 };
