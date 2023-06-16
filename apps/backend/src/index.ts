@@ -104,11 +104,13 @@ const resolvers: Resolvers<Context> = {
           words: currentBrand.brand_word_entries.map((w) => ({
             id: w.brand_word.id,
             word: w.brand_word.word,
+            brand_size: w.brand_size,
           })),
           pastBrand: pastBrands.map((b) => ({
             words: b.brand_word_entries.map((w) => ({
               id: w.brand_word.id,
               word: w.brand_word.word,
+              brand_size: w.brand_size,
             })),
             date: b.date_saved?.getTime() || new Date().getTime(),
           })),
@@ -248,6 +250,7 @@ const resolvers: Resolvers<Context> = {
           data: {
             brand_id: activeBrand[0].id,
             brand_word_id: wordId,
+            brand_size: 0.5,// TODO: set the brand size to the user specified value
           },
         });
       } catch (err) {
