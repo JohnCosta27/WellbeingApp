@@ -73,13 +73,6 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
 
   return (
     <>
-      {energyAverage && (
-        <>
-          <p className="text-md text-info-content">
-            {!loading && getMessage(energyAverage)}
-          </p>
-        </>
-      )}
       <div className="my-2">{getEnergyComponent()}</div>
       <div className="mt-auto w-full">
         <button
