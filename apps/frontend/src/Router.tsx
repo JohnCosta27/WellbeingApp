@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { ProtectedRoute, Login, Register } from "./Auth";
 import { DashboardLayout } from "./DashboardLayout";
-import { HowDashboard } from "./HowDashboard";
+import { HowDashboard } from "./HowDashboard/";
 import { MyProgress } from "./MyProgress";
 import { WhoDashboard } from "./WhoDashboard";
 
