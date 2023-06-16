@@ -71,7 +71,7 @@ export const PhrasesTable: FC<PhrasesTable> = ({ phrases }) => {
         Previous
       </button>
       <span>
-        {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+        {table.getState().pagination.pageIndex + 1} of {(table.getPageCount() < 1) ? 1 : table.getPageCount()}
       </span>
       <button
         type="button"
