@@ -12,9 +12,11 @@ import {
   EnergyChart,
   MentalEnergy as UIMentalEnergy,
   WellnessCheck,
-} from "./ui";
-import { isToday } from "./isToday";
-import { QuickHelp } from "./MyProgress/QuickHelp";
+} from "../ui";
+import { isToday } from "../isToday";
+import { QuickHelp } from "../MyProgress/QuickHelp";
+import { YourStats } from "./YourStats";
+import { getLast7DaysEnergy } from "../utils/misc";
 
 export const HowDashboard: FC = () => {
   const { data, loading } = useCurrentUserQuery();
@@ -63,14 +65,14 @@ export const HowDashboard: FC = () => {
           feeling
         </h4>
       </div>
-      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 ">
         <Card title="Your stats" className="col-span-2 lg:col-span-1">
-          This is a place to display the average stats
+          <YourStats sortedEnergy={sortedEnergy} />
         </Card>
         <Card
           title="Mental Energy"
           className="col-span-2 lg:col-span-1"
-          description="Update your mental energy every 6 hours, you can do this by using the slider."
+          description="Update your mental energy every 6 hours"
         >
           <UIMentalEnergy
             loading={loading}
@@ -109,7 +111,7 @@ export const HowDashboard: FC = () => {
         </Card>
         <Card
           title="Energy Level Graph"
-          className="row-span-2 col-span-2 overflow-x-auto"
+          className="row-span-2 col-span-2 overflow-x-auto h-[50vh]"
         >
           <div className="w-full h-full min-w-[700px]">
             {data && (
@@ -128,8 +130,3 @@ export const HowDashboard: FC = () => {
     </div>
   );
 };
-
-function getLast7DaysEnergy(energies: MentalEnergy[]): number | undefined {
-  if (energies.length === 0) return undefined;
-  return energies.reduce((p, n) => p + n.level, 0) / energies.length;
-}
