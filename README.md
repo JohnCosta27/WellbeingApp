@@ -30,7 +30,7 @@ We are using firebase, and firebase emulators to locally develop.
     - [ ] graph tooltip modifications
     - [ ] time range selector?
 - [ ] CV stuff
-  - [ ] 
+  - [x] drawio mindmap example
 
 
 ## BUGS
