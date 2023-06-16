@@ -38,7 +38,7 @@ export const DashboardLayout: FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen bg-base-100 flex flex-col overflow-hidden">
+    <div className="w-full h-screen bg-base-100 flex flex-col">
       <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
         <div className="w-full flex items-center gap-4">
           <div className="flex md:hidden">
