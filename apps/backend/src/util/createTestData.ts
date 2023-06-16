@@ -59,6 +59,7 @@ export const createUserTestData = async () => {
 					brand_word_entries: {
 						create: {
 							id: faker.string.uuid(),
+							brand_size: faker.number.float({min: 0.2, max: 0.8}),
 							brand_word: {
 								create: {
 									id: faker.string.uuid(),
