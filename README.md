@@ -9,11 +9,17 @@ We are using firebase, and firebase emulators to locally develop.
 - [ ] Finish MyProgress page (Involves phone screen compatibility)
   - [ ] Refactoring into smaller components (Currently its in one big one)
   - [ ] Make it look nice, design wise (This will involve designing actual UI components).
+  - [ ] Make the module selector work! search/dropdown thing?
+  - [ ] Make the assignments work
 - [ ] Who Page
   - [ ] Make the past brands a bit nicer to look at.
+    - [ ] Have some brands bigger than others!
+    - [ ] Let people add their own brands
+    - [ ] Have better titles/lables for each brand
+  - [ ] have a professional/academic section
   - [ ] Make it obvious what each thing does.
 - [ ] How page
-  - [ ] Wellness check
+  - [ ] Wellness check 
     - [ ] Show the phrases
     - [ ] Let the user input their own phrases
     - [ ] submit the phrases to the database
@@ -23,6 +29,8 @@ We are using firebase, and firebase emulators to locally develop.
     - [ ] View all entries button move
     - [ ] graph tooltip modifications
     - [ ] time range selector?
+- [ ] CV stuff
+  - [ ] 
 
 
 ## BUGS
