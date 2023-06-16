@@ -13,7 +13,16 @@ We are using firebase, and firebase emulators to locally develop.
   - [ ] Make the past brands a bit nicer to look at.
   - [ ] Make it obvious what each thing does.
 - [ ] How page
-  - [ ] Wellness check, previous words design.
+  - [ ] Wellness check
+    - [ ] Show the phrases
+    - [ ] Let the user input their own phrases
+    - [ ] submit the phrases to the database
+  - [ ] Mental Energy graph
+    - [ ] Mobile scaling
+    - [ ] X axis labels
+    - [ ] View all entries button move
+    - [ ] graph tooltip modifications
+    - [ ] time range selector?
 
 
 ## BUGS
