@@ -59,7 +59,7 @@ export const DashboardLayout: FC = () => {
       <div className="w-full h-full flex">
         <div
           className={clsx(
-            "flex-col bg-white shadow-xl fixed h-screen md:relative transition-all z-10",
+            "flex-col bg-white shadow-xl fixed h-full md:relative transition-all z-10",
             !openSidebar ? "w-0" : "w-64"
           )}
         >
