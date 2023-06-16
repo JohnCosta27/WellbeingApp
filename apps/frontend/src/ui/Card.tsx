@@ -16,7 +16,7 @@ export const Card: FC<CardProps> = ({
 }) => (
   <div
     className={clsx(
-      "w-full h-full min-h-[250px] bg-white shadow-xl p-4 flex flex-col",
+      "w-full h-full bg-white shadow-xl p-4 flex flex-col min-h-fit",
       className
     )}
   >
