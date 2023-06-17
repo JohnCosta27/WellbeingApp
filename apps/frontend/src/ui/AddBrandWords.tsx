@@ -12,6 +12,10 @@ interface AddBrandWordsProps {
   onAddWord: (wordId: string) => void;
 }
 
+/**
+ * The Add Brand Words card.
+ * TODO: turn this into a combo box https://headlessui.com/react/combobox
+ */
 export const AddBrandWords: FC<AddBrandWordsProps> = ({
   brandWords,
   onAddWord,
