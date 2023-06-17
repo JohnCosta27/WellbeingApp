@@ -6,6 +6,7 @@
 type BrandWords {
   id: String!
   word: String!
+  brand_size: Float!
 }
 
 # Users current brand, they can save this brand

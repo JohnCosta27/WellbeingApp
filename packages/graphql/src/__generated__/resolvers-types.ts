@@ -26,6 +26,7 @@ export type Assignments = {
 
 export type BrandWords = {
   __typename?: 'BrandWords';
+  brand_size: Scalars['Float'];
   id: Scalars['String'];
   word: Scalars['String'];
 };
@@ -243,6 +244,7 @@ export type AssignmentsResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['BrandWords'] = ResolversParentTypes['BrandWords']> = {
+  brand_size?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   word?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -378,7 +380,7 @@ export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string, brand_size: number }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -388,7 +390,7 @@ export type HowAmIPhraseQuery = { __typename?: 'Query', howAmIPhrase: Array<{ __
 export type BrandWordsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BrandWordsQuery = { __typename?: 'Query', brandWords: Array<{ __typename?: 'BrandWords', id: string, word: string }> };
+export type BrandWordsQuery = { __typename?: 'Query', brandWords: Array<{ __typename?: 'BrandWords', id: string, word: string, brand_size: number }> };
 
 export type ModulesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -609,6 +611,7 @@ export const CurrentUserDocument = gql`
         words {
           id
           word
+          brand_size
         }
         date
       }
@@ -695,6 +698,7 @@ export const BrandWordsDocument = gql`
   brandWords {
     id
     word
+    brand_size
   }
 }
     `;
