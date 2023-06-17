@@ -7,6 +7,7 @@ import {
 } from "@wellbeing/graphql-types";
 import { FC, useEffect, useState } from "react";
 import { AddBrandWords, Card, IBrand } from "./ui";
+import PreviousBrands from "./ui/PreviousBrands";
 
 export const WhoDashboard: FC = () => {
   const { data } = useBrandWordsQuery();
@@ -76,6 +77,11 @@ export const WhoDashboard: FC = () => {
             </button>
           ))}
         </Card>
+        <PreviousBrands 
+          pastBrands={userBrandWords?.currentUser.brand.pastBrand}
+          setActiveBrand={setActiveBrand}
+          setIsPastBrand={setIsPastBrand}
+        />
       </div>
     </div>
   );
