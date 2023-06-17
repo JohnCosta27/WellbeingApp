@@ -112,8 +112,8 @@ export const nukeDatabase = async () => {
 	await prisma.brandWords.deleteMany({});
 	await prisma.brand.deleteMany({});
 	
-	await prisma.userModules.deleteMany({});
 	await prisma.assignments.deleteMany({});
+	await prisma.userModules.deleteMany({});
 	await prisma.modules.deleteMany({});
 
 	await prisma.mentalEnergy.deleteMany({});
