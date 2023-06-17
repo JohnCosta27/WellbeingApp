@@ -1,6 +1,10 @@
 import { BrandWords, PastUserBrand } from "@wellbeing/graphql-types";
 import { Card } from "./Card";
+import * as dayjs from 'dayjs';
+import * as relativeTime from 'dayjs/plugin/relativeTime';
 import { FC } from "react";
+
+dayjs.extend(relativeTime);
 
 type PreviousBrandsProps = {
 	pastBrands:  PastUserBrand[] | undefined;
@@ -13,7 +17,7 @@ const PreviousBrands = (props: PreviousBrandsProps) => {
 	return (
 		<Card title="Previous Brands" className="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-1 w-full col-span-3">
 			{/* If there are any past brands, list them here */}
-			{pastBrands?.map((b) => (
+			{pastBrands?.map((b, i) => (
 				<button
 					type="button"
 					key={b.date}
@@ -23,7 +27,7 @@ const PreviousBrands = (props: PreviousBrandsProps) => {
 						setIsPastBrand(true);
 					}}
 				>
-					{new Date(b.date!).toISOString()}
+					{`Brand ${i + 1}, posted ${dayjs(b.date).fromNow()}`}
 				</button>
 			))}
 		</Card>
