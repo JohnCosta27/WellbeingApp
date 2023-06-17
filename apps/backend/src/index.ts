@@ -402,12 +402,15 @@ function GetBadValueError(): GraphQLError {
 
 const setupTestData = async () => {
   await nukeDatabase();
+
+  await createGeneralTestData();
   for(let i = 0; i < 10; i++) {
     await createUserTestData();
   }
 }
 
-setupTestData();
+if(process.env.NUKE_DATABASE?.toLowerCase() === 'true') setupTestData();
+
 main();
 
 export default app;
