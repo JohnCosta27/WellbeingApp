@@ -36,7 +36,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  const [selected, setSelected] = useState(brandWords[0])
+  const [selectedWords, setSelectedWords] = useState<Set<BrandWords>>(new Set([brandWords[1]]));
   const [query, setQuery] = useState('')
 
   const filteredBrands =
@@ -47,11 +47,23 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
             .toLowerCase()
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, ''))
-        )
+        );
+
+  /**
+   * Toggles the selected state of a word.
+   */
+  const setSelected = (w: BrandWords) => {
+    if (selectedWords.has(w)) {
+      selectedWords.delete(w);
+    } else {
+      selectedWords.add(w);
+    }
+    setSelectedWords(selectedWords);
+  };
 
   return (
     <div className="w-72">
-      <Combobox value={selected} onChange={setSelected}>
+      <Combobox value={selectedWords} onChange={setSelected}>
         <div className="relative mt-1">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
@@ -79,6 +91,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                   Nothing found.
                 </div>
               ) : (
+                // TODO: the active state is not working, need to allow multiple selections
                 filteredBrands.map((w) => (
                   <Combobox.Option
                     key={w.id}
