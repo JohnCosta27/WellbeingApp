@@ -52,17 +52,19 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   /**
    * Toggles the selected state of a word.
    */
-  const setSelected = (w: BrandWords) => {
-    if (selectedWords.has(w)) {
-      selectedWords.delete(w);
-    } else {
-      selectedWords.add(w);
+  const setSelected = (w: Set<BrandWords>) => {
+    for(let word of w) {
+      if (selectedWords.has(word)) {
+        selectedWords.delete(word);
+      } else {
+        selectedWords.add(word);
+      }
     }
     setSelectedWords(selectedWords);
   };
 
   return (
-    <div className="w-72">
+    <div className="w-full">
       <Combobox value={selectedWords} onChange={setSelected}>
         <div className="relative mt-1">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
