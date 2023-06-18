@@ -78,6 +78,7 @@ importers:
     specifiers:
       '@apollo/client': ^3.7.10
       '@headlessui/react': ^1.7.14
+      '@heroicons/react': ^2.0.18
       '@tanstack/react-table': ^8.8.5
       '@types/d3': ^7.4.0
       '@types/d3-cloud': ^1.2.5
@@ -123,6 +124,7 @@ importers:
     dependencies:
       '@apollo/client': 3.7.15_gdcq4dv6opitr3wbfwyjmanyra
       '@headlessui/react': 1.7.15_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.18_react@18.2.0
       '@tanstack/react-table': 8.9.2_biqbaboplfbrettd7655fr4n2y
       '@types/d3': 7.4.0
       '@types/d3-cloud': 1.2.5
@@ -1936,6 +1938,14 @@ packages:
       client-only: 0.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@heroicons/react/2.0.18_react@18.2.0:
+    resolution: {integrity: sha512-7TyMjRrZZMBPa+/5Y8lN0iyvUU/01PeMGX2+RE7cQWpEUIcb4QotzUObFkJDejj/HUH4qjP/eQ0gzzKs2f+6Yw==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.10:
