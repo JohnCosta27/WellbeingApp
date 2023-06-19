@@ -19,6 +19,8 @@ export const UserStats: FC<UserStatsProps> = ({
       <div className="stat">
         <div className="stat-title">Energy Average</div>
         <div className="stat-value text-secondary">{normalAverage}%</div>
+        {/** Zero-wdith space to make the container look the same vertically as the one below it */}
+        <div className="stat-desc text-lg"> {"\u200B"}</div>
       </div>
 
       <div className="stat">
