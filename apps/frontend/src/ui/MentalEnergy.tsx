@@ -10,7 +10,6 @@ const SIX_HOURS = 6 * 60 * 60 * 1000;
 
 interface MentalEnergyProps {
   loading: boolean;
-  energyAverage: number | undefined;
   lastEnergyTime: number;
 
   energies: Array<MentalEnergyType>;
@@ -20,7 +19,6 @@ interface MentalEnergyProps {
 
 export const MentalEnergy: FC<MentalEnergyProps> = ({
   loading,
-  energyAverage,
   lastEnergyTime,
   energies,
   onEnergySubmit,
@@ -73,25 +71,6 @@ export const MentalEnergy: FC<MentalEnergyProps> = ({
 
   return (
     <>
-      {energyAverage && (
-        <>
-          <div className="w-full flex justify-between">
-            <span className="font-bold">Last 7 Days:</span>
-            <span className="text-secondary text-bold text-lg">
-              {Math.floor(energyAverage * 100)}%
-            </span>
-          </div>
-          <div className="w-full flex justify-between">
-            <span className="font-bold">Average:</span>
-            <span className="text-secondary text-bold text-lg">
-              {Math.floor(energyAverage * 100)}%
-            </span>
-          </div>
-          <p className="text-md text-info-content">
-            {!loading && getMessage(energyAverage)}
-          </p>
-        </>
-      )}
       <div className="my-2">{getEnergyComponent()}</div>
       <div className="mt-auto w-full">
         <button

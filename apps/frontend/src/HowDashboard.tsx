@@ -11,6 +11,7 @@ import {
   Card,
   EnergyChart,
   MentalEnergy as UIMentalEnergy,
+  UserStats,
   WellnessCheck,
 } from "./ui";
 import { isToday } from "./isToday";
@@ -62,9 +63,13 @@ export const HowDashboard: FC = () => {
           feeling
         </h4>
       </div>
-      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
+      <div className="w-full grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
         <Card title="Your stats" className="col-span-2 lg:col-span-1">
           This is a place to display the average stats
+          <UserStats
+            sevenDayAverage={50}
+            normalAverage={energyAverage ? energyAverage * 100 : 0}
+          />
         </Card>
         <Card
           title="Mental Energy"
@@ -73,7 +78,6 @@ export const HowDashboard: FC = () => {
         >
           <UIMentalEnergy
             loading={loading}
-            energyAverage={energyAverage}
             lastEnergyTime={lastEnergyTime}
             energies={data?.currentUser.mentalEnergy ?? []}
             onEnergySubmit={(energy) =>
@@ -88,7 +92,7 @@ export const HowDashboard: FC = () => {
         <Card
           title="Wellness Check"
           description="A way to describe your wellbeing using common words, you can add 3 of them every day, and we'll help you by providing resources that may help."
-          className="row-span-2 col-span-2 lg:col-span-1"
+          className="row-span-2 col-span-2 xl:col-span-1"
         >
           <WellnessCheck
             lastWords={lastWords}

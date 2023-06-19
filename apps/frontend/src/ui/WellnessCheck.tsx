@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { HowAmIPhrase, UserHowAmIPhrase } from "@wellbeing/graphql-types";
 import clsx from "clsx";
 import { FC, useState } from "react";
@@ -34,12 +35,18 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
   const canSubmit = (leftToSubmit > 0 && selectedWords.length < 3) || true;
   return (
     <>
-      <span className="font-bold">Last 3 words</span>
-      <ul className="list-disc px-4">
-        {lastWords.slice(0, 3).map((w) => (
-          <li key={w.date}>{w.phrase.phrase}</li>
+      <span className="font-bold text-xl">Last few words</span>
+      <span className="text-lg">The latest words you submitted</span>
+      <div className="list-disc grid grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-1">
+        {lastWords.slice(0, 4).map((w) => (
+          <div
+            key={w.date}
+            className="rounded shadow-lg bg-accent text-white flex text-center justify-center items-center h-12 text-xl"
+          >
+            {w.phrase.phrase}
+          </div>
         ))}
-      </ul>
+      </div>
       <hr className="my-4" />
       <span className="text-lg">Most popular phrases</span>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-1 gap-y-2 overflow-y-auto h-full auto-rows-min">
@@ -56,7 +63,7 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
                 ? "bg-primary-focus border-primary-content border-2"
                 : "bg-primary border-primary border-0"
             )}
-	    // @ts-ignore
+            // @ts-ignore
             {...(!canSubmit && { disabled: true })}
             onClick={() => {
               if (canSubmit) {
