@@ -6,6 +6,7 @@ export * from "./WellnessCheck";
 export * from "./IBrand";
 export * from "./AddBrandWords";
 export * from "./Dialog";
+export * from "./UserStats";
 
 export * from "./table/Table";
 export * from "./table/MentalEnergyTable";
