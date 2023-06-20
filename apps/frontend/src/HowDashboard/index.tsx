@@ -16,10 +16,7 @@ import {
 
 import { QuickHelp } from "../MyProgress/QuickHelp";
 import { YourStats } from "./YourStats";
-import { 
-  getLast7DaysEnergy, 
-  isToday 
-} from "../utils";
+import { getLast7DaysEnergy, isToday } from "../utils";
 
 export const HowDashboard: FC = () => {
   const { data, loading } = useCurrentUserQuery();

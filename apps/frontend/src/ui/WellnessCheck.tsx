@@ -56,7 +56,7 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
                 ? "bg-primary-focus border-primary-content border-2"
                 : "bg-primary border-primary border-0"
             )}
-	    // @ts-ignore
+            // @ts-ignore
             {...(!canSubmit && { disabled: true })}
             onClick={() => {
               if (canSubmit) {
