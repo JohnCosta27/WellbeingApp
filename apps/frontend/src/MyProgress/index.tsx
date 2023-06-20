@@ -12,7 +12,7 @@ import {
   useModulesQuery,
 } from "@wellbeing/graphql-types";
 import { FC, useCallback, useState } from "react";
-import { Card } from "./ui";
+import { Card } from "../ui";
 
 export const MyProgress: FC = () => {
   const user = useCurrentUserQuery();

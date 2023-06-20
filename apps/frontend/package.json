@@ -21,6 +21,7 @@
     "d3": "^7.8.4",
     "d3-cloud": "^1.2.5",
     "daisyui": "^2.51.2",
+    "dayjs": "^1.11.8",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -32,8 +33,10 @@
     "react-chartjs-2": "^5.2.0",
     "react-d3-cloud": "^1.0.6",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.9.0",
     "react-router": "^6.8.2",
     "react-router-dom": "^6.8.2",
+    "relativeTime": "link:dayjs/plugin/relativeTime",
     "tailwindcss": "^3.2.7"
   },
   "devDependencies": {
@@ -41,15 +44,18 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.60.0",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^34.0.1",
     "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.32.2",
     "postcss": "^8.4.21",
+    "prettier": "^2.8.8",
     "typescript": "^4.9.5",
     "vite": "^4.1.0"
   }

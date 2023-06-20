@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { Auth } from "@wellbeing/graphql-types";
 
+if(import.meta.env.VITE_BACKEND_URL === undefined) throw new Error("VITE_BACKEND_URL is undefined, define it in .env file");
+
 const axiosClient = axios.create({
   baseURL: `${window.location.protocol}//${import.meta.env.VITE_BACKEND_URL}`,
   timeout: 5000,

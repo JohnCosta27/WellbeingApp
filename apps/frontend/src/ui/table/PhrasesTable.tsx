@@ -61,6 +61,7 @@ export const PhrasesTable: FC<PhrasesTable> = ({ phrases }) => {
 
   return (
     <>
+    <div className="flex gap-2 items-center mb-2">
       <button
         type="button"
         className="btn btn-primary"
@@ -70,7 +71,7 @@ export const PhrasesTable: FC<PhrasesTable> = ({ phrases }) => {
         Previous
       </button>
       <span>
-        {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+        {table.getState().pagination.pageIndex + 1} of {(table.getPageCount() < 1) ? 1 : table.getPageCount()}
       </span>
       <button
         type="button"
@@ -80,6 +81,8 @@ export const PhrasesTable: FC<PhrasesTable> = ({ phrases }) => {
       >
         Next
       </button>
+    </div>
+
       <Table
         header={table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>

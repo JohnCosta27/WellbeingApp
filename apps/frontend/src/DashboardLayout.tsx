@@ -38,7 +38,7 @@ export const DashboardLayout: FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen bg-base-100 flex flex-col overflow-hidden">
+    <div className="w-full h-screen bg-base-100 flex flex-col">
       <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
         <div className="w-full flex items-center gap-4">
           <div className="flex md:hidden">
@@ -59,16 +59,20 @@ export const DashboardLayout: FC = () => {
       <div className="w-full h-full flex">
         <div
           className={clsx(
-            "flex-col bg-white shadow-xl fixed h-screen md:relative transition-all z-10",
+            "flex-col bg-white shadow-xl fixed h-full md:relative transition-all z-10",
             !openSidebar ? "w-0" : "w-64"
           )}
         >
           {openSidebar && (
             <>
+            <div className="grid m-1">
               <TopbarItem onNav="/who">Who</TopbarItem>
               <TopbarItem onNav="/how">How</TopbarItem>
               <TopbarItem onNav="/how">What</TopbarItem>
               <TopbarItem onNav="/progress">Progress</TopbarItem>
+              <TopbarItem onNav="/mycv">My CV</TopbarItem>
+            </div>
+              
             </>
           )}
         </div>
@@ -90,7 +94,7 @@ interface TopBarItemProps {
 export const TopbarItem: FC<TopBarItemProps> = ({ onNav, children }) => (
   <Link
     to={onNav}
-    className="w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-primary-content rounded-xl transition-all"
+    className="w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-neutral-focus rounded-md transition-all"
   >
     {children}
   </Link>

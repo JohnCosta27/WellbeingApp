@@ -7,6 +7,7 @@ import {
 } from "@wellbeing/graphql-types";
 import { FC, useEffect, useState } from "react";
 import { AddBrandWords, Card, IBrand } from "./ui";
+import PreviousBrands from "./ui/PreviousBrands";
 
 export const WhoDashboard: FC = () => {
   const { data } = useBrandWordsQuery();
@@ -62,20 +63,11 @@ export const WhoDashboard: FC = () => {
             }}
           />
         </Card>
-        <Card title="Placeholder" className="col-span-3">
-          {userBrandWords?.currentUser.brand.pastBrand.map((b) => (
-            <button
-              type="button"
-              key={b.date}
-              onClick={() => {
-                setActiveBrand(b.words);
-                setIsPastBrand(true);
-              }}
-            >
-              {new Date(b.date!).toISOString()}
-            </button>
-          ))}
-        </Card>
+        <PreviousBrands
+          pastBrands={userBrandWords?.currentUser.brand.pastBrand}
+          setActiveBrand={setActiveBrand}
+          setIsPastBrand={setIsPastBrand}
+        />
       </div>
     </div>
   );

@@ -21,6 +21,7 @@ import { verifyJwt } from "./util/jwt";
 import { GraphQLError } from "graphql";
 import { prisma } from "./prisma";
 import winston from "winston";
+import { createUserTestData, createGeneralTestData, nukeDatabase } from "./util/createTestData";
 
 const file = fs.readFileSync(
   path.join(__dirname, "../../../packages/graphql/schema.graphql"),
@@ -247,6 +248,7 @@ const resolvers: Resolvers<Context> = {
           data: {
             brand_id: activeBrand[0].id,
             brand_word_id: wordId,
+            brand_size: 0.5,// TODO: set the brand size to the user specified value
           },
         });
       } catch (err) {
@@ -345,8 +347,7 @@ app.use((req, _res, next) => {
   logger.info(`${req.method} ${req.url}`);
   next();
 });
-
-(async () => {
+const main = async () => {
   await server.start();
   app.use(
     "/graphql",
@@ -372,7 +373,7 @@ app.use((req, _res, next) => {
   app.listen(process.env.PORT || 3030, () => {
     console.log("Server running");
   });
-})();
+};
 
 function GetAuthorizedError(): GraphQLError {
   return new GraphQLError("User is authorizated", {
@@ -395,3 +396,19 @@ function GetBadValueError(): GraphQLError {
     },
   });
 }
+
+
+const setupTestData = async () => {
+  await nukeDatabase();
+
+  await createGeneralTestData();
+  for(let i = 0; i < 10; i++) {
+    await createUserTestData();
+  }
+}
+
+if(process.env.NUKE_DATABASE?.toLowerCase() === 'true') setupTestData();
+
+main();
+
+export default app;
