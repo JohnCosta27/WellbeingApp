@@ -63,7 +63,7 @@ export const WhoDashboard: FC = () => {
             }}
           />
         </Card>
-        <PreviousBrands 
+        <PreviousBrands
           pastBrands={userBrandWords?.currentUser.brand.pastBrand}
           setActiveBrand={setActiveBrand}
           setIsPastBrand={setIsPastBrand}

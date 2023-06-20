@@ -104,13 +104,11 @@ const resolvers: Resolvers<Context> = {
           words: currentBrand.brand_word_entries.map((w) => ({
             id: w.brand_word.id,
             word: w.brand_word.word,
-            brand_size: w.brand_size,
           })),
           pastBrand: pastBrands.map((b) => ({
             words: b.brand_word_entries.map((w) => ({
               id: w.brand_word.id,
               word: w.brand_word.word,
-              brand_size: w.brand_size,
             })),
             date: b.date_saved?.getTime() || new Date().getTime(),
           })),

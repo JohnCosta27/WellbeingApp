@@ -1,7 +1,7 @@
 import { HowAmIPhrase, UserHowAmIPhrase } from "@wellbeing/graphql-types";
 import clsx from "clsx";
 import { FC, useState } from "react";
-import { timeUntilEndOfDay } from "../isToday";
+import { timeUntilEndOfDay } from "../utils";
 import { Countdown } from "./Countdown";
 import { Dialog } from "./Dialog";
 import { PhrasesTable } from "./table/PhrasesTable";
@@ -56,7 +56,7 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
                 ? "bg-primary-focus border-primary-content border-2"
                 : "bg-primary border-primary border-0"
             )}
-	    // @ts-ignore
+            // @ts-ignore
             {...(!canSubmit && { disabled: true })}
             onClick={() => {
               if (canSubmit) {

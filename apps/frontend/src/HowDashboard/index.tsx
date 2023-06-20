@@ -13,10 +13,10 @@ import {
   MentalEnergy as UIMentalEnergy,
   WellnessCheck,
 } from "../ui";
-import { isToday } from "../isToday";
+
 import { QuickHelp } from "../MyProgress/QuickHelp";
 import { YourStats } from "./YourStats";
-import { getLast7DaysEnergy } from "../utils/misc";
+import { getLast7DaysEnergy, isToday } from "../utils";
 
 export const HowDashboard: FC = () => {
   const { data, loading } = useCurrentUserQuery();
