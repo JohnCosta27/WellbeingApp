@@ -2,7 +2,6 @@ import { BrandWords, PastUserBrand } from "@wellbeing/graphql-types";
 import { Card } from "./Card";
 import * as dayjs from 'dayjs';
 import * as relativeTime from 'dayjs/plugin/relativeTime';
-import { FC } from "react";
 
 dayjs.extend(relativeTime);
 

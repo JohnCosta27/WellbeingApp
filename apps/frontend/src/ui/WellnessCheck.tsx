@@ -1,7 +1,7 @@
 import { HowAmIPhrase, UserHowAmIPhrase } from "@wellbeing/graphql-types";
 import clsx from "clsx";
 import { FC, useState } from "react";
-import { timeUntilEndOfDay } from "../isToday";
+import { timeUntilEndOfDay } from "../utils";
 import { Countdown } from "./Countdown";
 import { Dialog } from "./Dialog";
 import { PhrasesTable } from "./table/PhrasesTable";
