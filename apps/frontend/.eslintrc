@@ -29,6 +29,7 @@
     "import/extensions": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "react/require-default-props": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }
