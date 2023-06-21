@@ -14,6 +14,8 @@ interface AddBrandWordsProps {
   onAddWord: (wordId: string) => void;
 }
 
+const RANGE_MAX = 10000;
+
 /**
  * The Add Brand Words card.
  * This allows the user to search and add new brand words to their 'ibrand'.
@@ -94,13 +96,33 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                           {w.word}
                         </span>
                         {selected ? (
-                          <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? "text-white" : "text-teal-600"
-                            }`}
-                          >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
+                          <div>
+                            <div className="absolute inset-y-0 right-5 flex items-center pl-3">
+                              <input
+                                type="range"
+                                className="range range-accent z-10"
+                                max={RANGE_MAX}
+                                min={0}
+                                step={1}
+                                value={0.5}
+                                onMouseDown={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                }}
+                                onChange={(e) => console.log(e.target.value)}
+                              />
+                            </div>
+                            <span
+                              className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                active ? "text-white" : "text-teal-600"
+                              }`}
+                            >
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          </div>
                         ) : null}
                       </>
                     )}
