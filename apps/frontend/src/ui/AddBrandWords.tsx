@@ -51,9 +51,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(words) =>
-                (words as BrandWords[]).map((w) => w.word).join(", ")
-              }
+              placeholder="Search for a brand word"
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -76,7 +74,6 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                   Nothing found.
                 </div>
               ) : (
-                // TODO: the active state is not working, need to allow multiple selections
                 filteredBrands.map((w) => (
                   <Combobox.Option
                     key={w.id}
