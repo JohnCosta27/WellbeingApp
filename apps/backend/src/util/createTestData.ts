@@ -59,7 +59,6 @@ export const createUserTestData = async () => {
 					brand_word_entries: {
 						create: {
 							id: faker.string.uuid(),
-							brand_size: faker.number.float({min: 0.2, max: 0.8}),
 							brand_word: {
 								create: {
 									id: faker.string.uuid(),
@@ -80,13 +79,16 @@ export const createUserTestData = async () => {
 		const lastAcc = (acc.length > 0 ? acc[acc.length - 1].level : faker.number.float({min: 0, max: 1}));
 		// last date is the last date + 1 day, or 15 days ago if it's the first entry
 		const lastDate = (acc.length > 0 ? acc[acc.length - 1].date : new Date(Date.now() - 15 * 24 * 60 * 60 * 1000));
+
+		const min = lastAcc - 0.1;
+		const max = lastAcc + 0.1;
 		acc.push({
 			id: faker.string.uuid(),
 			user_id: user.id,
 			// the level should be the last level +/- 0.05, but not less than 0 or more than 1
 			level: faker.number.float({
-				min: lastAcc - 0.1, 
-				max: lastAcc + 0.1
+				min: min < 0 ? 0 : min, 
+				max: max > 1 ? 1 : max
 			}),
 			date: faker.date.between({
 				from: lastDate.getTime() + (6 * 60 * 60 * 1000), // from 6 hours after the last date
