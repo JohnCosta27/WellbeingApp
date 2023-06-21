@@ -7,15 +7,6 @@ import { FC, Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
-const people = [
-  { id: 1, name: "Wade Cooper" },
-  { id: 2, name: "Arlene Mccoy" },
-  { id: 3, name: "Devon Webb" },
-  { id: 4, name: "Tom Cook" },
-  { id: 5, name: "Tanya Fox" },
-  { id: 6, name: "Hellen Schmidt" },
-];
-
 interface AddBrandWordsProps {
   /** First element of tuple is the ID of the word */
   brandWords: Array<BrandWords>;
@@ -36,9 +27,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   });
 
   // sets the brand word to the first word in the list
-  const [selectedWords, setSelectedWords] = useState<Set<BrandWords>>(
-    new Set([brandWords[0]])
-  );
+  const [selectedWords, setSelectedWords] = useState<BrandWords[]>([]);
 
   // the query string for the search
   const [query, setQuery] = useState("");
@@ -54,30 +43,17 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
-  /**
-   * Toggles the selected state of a word.
-   */
-  const setSelected = (w: Set<BrandWords>) => {
-    const newSelectedWords = new Set(w);
-    w.forEach((word) => {
-      if (newSelectedWords.has(word)) {
-        newSelectedWords.delete(word);
-      } else {
-        newSelectedWords.add(word);
-      }
-    });
-
-    setSelectedWords(newSelectedWords);
-  };
-
   return (
     <div className="w-full">
-      <Combobox value={selectedWords} onChange={setSelected}>
+      {/** Why is multiple not valid? */}
+      <Combobox value={selectedWords} onChange={setSelectedWords} multiple>
         <div className="relative mt-1">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(w) => (w as BrandWords).word}
+              displayValue={(words) =>
+                (words as BrandWords[]).map((w) => w.word).join(", ")
+              }
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
