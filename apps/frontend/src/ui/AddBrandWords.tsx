@@ -25,7 +25,7 @@ interface AddBrandWordsProps {
 
 /**
  * The Add Brand Words card.
- * TODO: turn this into a combo box https://headlessui.com/react/combobox
+ * This allows the user to search and add new brand words to their 'ibrand'.
  */
 export const AddBrandWords: FC<AddBrandWordsProps> = ({
   brandWords,
@@ -35,11 +35,15 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
+  // sets the brand word to the first word in the list
   const [selectedWords, setSelectedWords] = useState<Set<BrandWords>>(
-    new Set([brandWords[1]])
+    new Set([brandWords[0]])
   );
+
+  // the query string for the search
   const [query, setQuery] = useState("");
 
+  // the filtered list of words, based on the query
   const filteredBrands =
     query === ""
       ? brandWords
