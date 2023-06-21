@@ -3,19 +3,18 @@ import {
   namedOperations,
   useAddWholeBrandMutation,
 } from "@wellbeing/graphql-types";
-import { FC } from "react";
-import { Fragment, useState } from 'react'
-import { Combobox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { FC, Fragment, useState } from "react";
+import { Combobox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const people = [
-  { id: 1, name: 'Wade Cooper' },
-  { id: 2, name: 'Arlene Mccoy' },
-  { id: 3, name: 'Devon Webb' },
-  { id: 4, name: 'Tom Cook' },
-  { id: 5, name: 'Tanya Fox' },
-  { id: 6, name: 'Hellen Schmidt' },
-]
+  { id: 1, name: "Wade Cooper" },
+  { id: 2, name: "Arlene Mccoy" },
+  { id: 3, name: "Devon Webb" },
+  { id: 4, name: "Tom Cook" },
+  { id: 5, name: "Tanya Fox" },
+  { id: 6, name: "Hellen Schmidt" },
+];
 
 interface AddBrandWordsProps {
   /** First element of tuple is the ID of the word */
@@ -36,31 +35,35 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  const [selectedWords, setSelectedWords] = useState<Set<BrandWords>>(new Set([brandWords[1]]));
-  const [query, setQuery] = useState('')
+  const [selectedWords, setSelectedWords] = useState<Set<BrandWords>>(
+    new Set([brandWords[1]])
+  );
+  const [query, setQuery] = useState("");
 
   const filteredBrands =
-    query === ''
+    query === ""
       ? brandWords
       : brandWords.filter((w) =>
           w.word
             .toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(query.toLowerCase().replace(/\s+/g, ''))
+            .replace(/\s+/g, "")
+            .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
   /**
    * Toggles the selected state of a word.
    */
   const setSelected = (w: Set<BrandWords>) => {
-    for(let word of w) {
-      if (selectedWords.has(word)) {
-        selectedWords.delete(word);
+    const newSelectedWords = new Set(w);
+    w.forEach((word) => {
+      if (newSelectedWords.has(word)) {
+        newSelectedWords.delete(word);
       } else {
-        selectedWords.add(word);
+        newSelectedWords.add(word);
       }
-    }
-    setSelectedWords(selectedWords);
+    });
+
+    setSelectedWords(newSelectedWords);
   };
 
   return (
@@ -85,10 +88,10 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            afterLeave={() => setQuery('')}
+            afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {brandWords.length === 0 && query !== '' ? (
+              {brandWords.length === 0 && query !== "" ? (
                 <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                   Nothing found.
                 </div>
@@ -99,7 +102,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                     key={w.id}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                        active ? "bg-teal-600 text-white" : "text-gray-900"
                       }`
                     }
                     value={w}
@@ -108,7 +111,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                       <>
                         <span
                           className={`block truncate ${
-                            selected ? 'font-medium' : 'font-normal'
+                            selected ? "font-medium" : "font-normal"
                           }`}
                         >
                           {w.word}
@@ -116,7 +119,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                         {selected ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? 'text-white' : 'text-teal-600'
+                              active ? "text-white" : "text-teal-600"
                             }`}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
@@ -132,10 +135,8 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
         </div>
       </Combobox>
     </div>
-  )
+  );
 };
-
-
 
 export const AddBrandWordsOld: FC<AddBrandWordsProps> = ({
   brandWords,
