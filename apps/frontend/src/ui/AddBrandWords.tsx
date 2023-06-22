@@ -30,7 +30,10 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  // sets the brand word to the first word in the list
+  /** The words that are currently selected
+   * Whenever a word is added/removed, this array should be modified 
+   * instead of calling onAddWord/onRemoveWord
+   */
   const [selectedWords, setSelectedWords] = useState<ListWord[]>([]);
 
   const prevSelectedWords = useRef<ListWord[]>([]);
@@ -169,46 +172,15 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
           <button
             type="submit"
             key={w.id}
-            onClick={() => onRemoveWord(w.id)}
-            className="btn-info btn "
+            onClick={() =>
+              setSelectedWords(selectedWords.filter((x) => x.id !== w.id))
+            }
+            className="btn-info btn cursor-no-drop"
           >
             {w.word}
           </button>
         ))}
       </div>
-    </div>
-  );
-};
-
-export const AddBrandWordsOld: FC<AddBrandWordsProps> = ({
-  brandWords,
-  onAddWord,
-}) => {
-  const [addWholeBrandMutation] = useAddWholeBrandMutation({
-    refetchQueries: [namedOperations.Query.CurrentUser],
-  });
-
-  return (
-    <div className="h-full grid gap-2 grid-cols-1">
-      <div className="grid grid-cols-2 gap-2 auto-rows-min overflow-y-auto">
-        {brandWords.map((w) => (
-          <button
-            key={w.id}
-            type="button"
-            className="btn btn-primary"
-            onClick={() => onAddWord(w.id)}
-          >
-            {w.word}
-          </button>
-        ))}
-      </div>
-      <button
-        type="button"
-        className="btn btn-secondary w-full"
-        onClick={() => addWholeBrandMutation()}
-      >
-        Save Brand
-      </button>
     </div>
   );
 };
