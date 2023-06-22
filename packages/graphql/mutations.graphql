@@ -13,6 +13,10 @@ mutation addBrandWord($addBrandWord: String!) {
   addBrandWord(wordId: $addBrandWord)
 }
 
+mutation removeBrandWord($removeBrandWord: String!) {
+  removeBrandWord(wordId: $removeBrandWord)
+}
+
 mutation addWholeBrand {
   addWholeBrand
 }

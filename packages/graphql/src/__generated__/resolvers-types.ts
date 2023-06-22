@@ -58,6 +58,7 @@ export type Mutation = {
   addMentalEnergy?: Maybe<MentalEnergy>;
   addModule?: Maybe<Scalars['Boolean']>;
   addWholeBrand?: Maybe<Scalars['Boolean']>;
+  removeBrandWord?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -85,6 +86,11 @@ export type MutationAddMentalEnergyArgs = {
 
 export type MutationAddModuleArgs = {
   moduleId: Scalars['String'];
+};
+
+
+export type MutationRemoveBrandWordArgs = {
+  wordId: Scalars['String'];
 };
 
 export type PastUserBrand = {
@@ -275,6 +281,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
   addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
 };
 
 export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
@@ -353,6 +360,13 @@ export type AddBrandWordMutationVariables = Exact<{
 
 
 export type AddBrandWordMutation = { __typename?: 'Mutation', addBrandWord?: boolean | null };
+
+export type RemoveBrandWordMutationVariables = Exact<{
+  removeBrandWord: Scalars['String'];
+}>;
+
+
+export type RemoveBrandWordMutation = { __typename?: 'Mutation', removeBrandWord?: boolean | null };
 
 export type AddWholeBrandMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -492,6 +506,37 @@ export function useAddBrandWordMutation(baseOptions?: Apollo.MutationHookOptions
 export type AddBrandWordMutationHookResult = ReturnType<typeof useAddBrandWordMutation>;
 export type AddBrandWordMutationResult = Apollo.MutationResult<AddBrandWordMutation>;
 export type AddBrandWordMutationOptions = Apollo.BaseMutationOptions<AddBrandWordMutation, AddBrandWordMutationVariables>;
+export const RemoveBrandWordDocument = gql`
+    mutation removeBrandWord($removeBrandWord: String!) {
+  removeBrandWord(wordId: $removeBrandWord)
+}
+    `;
+export type RemoveBrandWordMutationFn = Apollo.MutationFunction<RemoveBrandWordMutation, RemoveBrandWordMutationVariables>;
+
+/**
+ * __useRemoveBrandWordMutation__
+ *
+ * To run a mutation, you first call `useRemoveBrandWordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveBrandWordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeBrandWordMutation, { data, loading, error }] = useRemoveBrandWordMutation({
+ *   variables: {
+ *      removeBrandWord: // value for 'removeBrandWord'
+ *   },
+ * });
+ */
+export function useRemoveBrandWordMutation(baseOptions?: Apollo.MutationHookOptions<RemoveBrandWordMutation, RemoveBrandWordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveBrandWordMutation, RemoveBrandWordMutationVariables>(RemoveBrandWordDocument, options);
+      }
+export type RemoveBrandWordMutationHookResult = ReturnType<typeof useRemoveBrandWordMutation>;
+export type RemoveBrandWordMutationResult = Apollo.MutationResult<RemoveBrandWordMutation>;
+export type RemoveBrandWordMutationOptions = Apollo.BaseMutationOptions<RemoveBrandWordMutation, RemoveBrandWordMutationVariables>;
 export const AddWholeBrandDocument = gql`
     mutation addWholeBrand {
   addWholeBrand
@@ -772,6 +817,7 @@ export const namedOperations = {
     addMentalEnergy: 'addMentalEnergy',
     addHowAmIPhrase: 'addHowAmIPhrase',
     addBrandWord: 'addBrandWord',
+    removeBrandWord: 'removeBrandWord',
     addWholeBrand: 'addWholeBrand',
     addModule: 'addModule',
     addAssignment: 'addAssignment'
