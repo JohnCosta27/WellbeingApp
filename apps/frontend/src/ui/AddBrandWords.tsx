@@ -3,18 +3,19 @@ import {
   namedOperations,
   useAddWholeBrandMutation,
 } from "@wellbeing/graphql-types";
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useState, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
+type ListWord = BrandWords & { size?: number };
+
 interface AddBrandWordsProps {
   /** First element of tuple is the ID of the word */
-  brandWords: Array<BrandWords>;
+  brandWords: Array<ListWord>;
 
   onAddWord: (wordId: string) => void;
+  onRemoveWord: (wordId: string) => void;
 }
-
-const RANGE_MAX = 10000;
 
 /**
  * The Add Brand Words card.
@@ -23,13 +24,14 @@ const RANGE_MAX = 10000;
 export const AddBrandWords: FC<AddBrandWordsProps> = ({
   brandWords,
   onAddWord,
+  onRemoveWord,
 }) => {
   const [addWholeBrandMutation] = useAddWholeBrandMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
   // sets the brand word to the first word in the list
-  const [selectedWords, setSelectedWords] = useState<BrandWords[]>([]);
+  const [selectedWords, setSelectedWords] = useState<ListWord[]>([]);
 
   // the query string for the search
   const [query, setQuery] = useState("");
@@ -49,7 +51,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
     <div className="w-full">
       {/** Why is multiple not valid and why does this work? */}
       <Combobox value={selectedWords} onChange={setSelectedWords} multiple>
-        <div className="relative mt-1">
+        <div className="relative mt-1 z-10">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
@@ -101,15 +103,22 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                               <input
                                 type="range"
                                 className="range range-accent z-10"
-                                max={RANGE_MAX}
+                                max={1}
                                 min={0}
-                                step={1}
-                                value={0.5}
+                                step={0.01}
+                                value={Math.random()}
                                 onMouseDown={(e) => {
                                   e.stopPropagation();
                                   e.preventDefault();
                                 }}
-                                onChange={(e) => console.log(e.target.value)}
+                                onChange={(e) =>
+                                  setSelectedWords([
+                                    ...selectedWords.filter(
+                                      (x) => x.id === w.id
+                                    ),
+                                    { ...w, size: parseFloat(e.target.value) },
+                                  ])
+                                }
                               />
                             </div>
                             <span
@@ -133,6 +142,18 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
           </Transition>
         </div>
       </Combobox>
+      <div className="grid grid-cols-2 gap-2 auto-rows-min overflow-hidden mt-4">
+        {selectedWords.map((w) => (
+          <button
+            type="submit"
+            key={w.id}
+            onClick={() => onRemoveWord(w.id)}
+            className="btn-info btn "
+          >
+            {w.word}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
