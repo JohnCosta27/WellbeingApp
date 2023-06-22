@@ -26,6 +26,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   onAddWord,
   onRemoveWord,
 }) => {
+  // TODO: when this gets called, the words need to change accordingly
   const [addWholeBrandMutation] = useAddWholeBrandMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
@@ -73,7 +74,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
         );
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full relative">
       {/** Why is multiple not valid and why does this work? */}
       <Combobox value={selectedWords} onChange={setSelectedWords} multiple>
         <div className="relative mt-1 z-10">
@@ -181,6 +182,13 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
           </button>
         ))}
       </div>
+      <button
+        type="button"
+        className="btn btn-secondary w-full bottom-0 absolute"
+        onClick={() => addWholeBrandMutation()}
+      >
+        Save Brand
+      </button>
     </div>
   );
 };
