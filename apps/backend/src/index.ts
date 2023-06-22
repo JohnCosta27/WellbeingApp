@@ -256,6 +256,55 @@ const resolvers: Resolvers<Context> = {
       }
       return true;
     },
+    async removeBrandWord(_parent, { wordId }, context): Promise<boolean> {
+      try {
+        const activeBrand = await prisma.brand.findMany({
+          where: {
+            user_id: context.uuid,
+            date_saved: null,
+          },
+          include: {
+            brand_word_entries: {
+              include: {
+                brand_word: true,
+              },
+            },
+          },
+        });
+
+        if (activeBrand.length !== 1) {
+          throw new Error(
+            "User has more/less than 1 brand, user has: " + activeBrand.length
+          );
+        }
+        
+        if (
+          activeBrand[0].brand_word_entries.find(
+            (w) => w.brand_word.id !== wordId
+          )
+        ) {
+          throw new Error("User does not have this word");
+        }
+
+        const brandWordEntryID = activeBrand[0].brand_word_entries.find((w) => w.brand_word.id === wordId)?.id;
+
+        if(!brandWordEntryID) {
+          throw new Error("User does not have this word (brandWordEntryID is null)");
+        }
+
+        await prisma.brandWordEntry.delete({
+          where: {
+            id: brandWordEntryID,
+          },
+        });
+
+
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+      return true;
+    },
     async addModule(_parent, { moduleId }, context): Promise<boolean> {
       try {
         const existingModule = await prisma.userModules.findMany({
