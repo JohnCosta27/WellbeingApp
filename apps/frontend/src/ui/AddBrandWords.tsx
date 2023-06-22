@@ -3,7 +3,7 @@ import {
   namedOperations,
   useAddWholeBrandMutation,
 } from "@wellbeing/graphql-types";
-import { FC, Fragment, useState, useEffect } from "react";
+import { FC, Fragment, useState, useEffect, useRef } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
@@ -32,6 +32,28 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
 
   // sets the brand word to the first word in the list
   const [selectedWords, setSelectedWords] = useState<ListWord[]>([]);
+
+  const prevSelectedWords = useRef<ListWord[]>([]);
+
+  useEffect(() => {
+    // if the selected words have changed, then we need to see which words have been added/removed
+    // and then add/remove them from the brand
+    if (prevSelectedWords.current.length > selectedWords.length) {
+      // a word has been removed
+      const removedWord = prevSelectedWords.current.filter(
+        (w) => !selectedWords.includes(w)
+      )[0];
+      onRemoveWord(removedWord.id);
+    } else if (prevSelectedWords.current.length < selectedWords.length) {
+      // a word has been added
+      const addedWord = selectedWords.filter(
+        (w) => !prevSelectedWords.current.includes(w)
+      )[0];
+      onAddWord(addedWord.id);
+    }
+
+    prevSelectedWords.current = selectedWords;
+  }, [selectedWords]);
 
   // the query string for the search
   const [query, setQuery] = useState("");

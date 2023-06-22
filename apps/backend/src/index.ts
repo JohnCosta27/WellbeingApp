@@ -279,8 +279,8 @@ const resolvers: Resolvers<Context> = {
         }
         
         if (
-          activeBrand[0].brand_word_entries.find(
-            (w) => w.brand_word.id !== wordId
+          !activeBrand[0].brand_word_entries.find(
+            (w) => w.brand_word.id === wordId
           )
         ) {
           throw new Error("User does not have this word");
