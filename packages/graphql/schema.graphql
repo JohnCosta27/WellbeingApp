@@ -87,5 +87,6 @@ type Mutation {
   # Take the current active brand, and save it as a past brand
   addWholeBrand: Boolean
   addModule(moduleId: String!): Boolean
+  removeModule(moduleId: String!): Boolean
   addAssignment(moduleId: String!, name: String!, score: Float!): Boolean
 }

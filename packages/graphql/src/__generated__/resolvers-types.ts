@@ -58,6 +58,7 @@ export type Mutation = {
   addMentalEnergy?: Maybe<MentalEnergy>;
   addModule?: Maybe<Scalars['Boolean']>;
   addWholeBrand?: Maybe<Scalars['Boolean']>;
+  removeModule?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -84,6 +85,11 @@ export type MutationAddMentalEnergyArgs = {
 
 
 export type MutationAddModuleArgs = {
+  moduleId: Scalars['String'];
+};
+
+
+export type MutationRemoveModuleArgs = {
   moduleId: Scalars['String'];
 };
 
@@ -275,6 +281,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
   addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
 };
 
 export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
@@ -365,6 +372,13 @@ export type AddModuleMutationVariables = Exact<{
 
 
 export type AddModuleMutation = { __typename?: 'Mutation', addModule?: boolean | null };
+
+export type RemoveModuleMutationVariables = Exact<{
+  moduleId: Scalars['String'];
+}>;
+
+
+export type RemoveModuleMutation = { __typename?: 'Mutation', removeModule?: boolean | null };
 
 export type AddAssignmentMutationVariables = Exact<{
   moduleId: Scalars['String'];
@@ -553,6 +567,37 @@ export function useAddModuleMutation(baseOptions?: Apollo.MutationHookOptions<Ad
 export type AddModuleMutationHookResult = ReturnType<typeof useAddModuleMutation>;
 export type AddModuleMutationResult = Apollo.MutationResult<AddModuleMutation>;
 export type AddModuleMutationOptions = Apollo.BaseMutationOptions<AddModuleMutation, AddModuleMutationVariables>;
+export const RemoveModuleDocument = gql`
+    mutation removeModule($moduleId: String!) {
+  removeModule(moduleId: $moduleId)
+}
+    `;
+export type RemoveModuleMutationFn = Apollo.MutationFunction<RemoveModuleMutation, RemoveModuleMutationVariables>;
+
+/**
+ * __useRemoveModuleMutation__
+ *
+ * To run a mutation, you first call `useRemoveModuleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveModuleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeModuleMutation, { data, loading, error }] = useRemoveModuleMutation({
+ *   variables: {
+ *      moduleId: // value for 'moduleId'
+ *   },
+ * });
+ */
+export function useRemoveModuleMutation(baseOptions?: Apollo.MutationHookOptions<RemoveModuleMutation, RemoveModuleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveModuleMutation, RemoveModuleMutationVariables>(RemoveModuleDocument, options);
+      }
+export type RemoveModuleMutationHookResult = ReturnType<typeof useRemoveModuleMutation>;
+export type RemoveModuleMutationResult = Apollo.MutationResult<RemoveModuleMutation>;
+export type RemoveModuleMutationOptions = Apollo.BaseMutationOptions<RemoveModuleMutation, RemoveModuleMutationVariables>;
 export const AddAssignmentDocument = gql`
     mutation addAssignment($moduleId: String!, $name: String!, $score: Float!) {
   addAssignment(moduleId: $moduleId, name: $name, score: $score)
@@ -774,6 +819,7 @@ export const namedOperations = {
     addBrandWord: 'addBrandWord',
     addWholeBrand: 'addWholeBrand',
     addModule: 'addModule',
+    removeModule: 'removeModule',
     addAssignment: 'addAssignment'
   }
 }

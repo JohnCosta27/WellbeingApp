@@ -7,9 +7,7 @@
 import {
   namedOperations,
   useAddAssignmentMutation,
-  useAddModuleMutation,
   useCurrentUserQuery,
-  useModulesQuery,
 } from "@wellbeing/graphql-types";
 import { FC, useCallback, useState } from "react";
 import { Card } from "../ui";
@@ -26,10 +24,6 @@ export const MyProgress: FC = () => {
     undefined
   );
   const [subError, setSubError] = useState<string | undefined>(undefined);
-
-  const [addModule] = useAddModuleMutation({
-    refetchQueries: [namedOperations.Query.CurrentUser],
-  });
 
   const [addAssignment] = useAddAssignmentMutation({
     variables: {

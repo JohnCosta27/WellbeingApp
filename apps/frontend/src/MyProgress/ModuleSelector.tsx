@@ -3,11 +3,12 @@ import {
   User,
   namedOperations,
   useAddModuleMutation,
+  useRemoveModuleMutation,
   useModulesQuery,
 } from "@wellbeing/graphql-types";
 import { Combobox } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card } from "../ui";
 
 type ModulesSelectorProps = {
@@ -15,6 +16,14 @@ type ModulesSelectorProps = {
 };
 
 const ModuleSelector = (props: ModulesSelectorProps) => {
+  const [addModule] = useAddModuleMutation({
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  });
+
+  const [removeModule] = useRemoveModuleMutation({
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  });
+
   const { user } = props;
 
   const modulesRetrived = useModulesQuery();
@@ -23,6 +32,8 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
 
   const [selectedModules, setSelectedModules] = useState<Module[]>([]);
 
+  const oldSelectedModules = useRef<Module[]>([]);
+
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -30,6 +41,24 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
     const newList = modulesRetrived.data?.modules as Module[];
     setModulesList(newList);
   }, [modulesRetrived]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    if (oldSelectedModules.current.length < selectedModules.length) {
+      const newModule = selectedModules.filter(
+        (module) => !oldSelectedModules.current.includes(module)
+      )[0];
+      addModule({ variables: { moduleId: newModule.id } });
+    } else if(oldSelectedModules.current.length > selectedModules.length) {
+      const removedModule = oldSelectedModules.current.filter(
+        (module) => !selectedModules.includes(module)
+      )[0];
+      removeModule({ variables: { moduleId: removedModule.id } });
+    }
+
+    oldSelectedModules.current = selectedModules;
+  }, [selectedModules]);
 
   const filteredModules =
     query === ""
@@ -40,10 +69,6 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
-
-  const [addModule] = useAddModuleMutation({
-    refetchQueries: [namedOperations.Query.CurrentUser],
-  });
 
   if (!user) {
     return (

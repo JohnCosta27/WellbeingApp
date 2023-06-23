@@ -281,6 +281,30 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error, most likely ID not found");
       }
     },
+    async removeModule(_parent, { moduleId }, context): Promise<boolean> {
+      try {
+        const existingModule = await prisma.userModules.findMany({
+          where: {
+            user_id: context.uuid,
+            module_id: moduleId,
+          },
+        });
+
+        if (existingModule.length !== 1) {
+          throw new Error("User does not have this module");
+        }
+
+        await prisma.userModules.delete({
+          where: {
+            id: existingModule[0].id,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+    },
     async addAssignment(
       _parent,
       { moduleId, name, score },
