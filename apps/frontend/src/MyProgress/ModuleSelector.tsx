@@ -6,7 +6,7 @@ import {
   useRemoveModuleMutation,
   useModulesQuery,
 } from "@wellbeing/graphql-types";
-import { Combobox } from "@headlessui/react";
+import { Combobox, ComboboxOptionProps } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../ui";
@@ -16,32 +16,41 @@ type ModulesSelectorProps = {
 };
 
 const ModuleSelector = (props: ModulesSelectorProps) => {
+
+  // these are the mutations used to add and remove modules from the user's list
   const [addModule] = useAddModuleMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
-
   const [removeModule] = useRemoveModuleMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
   const { user } = props;
 
+  // modulesRetrived is the data retrieved from the server, modulesList stores it in a type-safe way
   const modulesRetrived = useModulesQuery();
-
   const [modulesList, setModulesList] = useState<Module[]>([]);
 
+  // selectedModules is the modules that the user has selected, oldSelectedModules is used to compare the old and new states
   const [selectedModules, setSelectedModules] = useState<Module[]>([]);
-
   const oldSelectedModules = useRef<Module[]>([]);
 
+  // this is the query that the user has entered into the search bar
   const [query, setQuery] = useState("");
 
+  /**
+   * This sets the modulesList state to the modules retrieved from the server, when they are retrieved
+   */
   useEffect(() => {
     if (!modulesRetrived.data) return;
     const newList = modulesRetrived.data?.modules as Module[];
     setModulesList(newList);
   }, [modulesRetrived]);
 
+  /**
+   * This is used to add and remove modules from the user's list
+   * It is called whenever the selectedModules state changes, and compares the old and new states
+   */
   useEffect(() => {
     if (!user) return;
 
@@ -60,6 +69,9 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
     oldSelectedModules.current = selectedModules;
   }, [selectedModules]);
 
+  /**
+   * This is used to filter the modulesList state based on the query state
+   */
   const filteredModules =
     query === ""
       ? modulesList
@@ -70,6 +82,9 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
+  /**
+   * If the user's data is loading, display a loading message
+   */
   if (!user) {
     return (
       <Card title="Modules" description="Loading" className="cursor-wait">
