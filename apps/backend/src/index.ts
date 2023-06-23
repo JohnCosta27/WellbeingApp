@@ -248,7 +248,6 @@ const resolvers: Resolvers<Context> = {
           data: {
             brand_id: activeBrand[0].id,
             brand_word_id: wordId,
-            brand_size: 0.5,// TODO: set the brand size to the user specified value
           },
         });
       } catch (err) {
