@@ -13,10 +13,10 @@ import {
 } from "@wellbeing/graphql-types";
 import { FC, useCallback, useState } from "react";
 import { Card } from "../ui";
+import ModuleSelector from "./ModuleSelector";
 
 export const MyProgress: FC = () => {
   const user = useCurrentUserQuery();
-  const modules = useModulesQuery();
 
   const [selectedModule, setSelectedModule] = useState<string | undefined>(
     undefined
@@ -66,34 +66,7 @@ export const MyProgress: FC = () => {
         <h4 className="text-xl">View how you are doing in your modules.</h4>
       </div>
       <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
-        <Card
-          title="Modules"
-          description="Click to add module to your list"
-          className="col-span-2"
-        >
-          <div className="grid grid-cols-3 gap-2">
-            {modules.data &&
-              modules.data.modules.map((m) => (
-                <button
-                  type="button"
-                  key={m.name}
-                  className="btn"
-                  disabled={user.data?.currentUser.modules.some(
-                    (userModule) => userModule.module.name === m.name
-                  )}
-                  onClick={() =>
-                    addModule({
-                      variables: {
-                        moduleId: m.id,
-                      },
-                    })
-                  }
-                >
-                  {m.name}
-                </button>
-              ))}
-          </div>
-        </Card>
+        <ModuleSelector user={user.data?.currentUser} />
         <Card title="Submit Assignment" className="col-span-1 row-span-3">
           <div className="dropdown" onClick={() => setSubError(undefined)}>
             <label tabIndex={0} className="btn m-1">
