@@ -60,8 +60,8 @@ export const MyProgress: FC = () => {
         <h4 className="text-xl">View how you are doing in your modules.</h4>
       </div>
       <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
-        <ModuleSelector user={user.data?.currentUser} />
-        <Card title="Submit Assignment" className="col-span-1 row-span-3">
+
+        <Card title="Submit Assignment" className="col-span-2">
           <div className="dropdown" onClick={() => setSubError(undefined)}>
             <label tabIndex={0} className="btn m-1">
               {/** lol */}
@@ -119,6 +119,7 @@ export const MyProgress: FC = () => {
             Submit Assignment
           </button>
         </Card>
+        <ModuleSelector user={user.data?.currentUser} />
         <Card title="Assignments" className="col-span-2 row-span-3">
           {user.data &&
             user.data.currentUser.modules.map((m) => (
