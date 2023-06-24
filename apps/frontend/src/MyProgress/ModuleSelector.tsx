@@ -115,7 +115,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
     <Card
       title="Modules"
       description="Click to add module to your list"
-      className="col-span-1 row-span-full"
+      className="col-span-1 md:row-span-full row-span-2"
     >
       <Combobox value={selectedModules} onChange={setSelectedModules} multiple>
         <Combobox.Input
@@ -123,7 +123,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
           placeholder="Search for your modules"
           onChange={(event) => setQuery(event.target.value)}
         />
-        <Combobox.Options className="mt-2 bg-white rounded-md shadow-lg max-h-60 w-full overflow-auto focus:outline-none">
+        <Combobox.Options className="mt-2 bg-white rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none z-10">
           {filteredModules.length === 0 && query !== "" ? (
             <div className="py-2 px-4 text-gray-700">Nothing found.</div>
           ) : (
