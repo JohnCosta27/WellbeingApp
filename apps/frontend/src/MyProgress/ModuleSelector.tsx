@@ -6,10 +6,9 @@ import {
   useRemoveModuleMutation,
   useModulesQuery,
 } from "@wellbeing/graphql-types";
-import { Combobox, ComboboxOptionProps } from "@headlessui/react";
+import { Combobox } from "@headlessui/react";
 import {
   CheckIcon,
-  ChevronUpDownIcon,
   XCircleIcon,
 } from "@heroicons/react/20/solid";
 import { useEffect, useRef, useState } from "react";
@@ -116,7 +115,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
     <Card
       title="Modules"
       description="Click to add module to your list"
-      className="col-span-2"
+      className="col-span-1 row-span-full"
     >
       <Combobox value={selectedModules} onChange={setSelectedModules} multiple>
         <Combobox.Input
@@ -163,7 +162,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
           )}
         </Combobox.Options>
       </Combobox>
-      <div className="grid grid-cols-4 gap-4 mt-4">
+      <div className="grid grid-cols-1 gap-4 mt-4">
         {selectedModules.map((module) => (
           <div
             key={module.id}
