@@ -7,7 +7,11 @@ import {
   useModulesQuery,
 } from "@wellbeing/graphql-types";
 import { Combobox, ComboboxOptionProps } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import {
+  CheckIcon,
+  ChevronUpDownIcon,
+  XCircleIcon,
+} from "@heroicons/react/20/solid";
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../ui";
 
@@ -16,7 +20,6 @@ type ModulesSelectorProps = {
 };
 
 const ModuleSelector = (props: ModulesSelectorProps) => {
-
   // these are the mutations used to add and remove modules from the user's list
   const [addModule] = useAddModuleMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
@@ -30,6 +33,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
   // modulesRetrived is the data retrieved from the server, modulesList stores it in a type-safe way
   const modulesRetrived = useModulesQuery();
   const [modulesList, setModulesList] = useState<Module[]>([]);
+  const [userLoaded, setUserLoaded] = useState(false);
 
   // selectedModules is the modules that the user has selected, oldSelectedModules is used to compare the old and new states
   const [selectedModules, setSelectedModules] = useState<Module[]>([]);
@@ -37,6 +41,19 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
 
   // this is the query that the user has entered into the search bar
   const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    // set selectedModules to the user modules when the user is loaded
+    if (user?.modules) {
+      setSelectedModules(user.modules.map((userModule) => userModule.module));
+      console.log(
+        `Set selected modules to ${user.modules
+          .map((userModule) => userModule.module.name)
+          .join(", ")}`
+      );
+      setUserLoaded(true);
+    }
+  }, [user]);
 
   /**
    * This sets the modulesList state to the modules retrieved from the server, when they are retrieved
@@ -52,20 +69,22 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
    * It is called whenever the selectedModules state changes, and compares the old and new states
    */
   useEffect(() => {
-    if (!user) return;
+    if (!userLoaded) return;
 
     if (oldSelectedModules.current.length < selectedModules.length) {
       const newModule = selectedModules.filter(
         (module) => !oldSelectedModules.current.includes(module)
       )[0];
       addModule({ variables: { moduleId: newModule.id } });
-    } else if(oldSelectedModules.current.length > selectedModules.length) {
+    } else if (oldSelectedModules.current.length > selectedModules.length) {
       const removedModule = oldSelectedModules.current.filter(
         (module) => !selectedModules.includes(module)
       )[0];
       removeModule({ variables: { moduleId: removedModule.id } });
     }
-
+    console.log(
+      `Old Modules Length: ${oldSelectedModules.current.length}, New Modules Length: ${selectedModules.length}`
+    );
     oldSelectedModules.current = selectedModules;
   }, [selectedModules]);
 
@@ -101,7 +120,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
     >
       <Combobox value={selectedModules} onChange={setSelectedModules} multiple>
         <Combobox.Input
-          className="w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500"
+          className="w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 p-2"
           placeholder="Search for your modules"
           onChange={(event) => setQuery(event.target.value)}
         />
@@ -146,8 +165,19 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
       </Combobox>
       <div className="grid grid-cols-4 gap-4 mt-4">
         {selectedModules.map((module) => (
-          <div key={module.id} className="btn btn-info">
-            <span>{module.name}</span>
+          <div
+            key={module.id}
+            className="bg-info p-2 rounded-md flex items-center"
+          >
+            <span className="flex-1">{module.name}</span>
+            <XCircleIcon
+              className="right-2 h-8 w-8 cursor-pointer"
+              onClick={() =>
+                setSelectedModules(
+                  selectedModules.filter((x) => x.id !== module.id)
+                )
+              }
+            />
           </div>
         ))}
       </div>
