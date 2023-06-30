@@ -4,6 +4,7 @@ import { FC } from "react";
 import ModuleSelector from "./ModuleSelector";
 import SubmitAssignment from "./SubmitAssignment";
 import Assignments from "./Assignments";
+import OverallStats from "./OverallStats";
 
 export const MyProgress: FC = () => {
   const user = useCurrentUserQuery();
@@ -16,6 +17,7 @@ export const MyProgress: FC = () => {
       </div>
       <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
         <SubmitAssignment modules={user.data?.currentUser.modules} />
+        <OverallStats modules={user.data?.currentUser.modules} />
         <ModuleSelector user={user.data?.currentUser} />
         <Assignments modules={user.data?.currentUser.modules} />
       </div>
