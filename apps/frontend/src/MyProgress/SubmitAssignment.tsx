@@ -56,6 +56,10 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
     }
 
     addAssignment();
+
+    setAssignmentName("");
+    setAssignmentScore(50);
+    setSelectedModule(undefined);
   }, [addAssignment, assignmentName, assignmentScore, selectedModule]);
 
   if (!modules)
@@ -93,8 +97,35 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
         </ul>
       </button>
       <div className="flex-1">
-        <label className="label" htmlFor="score-input">
+        <label className="label p-0" htmlFor="score-input">
           <span className="label-text">Score %</span>
+        </label>
+        <div className="flex gap-2">
+          <input
+            className="range range-secondary flex-1 m-auto"
+            type="range"
+            min={0}
+            max={100}
+            value={assignmentScore}
+            onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+          />
+          <input
+            className="input input-bordered input-primary w-[8rem]"
+            placeholder="99%"
+            min={0}
+            max={100}
+            type="number"
+            id="score-input"
+            value={assignmentScore}
+            onFocus={() => setSubError(undefined)}
+            onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+          />
+        </div>
+      </div>
+      <div className="flex-1">
+        <label className="label p-0" htmlFor="score-input">
+          {/** TODO: add this to the assignments table, link this via gql and allow it to be set here! */}
+          <span className="label-text">% of Module</span>
         </label>
         <div className="flex gap-2">
           <input
