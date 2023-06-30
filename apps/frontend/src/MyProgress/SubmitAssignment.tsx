@@ -72,7 +72,7 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
   return (
     <Card
       title="Submit Assignment"
-      className="grid grid-cols-1 gap-2 col-span-2"
+      className="grid grid-cols-1 gap-2 col-span-1"
     >
       <button
         className="dropdown flex-1"
