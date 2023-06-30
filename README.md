@@ -39,3 +39,5 @@ We are using firebase, and firebase emulators to locally develop.
 - [ ] The Ibrands need to allow more only 1 of each brand to be selected (maybe with a count?) this will make the word cloud better!
 - [x] Mental Energy vertical scaling issue on how page.
 - [ ] All Dialogs do not work with mobile
+- [ ] My Progress mobile scaling 
+- [ ] My progress removing module endpoint fails if there are any assignments associated with the module.
