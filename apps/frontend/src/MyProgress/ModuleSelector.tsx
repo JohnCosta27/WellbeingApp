@@ -7,10 +7,7 @@ import {
   useModulesQuery,
 } from "@wellbeing/graphql-types";
 import { Combobox } from "@headlessui/react";
-import {
-  CheckIcon,
-  XCircleIcon,
-} from "@heroicons/react/20/solid";
+import { CheckIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../ui";
 
@@ -45,11 +42,6 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
     // set selectedModules to the user modules when the user is loaded
     if (user?.modules) {
       setSelectedModules(user.modules.map((userModule) => userModule.module));
-      console.log(
-        `Set selected modules to ${user.modules
-          .map((userModule) => userModule.module.name)
-          .join(", ")}`
-      );
       setUserLoaded(true);
     }
   }, [user]);
@@ -81,9 +73,6 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
       )[0];
       removeModule({ variables: { moduleId: removedModule.id } });
     }
-    console.log(
-      `Old Modules Length: ${oldSelectedModules.current.length}, New Modules Length: ${selectedModules.length}`
-    );
     oldSelectedModules.current = selectedModules;
   }, [selectedModules]);
 
@@ -117,6 +106,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
       description="Click to add module to your list"
       className="col-span-1 md:row-span-full row-span-2"
     >
+      {/* @ts-ignore */}
       <Combobox value={selectedModules} onChange={setSelectedModules} multiple>
         <Combobox.Input
           className="w-full border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 p-2"
@@ -137,6 +127,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
                 }
                 value={module}
               >
+                {/* @ts-ignore */}
                 {({ selected, active }) => (
                   <>
                     <span
