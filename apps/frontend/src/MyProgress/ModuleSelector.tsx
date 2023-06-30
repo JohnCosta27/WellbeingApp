@@ -91,7 +91,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
    * This is used to filter the modulesList state based on the query state
    */
   const filteredModules =
-    query === ""
+    query.length < 3
       ? modulesList
       : modulesList.filter((module) =>
           module.name
