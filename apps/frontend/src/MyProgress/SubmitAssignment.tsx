@@ -60,10 +60,7 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
 
   if (!modules)
     return (
-      <Card
-        title="Submit Assignment"
-        className="col-span-2 flex align-middle justify-center"
-      >
+      <Card title="Submit Assignment" className="grid grid-cols-1 gap-2">
         <div className="m-auto text-2xl">Loading</div>
       </Card>
     );
@@ -93,17 +90,27 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
         <label className="label" htmlFor="score-input">
           <span className="label-text">Score</span>
         </label>
-        <input
-          className="input input-bordered input-primary w-full"
-          placeholder="99%"
-          min={0}
-          max={100}
-          type="number"
-          id="score-input"
-          value={assignmentScore}
-          onFocus={() => setSubError(undefined)}
-          onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
-        />
+        <div className="flex gap-2">
+          <input
+						className="range range-secondary basis-64 m-auto"
+            type="range"
+            min={0}
+            max={100}
+            value={assignmentScore}
+            onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+          />
+          <input
+            className="input input-bordered input-primary w-[8rem]"
+            placeholder="99%"
+            min={0}
+            max={100}
+            type="number"
+            id="score-input"
+            value={assignmentScore}
+            onFocus={() => setSubError(undefined)}
+            onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+          />
+        </div>
       </div>
       <div className="flex-1">
         <label className="label" htmlFor="name-input">
