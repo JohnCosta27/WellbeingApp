@@ -20,10 +20,13 @@ export const Card: FC<CardProps> = ({
       className
     )}
   >
-    <div className="mb-4">
-      {title && <h2 className="font-bold text-2xl">{title}</h2>}
-      {description && <h3 className="font-normal text-lg">{description}</h3>}
-    </div>
+    {(title || description) && (
+      <div className="mb-4">
+        {title && <h2 className="font-bold text-2xl">{title}</h2>}
+        {description && <h3 className="font-normal text-lg">{description}</h3>}
+      </div>
+    )}
+
     {children}
   </div>
 );
