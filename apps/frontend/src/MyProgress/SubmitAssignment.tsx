@@ -21,6 +21,15 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
     undefined
   );
 
+  const handleModuleSelect = (module: UserModules) => {
+    setSelectedModule(module.module.id);
+    const elem = document.activeElement as HTMLElement;
+    // check to see if it's a HTMLElement
+    if (elem && "blur" in elem) {
+      elem?.blur();
+    }
+  };
+
   const [addAssignment] = useAddAssignmentMutation({
     variables: {
       moduleId: selectedModule || "",
@@ -60,9 +69,9 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
     );
 
   return (
-    <Card title="Submit Assignment" className="col-span-2">
-      <div className="dropdown" onClick={() => setSubError(undefined)}>
-        <label tabIndex={0} className="btn m-1">
+    <Card title="Submit Assignment" className=" grid grid-cols-1 gap-2">
+      <div className="dropdown flex-1" onClick={() => setSubError(undefined)}>
+        <label tabIndex={0} className="btn m-1 w-full">
           {/** lol */}
           {!selectedModule
             ? "Select Module"
@@ -71,47 +80,49 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
         </label>
         <ul
           tabIndex={0}
-          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
         >
           {modules.map((m) => (
-            <li
-              key={m.module.id}
-              onClick={() => setSelectedModule(m.module.id)}
-            >
+            <li key={m.module.id} onClick={() => handleModuleSelect(m)}>
               <a>{m.module.name}</a>
             </li>
           ))}
         </ul>
       </div>
-      <label className="label" htmlFor="score-input">
-        <span className="label-text">Score</span>
-      </label>
-      <input
-        className="input input-bordered input-primary w-full max-w-xs"
-        placeholder="99%"
-        min={0}
-        max={100}
-        type="number"
-        id="score-input"
-        value={assignmentScore}
-        onFocus={() => setSubError(undefined)}
-        onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
-      />
-      <label className="label" htmlFor="name-input">
-        <span className="label-text">Assignment Name</span>
-      </label>
-      <input
-        className="input input-bordered input-primary w-full max-w-xs"
-        placeholder="99%"
-        id="name-input"
-        value={assignmentName}
-        onFocus={() => setSubError(undefined)}
-        onChange={(e) => setAssignmentName(e.target.value)}
-      />
+      <div className="flex-1">
+        <label className="label" htmlFor="score-input">
+          <span className="label-text">Score</span>
+        </label>
+        <input
+          className="input input-bordered input-primary w-full"
+          placeholder="99%"
+          min={0}
+          max={100}
+          type="number"
+          id="score-input"
+          value={assignmentScore}
+          onFocus={() => setSubError(undefined)}
+          onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+        />
+      </div>
+      <div className="flex-1">
+        <label className="label" htmlFor="name-input">
+          <span className="label-text">Assignment Name</span>
+        </label>
+        <input
+          className="input input-bordered input-primary w-full"
+          placeholder="The importance of the number 42"
+          id="name-input"
+          value={assignmentName}
+          onFocus={() => setSubError(undefined)}
+          onChange={(e) => setAssignmentName(e.target.value)}
+        />
+      </div>
+
       {subError && <span>{subError}</span>}
       <button
         type="button"
-        className="btn btn-secondary"
+        className="btn btn-secondary w-full"
         onClick={onSubmitAssignment}
       >
         Submit Assignment
