@@ -16,7 +16,7 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
   const [selectedModule, setSelectedModule] = useState<string | undefined>(
     undefined
   );
-  const [assignmentScore, setAssignmentScore] = useState(0);
+  const [assignmentScore, setAssignmentScore] = useState(50);
   const [assignmentName, setAssignmentName] = useState<string | undefined>(
     undefined
   );
@@ -66,7 +66,10 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
     );
 
   return (
-    <Card title="Submit Assignment" className=" grid grid-cols-1 gap-2">
+    <Card
+      title="Submit Assignment"
+      className="grid grid-cols-1 gap-2 col-span-2"
+    >
       <div className="dropdown flex-1" onClick={() => setSubError(undefined)}>
         <label tabIndex={0} className="btn m-1 w-full">
           {/** lol */}
@@ -80,19 +83,21 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
           className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
         >
           {modules.map((m) => (
-            <li key={m.module.id} onClick={() => handleModuleSelect(m)}>
-              <a>{m.module.name}</a>
+            <li key={m.module.id}>
+              <button onClick={() => handleModuleSelect(m)} type="button">
+                {m.module.name}
+              </button>
             </li>
           ))}
         </ul>
       </div>
       <div className="flex-1">
         <label className="label" htmlFor="score-input">
-          <span className="label-text">Score</span>
+          <span className="label-text">Score %</span>
         </label>
         <div className="flex gap-2">
           <input
-						className="range range-secondary basis-64 m-auto"
+            className="range range-secondary flex-1 m-auto"
             type="range"
             min={0}
             max={100}
