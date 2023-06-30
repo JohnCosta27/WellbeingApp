@@ -70,18 +70,19 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
       title="Submit Assignment"
       className="grid grid-cols-1 gap-2 col-span-2"
     >
-      <div className="dropdown flex-1" onClick={() => setSubError(undefined)}>
-        <label tabIndex={0} className="btn m-1 w-full">
+      <button
+        className="dropdown flex-1"
+        onClick={() => setSubError(undefined)}
+        type="button"
+      >
+        <label className="btn m-1 w-full">
           {/** lol */}
           {!selectedModule
             ? "Select Module"
             : modules.find((m) => m.module.id === selectedModule)?.module
                 .name || "Select Module"}
         </label>
-        <ul
-          tabIndex={0}
-          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full"
-        >
+        <ul className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full">
           {modules.map((m) => (
             <li key={m.module.id}>
               <button onClick={() => handleModuleSelect(m)} type="button">
@@ -90,7 +91,7 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
             </li>
           ))}
         </ul>
-      </div>
+      </button>
       <div className="flex-1">
         <label className="label" htmlFor="score-input">
           <span className="label-text">Score %</span>
