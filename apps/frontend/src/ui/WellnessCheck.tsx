@@ -112,7 +112,7 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
         open={openHelpLinks}
         setOpen={setOpenHelpLinks}
         title="Help links"
-        width="w-1/2"
+        className="w-full md:w-1/2"
       >
         <p>
           We can help you feel better, based on your wellness check, here are
