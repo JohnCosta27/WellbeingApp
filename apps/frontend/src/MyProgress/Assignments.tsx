@@ -27,8 +27,8 @@ const Assignments = (props: AssignmentsProps) => {
 
   return (
     <Card className="min-h-[50vh] col-span-2 row-span-2 gap-4 grid grid-cols-4 grid-rows-3">
-      {modules.map((m, i) => (
-        <div className="card bg-base-100 shadow-xl " key={i}>
+      {modules.map((m) => (
+        <div className="card bg-base-100 shadow-xl " key={m.module.id}>
           <div className="card-title bg-info p-2 rounded-t-2xl w-full text-center flex justify-center align-middle h-16">
             <div className="m-auto text-base text-ellipsis overflow-hidden whitespace-pre">
               {m.module.name.split(":")[1].trim()}
