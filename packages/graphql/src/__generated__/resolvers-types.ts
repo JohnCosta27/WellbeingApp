@@ -21,6 +21,7 @@ export type Assignments = {
   __typename?: 'Assignments';
   date: Scalars['Float'];
   name: Scalars['String'];
+  percent: Scalars['Float'];
   score: Scalars['Float'];
 };
 
@@ -66,6 +67,7 @@ export type Mutation = {
 export type MutationAddAssignmentArgs = {
   moduleId: Scalars['String'];
   name: Scalars['String'];
+  percent: Scalars['Float'];
   score: Scalars['Float'];
 };
 
@@ -250,6 +252,7 @@ export type ResolversParentTypes = {
 export type AssignmentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Assignments'] = ResolversParentTypes['Assignments']> = {
   date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  percent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   score?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -281,7 +284,7 @@ export type ModuleResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addAssignment?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddAssignmentArgs, 'moduleId' | 'name' | 'score'>>;
+  addAssignment?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddAssignmentArgs, 'moduleId' | 'name' | 'percent' | 'score'>>;
   addBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddBrandWordArgs, 'wordId'>>;
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
@@ -398,6 +401,7 @@ export type AddAssignmentMutationVariables = Exact<{
   moduleId: Scalars['String'];
   name: Scalars['String'];
   score: Scalars['Float'];
+  percent: Scalars['Float'];
 }>;
 
 
@@ -644,8 +648,13 @@ export type RemoveModuleMutationHookResult = ReturnType<typeof useRemoveModuleMu
 export type RemoveModuleMutationResult = Apollo.MutationResult<RemoveModuleMutation>;
 export type RemoveModuleMutationOptions = Apollo.BaseMutationOptions<RemoveModuleMutation, RemoveModuleMutationVariables>;
 export const AddAssignmentDocument = gql`
-    mutation addAssignment($moduleId: String!, $name: String!, $score: Float!) {
-  addAssignment(moduleId: $moduleId, name: $name, score: $score)
+    mutation addAssignment($moduleId: String!, $name: String!, $score: Float!, $percent: Float!) {
+  addAssignment(
+    moduleId: $moduleId
+    name: $name
+    score: $score
+    percent: $percent
+  )
 }
     `;
 export type AddAssignmentMutationFn = Apollo.MutationFunction<AddAssignmentMutation, AddAssignmentMutationVariables>;
@@ -666,6 +675,7 @@ export type AddAssignmentMutationFn = Apollo.MutationFunction<AddAssignmentMutat
  *      moduleId: // value for 'moduleId'
  *      name: // value for 'name'
  *      score: // value for 'score'
+ *      percent: // value for 'percent'
  *   },
  * });
  */
