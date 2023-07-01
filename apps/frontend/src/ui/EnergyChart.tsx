@@ -82,17 +82,16 @@ export const EnergyChart: FC<EnergyChartProps> = ({
 };
 
 function chartLabel(value: string | number): string {
-  if (value === 1) {
+  const parsedValue = typeof value === "string" ? parseFloat(value) : value;
+
+  if (parsedValue === 1) {
     return "Awesome";
   }
-  if (value === 0) {
+  if (parsedValue === 0) {
     return "Need help";
   }
-  if(typeof value === "string") {
-    value = parseFloat(value);
-  }
-  if (value > 1 || value < 0) {
+  if (parsedValue > 1 || parsedValue < 0) {
     return "";
   }
-  return `${value*100}%`;
+  return `${parsedValue * 100}%`;
 }

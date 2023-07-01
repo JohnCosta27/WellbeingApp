@@ -84,6 +84,7 @@ type Mutation {
   addMentalEnergy(level: Float!): MentalEnergy
   addHowAmIPhrase(id: String!): Boolean
   addBrandWord(wordId: String!): Boolean
+  removeBrandWord(wordId: String!): Boolean
   # Take the current active brand, and save it as a past brand
   addWholeBrand: Boolean
   addModule(moduleId: String!): Boolean

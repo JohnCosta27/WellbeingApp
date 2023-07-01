@@ -47,7 +47,11 @@ export const IBrand: FC<IBrandProps> = ({
         />
       )}
       {isPastBrand && (
-        <button type="button" className="btn" onClick={onResetBrand}>
+        <button
+          type="button"
+          className="btn relative -inset-y-24"
+          onClick={onResetBrand}
+        >
           Reset
         </button>
       )}

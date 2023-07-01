@@ -2,6 +2,7 @@ import {
   BrandWords,
   namedOperations,
   useAddBrandWordMutation,
+  useRemoveBrandWordMutation,
   useBrandWordsQuery,
   useCurrentUserQuery,
 } from "@wellbeing/graphql-types";
@@ -14,6 +15,10 @@ export const WhoDashboard: FC = () => {
   const { data: userBrandWords, loading } = useCurrentUserQuery();
 
   const [addBrandWords] = useAddBrandWordMutation({
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  });
+
+  const [removeBrandWords] = useRemoveBrandWordMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
@@ -58,6 +63,13 @@ export const WhoDashboard: FC = () => {
               addBrandWords({
                 variables: {
                   addBrandWord: id,
+                },
+              });
+            }}
+            onRemoveWord={(id) => {
+              removeBrandWords({
+                variables: {
+                  removeBrandWord: id,
                 },
               });
             }}
