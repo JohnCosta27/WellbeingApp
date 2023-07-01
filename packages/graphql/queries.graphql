@@ -34,6 +34,7 @@ query CurrentUser {
         name
         date
         score
+        percent
       }
     }
   }

@@ -410,7 +410,7 @@ export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -723,6 +723,7 @@ export const CurrentUserDocument = gql`
         name
         date
         score
+        percent
       }
     }
   }
