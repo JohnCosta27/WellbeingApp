@@ -109,7 +109,7 @@ export const HowDashboard: FC = () => {
           title="Energy Level Graph"
           className="row-span-2 col-span-2 overflow-x-auto h-[50vh]"
         >
-          <div className="w-full h-full min-w-[700px]">
+          <div className="w-full h-full min-w-[700px] min-h-[50vh]">
             {data && (
               <EnergyChart
                 labels={sortedEnergy.map((m) =>
