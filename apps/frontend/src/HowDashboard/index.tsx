@@ -61,7 +61,7 @@ export const HowDashboard: FC = () => {
       <div className="w-full">
         <h2 className="text-3xl font-bold">How are you?</h2>
       </div>
-      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 ">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6">
         <Card title="Your stats" className="col-span-2 lg:col-span-1">
           <YourStats sortedEnergy={sortedEnergy} />
         </Card>
