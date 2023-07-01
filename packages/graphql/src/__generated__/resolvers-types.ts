@@ -89,6 +89,16 @@ export type MutationAddModuleArgs = {
   moduleId: Scalars['String'];
 };
 
+
+export type MutationRemoveBrandWordArgs = {
+  wordId: Scalars['String'];
+};
+
+
+export type MutationRemoveModuleArgs = {
+  moduleId: Scalars['String'];
+};
+
 export type PastUserBrand = {
   __typename?: 'PastUserBrand';
   date?: Maybe<Scalars['Float']>;
@@ -277,6 +287,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
   addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
+  removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
 };
 
 export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {

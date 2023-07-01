@@ -38,7 +38,7 @@ export const DashboardLayout: FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen bg-base-100 flex flex-col">
+    <div className="w-full h-screen bg-base-100 flex flex-col overflow-y-hidden">
       <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
         <div className="w-full flex items-center gap-4">
           <div className="flex md:hidden">
@@ -73,8 +73,8 @@ export const DashboardLayout: FC = () => {
             </div>
           )}
         </div>
-        <div className="w-full h-full overflow-y-hidden bg-[#F6F8FA]">
-          <div className="w-full h-full p-2 md:p-6">
+        <div className="w-full h-full bg-[#F6F8FA]">
+          <div className="w-full h-full overflow-y-scroll p-2 md:p-6">
             <Outlet />
           </div>
         </div>
