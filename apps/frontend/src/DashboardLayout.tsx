@@ -64,7 +64,6 @@ export const DashboardLayout: FC = () => {
           )}
         >
           {openSidebar && (
-            <>
             <div className="grid m-1">
               <TopbarItem onNav="/who">Who</TopbarItem>
               <TopbarItem onNav="/how">How</TopbarItem>
@@ -72,11 +71,9 @@ export const DashboardLayout: FC = () => {
               <TopbarItem onNav="/progress">Progress</TopbarItem>
               <TopbarItem onNav="/mycv">My CV</TopbarItem>
             </div>
-              
-            </>
           )}
         </div>
-        <div className="w-full h-full overflow-y-auto bg-[#F6F8FA]">
+        <div className="w-full h-full overflow-y-hidden bg-[#F6F8FA]">
           <div className="w-full h-full p-2 md:p-6">
             <Outlet />
           </div>

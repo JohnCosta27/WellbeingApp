@@ -30,6 +30,8 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "react/require-default-props": "off",
     "react/jsx-props-no-spreading": "off",
-    "@typescript-eslint/ban-ts-comment": "off"
+    "@typescript-eslint/ban-ts-comment": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react-hooks/exhaustive-deps": "off"
   }
 }

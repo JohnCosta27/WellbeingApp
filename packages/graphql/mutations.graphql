@@ -13,12 +13,20 @@ mutation addBrandWord($addBrandWord: String!) {
   addBrandWord(wordId: $addBrandWord)
 }
 
+mutation removeBrandWord($removeBrandWord: String!) {
+  removeBrandWord(wordId: $removeBrandWord)
+}
+
 mutation addWholeBrand {
   addWholeBrand
 }
 
 mutation addModule($moduleId: String!) {
   addModule(moduleId: $moduleId)
+}
+
+mutation removeModule($moduleId: String!) {
+  removeModule(moduleId: $moduleId)
 }
 
 mutation addAssignment($moduleId: String!, $name: String!, $score: Float!) {

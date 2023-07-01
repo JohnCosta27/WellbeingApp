@@ -248,9 +248,57 @@ const resolvers: Resolvers<Context> = {
           data: {
             brand_id: activeBrand[0].id,
             brand_word_id: wordId,
-            brand_size: 0.5,// TODO: set the brand size to the user specified value
           },
         });
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+      return true;
+    },
+    async removeBrandWord(_parent, { wordId }, context): Promise<boolean> {
+      try {
+        const activeBrand = await prisma.brand.findMany({
+          where: {
+            user_id: context.uuid,
+            date_saved: null,
+          },
+          include: {
+            brand_word_entries: {
+              include: {
+                brand_word: true,
+              },
+            },
+          },
+        });
+
+        if (activeBrand.length !== 1) {
+          throw new Error(
+            "User has more/less than 1 brand, user has: " + activeBrand.length
+          );
+        }
+        
+        if (
+          !activeBrand[0].brand_word_entries.find(
+            (w) => w.brand_word.id === wordId
+          )
+        ) {
+          throw new Error("User does not have this word");
+        }
+
+        const brandWordEntryID = activeBrand[0].brand_word_entries.find((w) => w.brand_word.id === wordId)?.id;
+
+        if(!brandWordEntryID) {
+          throw new Error("User does not have this word (brandWordEntryID is null)");
+        }
+
+        await prisma.brandWordEntry.delete({
+          where: {
+            id: brandWordEntryID,
+          },
+        });
+
+
       } catch (err) {
         console.log(err);
         throw new Error("Database error, most likely ID not found");
@@ -274,6 +322,30 @@ const resolvers: Resolvers<Context> = {
           data: {
             user_id: context.uuid,
             module_id: moduleId,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+    },
+    async removeModule(_parent, { moduleId }, context): Promise<boolean> {
+      try {
+        const existingModule = await prisma.userModules.findMany({
+          where: {
+            user_id: context.uuid,
+            module_id: moduleId,
+          },
+        });
+
+        if (existingModule.length !== 1) {
+          throw new Error("User does not have this module");
+        }
+
+        await prisma.userModules.delete({
+          where: {
+            id: existingModule[0].id,
           },
         });
         return true;
