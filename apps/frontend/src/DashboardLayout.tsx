@@ -73,8 +73,9 @@ export const DashboardLayout: FC = () => {
             </div>
           )}
         </div>
-        <div className="w-full h-full bg-[#F6F8FA]">
-          <div className="w-full h-full overflow-y-scroll p-2 md:p-6">
+        <div className="w-full h-full bg-[#F6F8FA] overflow-y-auto">
+          {/* Hacky way to get bottom pading to appear in mobile view (adding the margin) */}
+          <div className="w-full p-2 md:p-6 mb-4 md:mb-12">
             <Outlet />
           </div>
         </div>
