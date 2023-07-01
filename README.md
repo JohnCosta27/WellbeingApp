@@ -7,10 +7,13 @@ We are using firebase, and firebase emulators to locally develop.
 ## TODO
 
 - [ ] Finish MyProgress page (Involves phone screen compatibility)
-  - [ ] Refactoring into smaller components (Currently its in one big one)
+  - [x] Refactoring into smaller components (Currently its in one big one)
   - [ ] Make it look nice, design wise (This will involve designing actual UI components).
-  - [ ] Make the module selector work! search/dropdown thing?
-  - [ ] Make the assignments work
+    - [ ] cards with stats for each module
+    - [ ] Overall stats card
+  - [x] Make the module selector work! search/dropdown thing?
+  - [x] Make the assignments work
+  - [ ] make the assignments editable
 - [ ] Who Page
   - [ ] Make the past brands a bit nicer to look at.
     - [ ] Have some brands bigger than others!
@@ -31,6 +34,12 @@ We are using firebase, and firebase emulators to locally develop.
     - [ ] time range selector?
 - [ ] CV stuff
   - [x] drawio mindmap example
+
+
+General stuff:
+
+- [ ] Edit the colour scheme
+- [ ] Mobile compatibility on all pages
 
 
 ## BUGS
