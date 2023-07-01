@@ -17,6 +17,8 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
     undefined
   );
   const [assignmentScore, setAssignmentScore] = useState(50);
+  const [assignmentPercent, setAssignmentPercent] = useState(50);
+
   const [assignmentName, setAssignmentName] = useState<string | undefined>(
     undefined
   );
@@ -33,8 +35,9 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
   const [addAssignment] = useAddAssignmentMutation({
     variables: {
       moduleId: selectedModule || "",
-      score: assignmentScore,
       name: assignmentName || "",
+      score: assignmentScore,
+      percent: assignmentPercent,
     },
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
@@ -133,8 +136,8 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
             type="range"
             min={0}
             max={100}
-            value={assignmentScore}
-            onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+            value={assignmentPercent}
+            onChange={(e) => setAssignmentPercent(parseFloat(e.target.value))}
           />
           <input
             className="input input-bordered input-primary w-[8rem]"
@@ -143,9 +146,9 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
             max={100}
             type="number"
             id="score-input"
-            value={assignmentScore}
+            value={assignmentPercent}
             onFocus={() => setSubError(undefined)}
-            onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+            onChange={(e) => setAssignmentPercent(parseFloat(e.target.value))}
           />
         </div>
       </div>
