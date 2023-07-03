@@ -15,17 +15,13 @@ We are using firebase, and firebase emulators to locally develop.
   - [x] Make the assignments work
   - [ ] make the assignments editable
 - [ ] Who Page
-  - [ ] Make the past brands a bit nicer to look at.
-    - [ ] Have some brands bigger than others!
-    - [ ] Let people add their own brands
-    - [ ] Have better titles/lables for each brand
+  - [x] Make the past brands a bit nicer to look at.
+    - [x] Have better titles/lables for each brand
   - [ ] have a professional/academic section
   - [ ] Make it obvious what each thing does.
 - [ ] How page
-  - [ ] Wellness check 
-    - [ ] Show the phrases
-    - [ ] Let the user input their own phrases
-    - [ ] submit the phrases to the database
+  - [ ] Wellness check
+    - [x] Show the phrases
   - [ ] Mental Energy graph
     - [ ] Mobile scaling
     - [ ] X axis labels
@@ -35,12 +31,10 @@ We are using firebase, and firebase emulators to locally develop.
 - [ ] CV stuff
   - [x] drawio mindmap example
 
-
 General stuff:
 
 - [ ] Edit the colour scheme
 - [ ] Mobile compatibility on all pages
-
 
 ## BUGS
 
@@ -48,5 +42,5 @@ General stuff:
 - [ ] The Ibrands need to allow more only 1 of each brand to be selected (maybe with a count?) this will make the word cloud better!
 - [x] Mental Energy vertical scaling issue on how page.
 - [ ] All Dialogs do not work with mobile
-- [ ] My Progress mobile scaling 
+- [ ] My Progress mobile scaling
 - [ ] My progress removing module endpoint fails if there are any assignments associated with the module.
