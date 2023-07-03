@@ -3,7 +3,6 @@ import {
   namedOperations,
   useAddMentalEnergyMutation,
   useCurrentUserQuery,
-  MentalEnergy,
   useHowAmIPhraseQuery,
   useAddHowAmIPhraseMutation,
 } from "@wellbeing/graphql-types";

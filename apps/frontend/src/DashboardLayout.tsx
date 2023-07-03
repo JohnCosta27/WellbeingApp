@@ -74,8 +74,8 @@ export const DashboardLayout: FC = () => {
             </div>
           )}
         </div>
-        <div className="w-full h-full overflow-y-hidden bg-[#F6F8FA]">
-          <div className="w-full h-full p-2 md:p-6">
+        <div className="w-full h-full overflow-y-hidden bg-[#F6F8FA] flex justify-center">
+          <div className="w-full max-w-screen-2xl h-full p-2 md:p-6">
             <Outlet />
           </div>
         </div>
