@@ -32,7 +32,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   });
 
   /** The words that are currently selected
-   * Whenever a word is added/removed, this array should be modified 
+   * Whenever a word is added/removed, this array should be modified
    * instead of calling onAddWord/onRemoveWord
    */
   const [selectedWords, setSelectedWords] = useState<ListWord[]>([]);
@@ -114,52 +114,14 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                     }
                     value={w}
                   >
-                    {({ selected, active }) => (
-                      <>
-                        <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
-                        >
-                          {w.word}
-                        </span>
-                        {selected ? (
-                          <div>
-                            <div className="absolute inset-y-0 right-5 flex items-center pl-3">
-                              <input
-                                type="range"
-                                className="range range-accent z-10"
-                                max={1}
-                                min={0}
-                                step={0.01}
-                                value={Math.random()}
-                                onMouseDown={(e) => {
-                                  e.stopPropagation();
-                                  e.preventDefault();
-                                }}
-                                onChange={(e) =>
-                                  setSelectedWords([
-                                    ...selectedWords.filter(
-                                      (x) => x.id === w.id
-                                    ),
-                                    { ...w, size: parseFloat(e.target.value) },
-                                  ])
-                                }
-                              />
-                            </div>
-                            <span
-                              className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                active ? "text-white" : "text-teal-600"
-                              }`}
-                            >
-                              <CheckIcon
-                                className="h-5 w-5"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          </div>
-                        ) : null}
-                      </>
+                    {({ selected }) => (
+                      <span
+                        className={`block truncate ${
+                          selected ? "font-medium" : "font-normal"
+                        }`}
+                      >
+                        {w.word}
+                      </span>
                     )}
                   </Combobox.Option>
                 ))

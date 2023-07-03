@@ -1,5 +1,5 @@
-import { BrandWords, PastUserBrand } from "@wellbeing/graphql-types";
-import * as dayjs from "dayjs";
+import { PastUserBrand, UserBrand } from "@wellbeing/graphql-types";
+import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
 import { FC } from "react";
 import { Card } from "./Card";
@@ -7,27 +7,34 @@ import { Card } from "./Card";
 dayjs.extend(relativeTime);
 
 type PreviousBrandsProps = {
-  pastBrands: PastUserBrand[] | undefined;
-  setActiveBrand: (words: BrandWords[]) => void;
-  setIsPastBrand: (isPastBrand: boolean) => void;
+  userBrand: UserBrand;
+  setActiveBrand: (brand: PastUserBrand) => void;
 };
 
 const PreviousBrands: FC<PreviousBrandsProps> = (props) => {
-  const { pastBrands, setActiveBrand, setIsPastBrand } = props;
+  const { userBrand, setActiveBrand } = props;
   return (
     <Card
-      title="Previous Brands"
+      title="Your Brands"
       className="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-1 w-full col-span-3"
     >
+      <button
+        type="button"
+        className="btn btn-info min-w-fit"
+        onClick={() => {
+          setActiveBrand({ words: userBrand.words });
+        }}
+      >
+        Current Brand
+      </button>
       {/* If there are any past brands, list them here */}
-      {pastBrands?.map((b, i) => (
+      {userBrand.pastBrand?.map((b, i) => (
         <button
           type="button"
           key={b.date}
           className="btn btn-info min-w-fit"
           onClick={() => {
-            setActiveBrand(b.words);
-            setIsPastBrand(true);
+            setActiveBrand(b);
           }}
         >
           {`Brand ${i + 1}, posted ${dayjs(b.date).fromNow()}`}

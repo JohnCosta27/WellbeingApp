@@ -5,6 +5,7 @@ import {
   useRemoveBrandWordMutation,
   useBrandWordsQuery,
   useCurrentUserQuery,
+  PastUserBrand,
 } from "@wellbeing/graphql-types";
 import { FC, useEffect, useState } from "react";
 import { AddBrandWords, Card, IBrand } from "./ui";
@@ -22,15 +23,14 @@ export const WhoDashboard: FC = () => {
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  const [activeBrand, setActiveBrand] = useState<Array<BrandWords>>([]);
-
-  // Is the word cloud currently displaying the active brand, or
-  // a past one?
-  const [isPastBrand, setIsPastBrand] = useState(false);
+  const [activeBrand, setActiveBrand] = useState<PastUserBrand>({ words: [] });
 
   useEffect(() => {
     if (!loading && userBrandWords) {
-      setActiveBrand(userBrandWords.currentUser.brand.words);
+      setActiveBrand({
+        date: undefined,
+        words: userBrandWords.currentUser.brand.words,
+      });
     }
   }, [loading, userBrandWords]);
 
@@ -44,14 +44,14 @@ export const WhoDashboard: FC = () => {
       </div>
       <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
         <Card title="IBrand" className="row-span-2 col-span-2">
-          <IBrand
-            brandWords={activeBrand}
-            isPastBrand={isPastBrand}
-            onResetBrand={() => {
-              setActiveBrand(userBrandWords?.currentUser.brand.words || []);
-              setIsPastBrand(false);
-            }}
-          />
+          <div className="w-full text-center font-bold text-xl">
+            {activeBrand.date ? (
+              <>Brand from: {new Date(activeBrand.date).toDateString()}</>
+            ) : (
+              <>Active Brand </>
+            )}
+          </div>
+          <IBrand brandWords={activeBrand.words} />
         </Card>
         <Card
           title="Add Brand Words"
@@ -75,11 +75,12 @@ export const WhoDashboard: FC = () => {
             }}
           />
         </Card>
-        <PreviousBrands
-          pastBrands={userBrandWords?.currentUser.brand.pastBrand}
-          setActiveBrand={setActiveBrand}
-          setIsPastBrand={setIsPastBrand}
-        />
+        {userBrandWords?.currentUser.brand && (
+          <PreviousBrands
+            userBrand={userBrandWords?.currentUser.brand}
+            setActiveBrand={setActiveBrand}
+          />
+        )}
       </div>
     </div>
   );
