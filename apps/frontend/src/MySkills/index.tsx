@@ -1,4 +1,5 @@
-import { FC } from "react";
+/* eslint-disable react/jsx-no-bind */
+import { FC, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Card } from "../ui";
@@ -6,6 +7,25 @@ import { DraggableSkill } from "./DraggableSkill";
 import { DroppableSkill } from "./DroppableSkill";
 
 export const MySkills: FC = () => {
+  const [skills, setSkills] = useState<
+    Array<{ skill: string; index: undefined | number }>
+  >([
+    { skill: "skill 1", index: undefined },
+    { skill: "skill 2", index: undefined },
+    { skill: "skill 3", index: undefined },
+    { skill: "skill 4", index: undefined },
+    { skill: "skill 5", index: undefined },
+    { skill: "skill 6", index: undefined },
+  ]);
+
+  function onDropSkill(skill: string, index: number): void {
+    const item = skills.find((s) => s.skill === skill);
+    if (item) {
+      item.index = index;
+    }
+    setSkills([...skills]);
+  }
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="w-full flex flex-col gap-4">
@@ -18,14 +38,42 @@ export const MySkills: FC = () => {
             description="Skills that you have acquired along your journey"
             className="col-span-1 h-[80vh]"
           >
-            <DraggableSkill />
+            {skills
+              .filter((s) => !s.index)
+              .map((s) => (
+                <DraggableSkill key={s.skill} name={s.skill} />
+              ))}
           </Card>
           <Card
             title="Still Acquiring"
             className="col-span-2 lg:col-span-1 h-[80vh]"
             description="Skills that you haven't quite managed to fully acquire yet"
           >
-            <DroppableSkill />
+            <DroppableSkill
+              onDropSkill={onDropSkill}
+              index={0}
+              skill={skills.find((s) => s.index === 0)?.skill}
+            />
+            <DroppableSkill
+              onDropSkill={onDropSkill}
+              index={1}
+              skill={skills.find((s) => s.index === 1)?.skill}
+            />
+            <DroppableSkill
+              onDropSkill={onDropSkill}
+              index={2}
+              skill={skills.find((s) => s.index === 2)?.skill}
+            />
+            <DroppableSkill
+              onDropSkill={onDropSkill}
+              index={3}
+              skill={skills.find((s) => s.index === 3)?.skill}
+            />
+            <DroppableSkill
+              onDropSkill={onDropSkill}
+              index={4}
+              skill={skills.find((s) => s.index === 4)?.skill}
+            />
           </Card>
         </div>
       </div>
