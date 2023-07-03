@@ -20,9 +20,14 @@ export const MySkills: FC = () => {
 
   function onDropSkill(skill: string, index: number): void {
     const item = skills.find((s) => s.skill === skill);
-    if (item) {
-      item.index = index;
+    if (!item) return;
+
+    const prev = skills.find((s) => s.index === index);
+    if (prev) {
+      prev.index = undefined;
     }
+
+    item.index = index;
     setSkills([...skills]);
   }
 
@@ -39,7 +44,7 @@ export const MySkills: FC = () => {
             className="col-span-1 h-[80vh]"
           >
             {skills
-              .filter((s) => !s.index)
+              .filter((s) => s.index === undefined)
               .map((s) => (
                 <DraggableSkill key={s.skill} name={s.skill} />
               ))}
