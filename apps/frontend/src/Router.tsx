@@ -5,6 +5,7 @@ import { HowDashboard } from "./HowDashboard/";
 import { MyProgress } from "./MyProgress";
 import { WhoDashboard } from "./WhoDashboard";
 import MyCV from "./MyCV";
+import { MySkills } from "./MySkills";
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +42,11 @@ export const router = createBrowserRouter([
           {
             path: "/mycv",
             element: <MyCV />,
-          }
+          },
+          {
+            path: "/myskills",
+            element: <MySkills />,
+          },
         ],
       },
     ],

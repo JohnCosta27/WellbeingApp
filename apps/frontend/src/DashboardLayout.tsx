@@ -70,6 +70,7 @@ export const DashboardLayout: FC = () => {
               <TopbarItem onNav="/how">What</TopbarItem>
               <TopbarItem onNav="/progress">Progress</TopbarItem>
               <TopbarItem onNav="/mycv">My CV</TopbarItem>
+              <TopbarItem onNav="/myskills">My Skills</TopbarItem>
             </div>
           )}
         </div>
