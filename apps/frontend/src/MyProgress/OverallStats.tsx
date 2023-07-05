@@ -1,4 +1,4 @@
-import { Doughnut } from "react-chartjs-2";
+import { UserModules } from "@wellbeing/graphql-types";
 import { Card } from "../ui";
 import DoughnutChart from "./DoughnutChart";
 
@@ -22,7 +22,7 @@ type OverallStatsProps = {
   modules: UserModules[] | undefined;
 };
 
-const OverallStats = (props) => {
+const OverallStats = (props: OverallStatsProps) => {
   const { modules } = props;
 
   if (!modules) {
@@ -37,13 +37,13 @@ const OverallStats = (props) => {
     return (
       <Card title="Overall Stats" className="flex justify-center align-middle">
         <div className="">
-          Here's where your stats will be when you fill in your progress!
+          Here&apos;s where your stats will be when you fill in your progress!
         </div>
       </Card>
     );
   }
 
-	// on module re-render, destroy the chart and re-render it
+  // on module re-render, destroy the chart and re-render it
 
   return (
     <div className="card bg-base-100 shadow-xl ">
