@@ -9,6 +9,7 @@ import {
   scaleModuleOverallScore,
   scoreColours,
 } from "../utils";
+import CompletedBar from "./CompletedBar";
 
 type OverallStatsProps = {
   modules: UserModules[] | undefined;
@@ -103,27 +104,9 @@ const OverallStats = (props: OverallStatsProps) => {
       <div className="card-title bg-info p-2 rounded-t-2xl w-full text-center flex justify-center align-middle h-16">
         <div className="m-auto text-2xl">Overall Stats</div>
       </div>
-      <div className="w-full bg-black h-10 flex">
-        {/* Set the uncompleted, completed and failed elements to scale proportionally */}
-        {reducedModules &&
-          Object.entries(scaleModuleOverallScore(reducedModules)).map(
-            ([key, value]) => (
-              <div
-                key={key}
-                className="flex-grow flex justify-center align-middle overflow-clip"
-                style={{
-                  width: `${value}%`,
-                  // @ts-ignore
-                  backgroundColor: scoreColours[key],
-                }}
-              >
-                <div className="m-auto">
-                  {key} ({value}%)
-                </div>
-              </div>
-            )
-          )}
-      </div>
+      {reducedModules && (
+        <CompletedBar showText data={scaleModuleOverallScore(reducedModules)} />
+      )}
 
       <DoughnutChart data={getChartData()} />
     </div>
