@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-import { MentalEnergy } from "@wellbeing/graphql-types";
+import { MentalEnergy, UserModules } from "@wellbeing/graphql-types";
 
 export const getLast7DaysEnergy = (energies: MentalEnergy[]): number => {
   if (energies.length === 0) return 0;
@@ -51,3 +51,48 @@ export const getColours = (length: number): string[] => {
     ),
   ];
 };
+
+type extractedData = {
+  modules: {
+    moduleName: string;
+    completedScore: number;
+    failedScore: number;
+    uncompletedAmount: number;
+  }[];
+  uncompletedAmount: number;
+  failedScore: number;
+};
+
+/**
+ * Takes a list of userModules, then returns a list of modules with their scores
+ * and the total uncompleted amount and failed score. (not scaled)
+ */
+export const reduceModules = (modules: UserModules[]) =>
+  modules
+    .map((module) => {
+      const completedScore = module.assignments.reduce(
+        (acc, curr) => acc + (curr.score * curr.percent) / 100,
+        0
+      );
+
+      const uncompletedAmount =
+        100 - module.assignments.reduce((acc, curr) => acc + curr.percent, 0);
+
+      const failedScore = 100 - completedScore - uncompletedAmount;
+
+      return {
+        moduleName: module.module.name,
+        completedScore,
+        failedScore,
+        uncompletedAmount,
+      };
+    })
+    .reduce(
+      (acc, curr) => {
+        acc.uncompletedAmount += curr.uncompletedAmount;
+        acc.failedScore += curr.failedScore;
+        acc.modules.push(curr);
+        return acc;
+      },
+      { modules: [], uncompletedAmount: 0, failedScore: 0 } as extractedData
+    );
