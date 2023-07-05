@@ -15,10 +15,10 @@ export const MyProgress: FC = () => {
         <h2 className="text-3xl font-bold">My Progress</h2>
         <h4 className="text-xl">View how you are doing in your modules.</h4>
       </div>
-      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6 grid-rows-bigger-dashboard xl:grid-rows-dashboard">
+      <div className="w-full min-h-full grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-6">
+        <ModuleSelector user={user.data?.currentUser} />
         <SubmitAssignment modules={user.data?.currentUser.modules} />
         <OverallStats modules={user.data?.currentUser.modules} />
-        <ModuleSelector user={user.data?.currentUser} />
         <Assignments modules={user.data?.currentUser.modules} />
       </div>
     </div>

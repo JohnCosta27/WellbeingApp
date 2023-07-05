@@ -29,6 +29,16 @@ mutation removeModule($moduleId: String!) {
   removeModule(moduleId: $moduleId)
 }
 
-mutation addAssignment($moduleId: String!, $name: String!, $score: Float!) {
-  addAssignment(moduleId: $moduleId, name: $name, score: $score)
+mutation addAssignment(
+  $moduleId: String!
+  $name: String!
+  $score: Float!
+  $percent: Float!
+) {
+  addAssignment(
+    moduleId: $moduleId
+    name: $name
+    score: $score
+    percent: $percent
+  )
 }
