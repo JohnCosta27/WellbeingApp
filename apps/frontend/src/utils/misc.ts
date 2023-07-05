@@ -52,7 +52,7 @@ export const getColours = (length: number): string[] => {
   ];
 };
 
-type extractedData = {
+export type extractedData = {
   modules: {
     moduleName: string;
     completedScore: number;
@@ -61,14 +61,15 @@ type extractedData = {
   }[];
   uncompletedAmount: number;
   failedScore: number;
+  completedScore: number;
 };
 
 /**
  * Takes a list of userModules, then returns a list of modules with their scores
  * and the total uncompleted amount and failed score. (not scaled)
  */
-export const reduceModules = (modules: UserModules[]) =>
-  modules
+export const reduceModules = (data: UserModules[]) =>
+  data
     .map((module) => {
       const completedScore = module.assignments.reduce(
         (acc, curr) => acc + (curr.score * curr.percent) / 100,
@@ -91,8 +92,29 @@ export const reduceModules = (modules: UserModules[]) =>
       (acc, curr) => {
         acc.uncompletedAmount += curr.uncompletedAmount;
         acc.failedScore += curr.failedScore;
+        acc.completedScore += curr.completedScore;
         acc.modules.push(curr);
         return acc;
       },
-      { modules: [], uncompletedAmount: 0, failedScore: 0 } as extractedData
+      {
+        modules: [],
+        uncompletedAmount: 0,
+        failedScore: 0,
+        completedScore: 0,
+      } as extractedData
     );
+
+export const scaleModuleOverallScore = (data: extractedData) => {
+  const total = data.completedScore + data.failedScore + data.uncompletedAmount;
+  return {
+    Passed: Math.round((data.completedScore / total) * 100),
+    Failed: Math.round((data.failedScore / total) * 100),
+    Uncompleted: Math.round((data.uncompletedAmount / total) * 100),
+  };
+};
+
+export const scoreColours = {
+  Passed: "#1ae530",
+  Failed: "#ff3f4c",
+  Uncompleted: "#6d9290",
+};
