@@ -56,10 +56,15 @@ const OverallStats = (props: OverallStatsProps) => {
     chartLabels.push("Failed");
     chartDataset.push(reducedModules.failedScore);
 
+    const bgColours = getColours(chartDataset.length - 2);
+
+    bgColours.push(scoreColours.Uncompleted);
+    bgColours.push(scoreColours.Failed);
+
     // scale the chartDataset to be out of 100
     const total = chartDataset.reduce((acc, curr) => acc + curr, 0);
     chartDataset.forEach((_, i) => {
-      chartDataset[i] = (chartDataset[i] / total) * 100;
+      chartDataset[i] = Math.round((chartDataset[i] / total) * 100);
     });
 
     return {
@@ -68,7 +73,7 @@ const OverallStats = (props: OverallStatsProps) => {
         {
           label: "%",
           data: chartDataset,
-          backgroundColor: getColours(chartDataset.length),
+          backgroundColor: bgColours,
           hoverOffset: 4,
         },
       ],
