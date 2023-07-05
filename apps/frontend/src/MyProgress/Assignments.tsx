@@ -28,7 +28,7 @@ const Assignments = (props: AssignmentsProps) => {
   }
 
   return (
-    <Card className="min-h-[50vh] col-span-2 row-span-2 gap-4 grid grid-cols-2 lg:grid-cols-4 grid-rows-3">
+    <Card className="min-h-[50vh] col-span-2 row-span-2 gap-4 grid grid-cols-1 lg:grid-cols-4 grid-rows-3">
       {modules.map((m) => (
         <div className="card bg-base-100 shadow-xl " key={m.module.id}>
           <div className="card-title bg-info rounded-t-2xl w-full text-center flex flex-col justify-center align-middle h-16">
@@ -40,7 +40,7 @@ const Assignments = (props: AssignmentsProps) => {
               className="h-6"
             />
           </div>
-          <div className="card-body w-full p-0 max-h-52 overflow-x-auto">
+          <div className="card-body w-full p-0 max-h-52 overflow-y-auto">
             <table className="table">
               <thead>
                 <tr>
@@ -49,7 +49,7 @@ const Assignments = (props: AssignmentsProps) => {
                   <th className=" rounded-t-none">% of Module</th>
                 </tr>
               </thead>
-              <tbody className="overflow-x-auto">
+              <tbody>
                 {m.assignments.map((a) => (
                   <tr key={a.date}>
                     <td>
