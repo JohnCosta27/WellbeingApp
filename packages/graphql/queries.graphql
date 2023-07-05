@@ -36,6 +36,10 @@ query CurrentUser {
         score
       }
     }
+    skills {
+      id
+      skill
+    }
   }
 }
 

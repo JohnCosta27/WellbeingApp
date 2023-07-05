@@ -21,7 +21,11 @@ import { verifyJwt } from "./util/jwt";
 import { GraphQLError } from "graphql";
 import { prisma } from "./prisma";
 import winston from "winston";
-import { createUserTestData, createGeneralTestData, nukeDatabase } from "./util/createTestData";
+import {
+  createUserTestData,
+  createGeneralTestData,
+  nukeDatabase,
+} from "./util/createTestData";
 
 const file = fs.readFileSync(
   path.join(__dirname, "../../../packages/graphql/schema.graphql"),
@@ -84,6 +88,7 @@ const resolvers: Resolvers<Context> = {
               assignments: true,
             },
           },
+          user_skills: true,
         },
       });
 
@@ -132,6 +137,10 @@ const resolvers: Resolvers<Context> = {
             date: a.date.getTime(),
             score: a.score,
           })),
+        })),
+        skills: user.user_skills.map((s) => ({
+          id: s.id,
+          skill: s.skill,
         })),
       };
 
@@ -277,7 +286,7 @@ const resolvers: Resolvers<Context> = {
             "User has more/less than 1 brand, user has: " + activeBrand.length
           );
         }
-        
+
         if (
           !activeBrand[0].brand_word_entries.find(
             (w) => w.brand_word.id === wordId
@@ -286,10 +295,14 @@ const resolvers: Resolvers<Context> = {
           throw new Error("User does not have this word");
         }
 
-        const brandWordEntryID = activeBrand[0].brand_word_entries.find((w) => w.brand_word.id === wordId)?.id;
+        const brandWordEntryID = activeBrand[0].brand_word_entries.find(
+          (w) => w.brand_word.id === wordId
+        )?.id;
 
-        if(!brandWordEntryID) {
-          throw new Error("User does not have this word (brandWordEntryID is null)");
+        if (!brandWordEntryID) {
+          throw new Error(
+            "User does not have this word (brandWordEntryID is null)"
+          );
         }
 
         await prisma.brandWordEntry.delete({
@@ -297,8 +310,6 @@ const resolvers: Resolvers<Context> = {
             id: brandWordEntryID,
           },
         });
-
-
       } catch (err) {
         console.log(err);
         throw new Error("Database error, most likely ID not found");
@@ -378,6 +389,35 @@ const resolvers: Resolvers<Context> = {
             score,
           },
         });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+    },
+    async addSkill(
+      _parent,
+      { skill, replacingSkillId },
+      context
+    ): Promise<boolean> {
+      try {
+        if (replacingSkillId) {
+          // Replace the skill with this ID, for the new one.
+          // If not found, it throws.
+          await prisma.userSkills.delete({
+            where: {
+              id: replacingSkillId,
+            },
+          });
+        }
+
+        await prisma.userSkills.create({
+          data: {
+            user_id: context.uuid,
+            skill,
+          },
+        });
+
         return true;
       } catch (err) {
         console.log(err);
@@ -469,17 +509,16 @@ function GetBadValueError(): GraphQLError {
   });
 }
 
-
 const setupTestData = async () => {
   await nukeDatabase();
 
   await createGeneralTestData();
-  for(let i = 0; i < 10; i++) {
+  for (let i = 0; i < 10; i++) {
     await createUserTestData();
   }
-}
+};
 
-if(process.env.NUKE_DATABASE?.toLowerCase() === 'true') setupTestData();
+if (process.env.NUKE_DATABASE?.toLowerCase() === "true") setupTestData();
 
 main();
 

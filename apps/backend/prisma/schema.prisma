@@ -17,6 +17,7 @@ model Users {
   how_am_i_phrases UserHowAmIPhrase[]
   brands Brand[]
   user_modules UserModules[]
+  user_skills UserSkills[]
 }
 
 model MentalEnergy {
@@ -99,4 +100,13 @@ model UserModules {
 
   user Users @relation(fields: [user_id], references: [id])
   module Modules @relation(fields: [module_id], references: [id])
+}
+
+model UserSkills {
+  id String @id @default(uuid())
+  user_id String
+
+  skill String
+
+  user Users @relation(fields: [user_id], references: [id])
 }

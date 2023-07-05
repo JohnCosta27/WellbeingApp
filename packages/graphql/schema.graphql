@@ -65,11 +65,19 @@ type UserModules {
   assignments: [Assignments!]!
 }
 
+# ----- User Skills ------
+
+type UserSkill {
+  id: String!
+  skill: String!
+}
+
 type User {
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
   howAmIPhrase: [UserHowAmIPhrase!]!
   modules: [UserModules!]!
+  skills: [UserSkill!]!
 }
 
 type Query {
@@ -90,4 +98,5 @@ type Mutation {
   addModule(moduleId: String!): Boolean
   removeModule(moduleId: String!): Boolean
   addAssignment(moduleId: String!, name: String!, score: Float!): Boolean
+  addSkill(skill: String!, replacingSkillId: String): Boolean
 }

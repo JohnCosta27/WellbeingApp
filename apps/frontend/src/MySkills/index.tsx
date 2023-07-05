@@ -1,7 +1,12 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable react/jsx-no-bind */
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import {
+  useAddSkillMutation,
+  useCurrentUserQuery,
+} from "@wellbeing/graphql-types";
 import { Card } from "../ui";
 import { DraggableSkill } from "./DraggableSkill";
 import { DroppableSkill } from "./DroppableSkill";
@@ -158,6 +163,9 @@ const globalSkills = [
 ];
 
 export const MySkills: FC = () => {
+  const userSkills = useCurrentUserQuery();
+  const [addSkillMutation] = useAddSkillMutation();
+
   const [skills, setSkills] = useState<
     Array<{ skill: string; index: undefined | number }>
   >(
@@ -166,6 +174,23 @@ export const MySkills: FC = () => {
       index: undefined,
     }))
   );
+
+  useEffect(() => {
+    if (!userSkills.loading && userSkills.data) {
+      let index = 0;
+      setSkills(
+        globalSkills.map(([title, text]) => ({
+          skill: `${title} - ${text}`,
+          index:
+            userSkills.data?.currentUser.skills.find(
+              (s) => s.skill === `${title} - ${text}`
+            ) !== undefined
+              ? index++
+              : undefined,
+        }))
+      );
+    }
+  }, [userSkills.data]);
 
   function onDropSkill(skill: string, index: number): void {
     const item = skills.find((s) => s.skill === skill);
@@ -178,6 +203,12 @@ export const MySkills: FC = () => {
 
     item.index = index;
     setSkills([...skills]);
+
+    addSkillMutation({
+      variables: {
+        skill,
+      },
+    });
   }
 
   return (

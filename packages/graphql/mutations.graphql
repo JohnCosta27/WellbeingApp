@@ -32,3 +32,7 @@ mutation removeModule($moduleId: String!) {
 mutation addAssignment($moduleId: String!, $name: String!, $score: Float!) {
   addAssignment(moduleId: $moduleId, name: $name, score: $score)
 }
+
+mutation addSkill($skill: String!, $replacingSkillId: String) {
+  addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
+}
