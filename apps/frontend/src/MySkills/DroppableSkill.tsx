@@ -29,7 +29,10 @@ export const DroppableSkill: FC<DroppableSkillProps> = ({
   return (
     <div
       ref={drop}
-      className={clsx("w-24 h-24", isOver ? "bg-red-500" : "bg-red-200")}
+      className={clsx(
+        "border-2 border-primary rounded text-2xl",
+        isOver && "bg-red-200"
+      )}
     >
       {skill ?? "Drop Skill Here"}
     </div>
