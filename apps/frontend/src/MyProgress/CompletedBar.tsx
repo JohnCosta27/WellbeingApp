@@ -5,12 +5,13 @@ type CompletedBarProps = {
     [key: string]: string | number;
   };
   showText?: boolean;
+  className?: string;
 };
 
 const CompletedBar = (props: CompletedBarProps) => {
-  const { data, showText } = props;
+  const { data, showText, className } = props;
   return (
-    <div className="w-full bg-black h-10 flex">
+    <div className={`w-full bg-black h-10 flex ${className}`}>
       {Object.entries(data).map(([key, value]) => (
         <div
           key={key}
