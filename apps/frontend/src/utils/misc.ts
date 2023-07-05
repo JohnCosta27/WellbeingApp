@@ -114,7 +114,7 @@ export const scaleModuleOverallScore = (data: extractedData) => {
 };
 
 export const scoreColours = {
-  Passed: "#1ae530",
-  Failed: "#ff3f4c",
+  Passed: "#5cf76c",
+  Failed: "#fc6f79",
   Uncompleted: "#6d9290",
 };
