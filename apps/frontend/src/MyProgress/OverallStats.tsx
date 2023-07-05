@@ -1,7 +1,6 @@
 import { UserModules } from "@wellbeing/graphql-types";
 import { useEffect, useState } from "react";
 import { Card } from "../ui";
-import DoughnutChart from "./DoughnutChart";
 import {
   extractedData,
   getColours,
@@ -10,6 +9,7 @@ import {
   scoreColours,
 } from "../utils";
 import CompletedBar from "./CompletedBar";
+import { DoughnutChart } from "./DoughnutChart";
 
 type OverallStatsProps = {
   modules: UserModules[] | undefined;

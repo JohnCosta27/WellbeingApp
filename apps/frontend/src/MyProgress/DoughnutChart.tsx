@@ -4,34 +4,33 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
+  ChartData,
 } from "chart.js";
+import { FC } from "react";
 import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type DoughnutChartProps = {
-  data: any;
+  data: ChartData<"doughnut">;
 };
 
-const options: ChartOptions<DoughnutChartProps["data"]> = {
+const options: ChartOptions<"doughnut"> = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
     legend: {
       display: true,
       position: "left",
-      align: "left",
+      align: "start",
     },
   },
 };
 
-const DoughnutChart = (props: DoughnutChartProps) => {
-  const { data } = props;
-  return (
-    <div className="h-80 w-full m-auto">
-      <Doughnut data={data} options={options} />
-    </div>
-  );
-};
+export const DoughnutChart: FC<DoughnutChartProps> = ({ data }) => (
+  <div className="h-80 w-full m-auto">
+    <Doughnut data={data} options={options} />
+  </div>
+);
 
-export default DoughnutChart;
+// export default DoughnutChart;
