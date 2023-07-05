@@ -3,17 +3,6 @@ import { Card } from "../ui";
 import DoughnutChart from "./DoughnutChart";
 import { getColours, reduceModules } from "../utils";
 
-type extractedData = {
-  modules: {
-    moduleName: string;
-    completedScore: number;
-    failedScore: number;
-    uncompletedAmount: number;
-  }[];
-  uncompletedAmount: number;
-  failedScore: number;
-};
-
 type OverallStatsProps = {
   modules: UserModules[] | undefined;
 };
@@ -45,9 +34,9 @@ const OverallStats = (props: OverallStatsProps) => {
     const chartLabels = reduced.modules.map((module) => module.moduleName);
     const chartDataset = reduced.modules.map((module) => module.completedScore);
 
+    // push the general stats to the arrays
     chartLabels.push("Uncompleted");
     chartDataset.push(reduced.uncompletedAmount);
-
     chartLabels.push("Failed");
     chartDataset.push(reduced.failedScore);
 
@@ -57,7 +46,7 @@ const OverallStats = (props: OverallStatsProps) => {
       chartDataset[i] = (chartDataset[i] / total) * 100;
     });
 
-    const outVal = {
+    return {
       labels: chartLabels,
       datasets: [
         {
@@ -68,9 +57,6 @@ const OverallStats = (props: OverallStatsProps) => {
         },
       ],
     };
-
-    console.log(outVal);
-    return outVal;
   };
 
   if (!modules) {
