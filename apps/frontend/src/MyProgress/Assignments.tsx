@@ -46,7 +46,7 @@ const Assignments = (props: AssignmentsProps) => {
             <ul className="p-2">
               {m.assignments.map((a) => (
                 <li key={a.date}>
-                  {a.name} | {a.score}
+                  {a.name} | {a.score} - {a.percent}% of module
                 </li>
               ))}
             </ul>

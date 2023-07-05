@@ -1,15 +1,17 @@
 import { UserModules } from "@wellbeing/graphql-types";
 import { Card } from "../ui";
 import DoughnutChart from "./DoughnutChart";
-import { getColours } from "../utils";
+import { getColours, reduceModules } from "../utils";
 
 type extractedData = {
   modules: {
     moduleName: string;
     completedScore: number;
+    failedScore: number;
     uncompletedAmount: number;
   }[];
   uncompletedAmount: number;
+  failedScore: number;
 };
 
 type OverallStatsProps = {
@@ -23,58 +25,45 @@ const OverallStats = (props: OverallStatsProps) => {
    * Extracts the data from the modules to be used in the chart
    */
   const extractData = () => {
-    const reduced = modules
-      ?.map((module) => {
-        const completedScore = module.assignments.reduce(
-          (acc, curr) => acc + (curr.score * curr.percent) / 100,
-          0
-        );
+    // extracts the completed and uncompleted data from the modules
+    if (!modules)
+      return {
+        labels: [],
+        datasets: [],
+      };
 
-        const uncompletedAmount =
-          100 - module.assignments.reduce((acc, curr) => acc + curr.percent, 0);
+    const reduced = reduceModules(modules);
 
-        return {
-          moduleName: module.module.name,
-          completedScore,
-          uncompletedAmount,
-        };
-      })
-      .reduce(
-        (acc, curr) => {
-          acc.uncompletedAmount += curr.uncompletedAmount;
-          acc.modules.push(curr);
-          return acc;
-        },
-        { modules: [], uncompletedAmount: 0 } as extractedData
-      );
-
+    // if there are no modules, return an empty chart
     if (!reduced)
       return {
         labels: [],
         datasets: [],
       };
-    const chartLabels = reduced.modules.map((module) => module.moduleName);
 
-    const chartDataset = reduced.modules.reduce(
-      (acc, curr) => {
-        acc.data.push(curr.completedScore);
-        return acc;
-      },
-      { data: [] } as {
-        data: number[];
-      }
-    );
+    // Create the chart labels and dataset
+    const chartLabels = reduced.modules.map((module) => module.moduleName);
+    const chartDataset = reduced.modules.map((module) => module.completedScore);
 
     chartLabels.push("Uncompleted");
-    chartDataset.data.push(reduced.uncompletedAmount);
+    chartDataset.push(reduced.uncompletedAmount);
+
+    chartLabels.push("Failed");
+    chartDataset.push(reduced.failedScore);
+
+    // scale the chartDataset to be out of 100
+    const total = chartDataset.reduce((acc, curr) => acc + curr, 0);
+    chartDataset.forEach((_, i) => {
+      chartDataset[i] = (chartDataset[i] / total) * 100;
+    });
 
     const outVal = {
       labels: chartLabels,
       datasets: [
         {
           label: "%",
-          data: chartDataset.data,
-          backgroundColor: getColours(chartDataset.data.length),
+          data: chartDataset,
+          backgroundColor: getColours(chartDataset.length),
           hoverOffset: 4,
         },
       ],
