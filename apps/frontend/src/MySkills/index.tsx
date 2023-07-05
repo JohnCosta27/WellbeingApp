@@ -163,7 +163,7 @@ const globalSkills = [
 ];
 
 export const MySkills: FC = () => {
-  const userSkills = useCurrentUserQuery();
+  const user = useCurrentUserQuery();
   const [addSkillMutation] = useAddSkillMutation();
 
   const [skills, setSkills] = useState<
@@ -175,22 +175,21 @@ export const MySkills: FC = () => {
     }))
   );
 
+  const [userSkills, setUserSkills] = useState<
+    Array<{ skill: string; index: number }>
+  >([]);
+
   useEffect(() => {
-    if (!userSkills.loading && userSkills.data) {
+    if (!user.loading && user.data) {
       let index = 0;
-      setSkills(
-        globalSkills.map(([title, text]) => ({
-          skill: `${title} - ${text}`,
-          index:
-            userSkills.data?.currentUser.skills.find(
-              (s) => s.skill === `${title} - ${text}`
-            ) !== undefined
-              ? index++
-              : undefined,
+      setUserSkills(
+        user.data.currentUser.skills.map((s) => ({
+          skill: s.skill,
+          index: ++index,
         }))
       );
     }
-  }, [userSkills.data]);
+  }, [user.data]);
 
   function onDropSkill(skill: string, index: number): void {
     const item = skills.find((s) => s.skill === skill);
@@ -237,27 +236,27 @@ export const MySkills: FC = () => {
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={0}
-              skill={skills.find((s) => s.index === 0)?.skill}
+              skill={userSkills.find((s) => s.index === 0)?.skill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={1}
-              skill={skills.find((s) => s.index === 1)?.skill}
+              skill={userSkills.find((s) => s.index === 1)?.skill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={2}
-              skill={skills.find((s) => s.index === 2)?.skill}
+              skill={userSkills.find((s) => s.index === 2)?.skill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={3}
-              skill={skills.find((s) => s.index === 3)?.skill}
+              skill={userSkills.find((s) => s.index === 3)?.skill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={4}
-              skill={skills.find((s) => s.index === 4)?.skill}
+              skill={userSkills.find((s) => s.index === 4)?.skill}
             />
           </Card>
         </div>
