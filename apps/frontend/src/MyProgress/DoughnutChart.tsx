@@ -1,5 +1,10 @@
-import React from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  ChartOptions,
+} from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -8,7 +13,7 @@ type DoughnutChartProps = {
   data: any;
 };
 
-const options = {
+const options: ChartOptions<DoughnutChartProps["data"]> = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
@@ -24,7 +29,6 @@ const DoughnutChart = (props: DoughnutChartProps) => {
   const { data } = props;
   return (
     <div className="h-80 w-full m-auto">
-      {/* @ts-ignore */}
       <Doughnut data={data} options={options} />
     </div>
   );
