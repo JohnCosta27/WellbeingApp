@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 import { MentalEnergy } from "@wellbeing/graphql-types";
 
 export const getLast7DaysEnergy = (energies: MentalEnergy[]): number => {
@@ -21,3 +22,32 @@ const ONE_DAY = 24 * 60 * 60 * 1000;
 export function timeUntilEndOfDay(): number {
   return ONE_DAY - (Math.floor(new Date().getTime()) % ONE_DAY);
 }
+
+const colourList = [
+  "#EB5B4D",
+  "#4BE3DB",
+  "#B075EB",
+  "#E310DF",
+  "#6582EB",
+  "#EB5300",
+  "#F000E8",
+  "#00AEFA",
+  "#0EF000",
+  "#3800FF",
+];
+
+/**
+ * Returns a list of colours, with a length of `length`.
+ * This is meant to only give a few non-conflicting colours, then the random colours are used if they are needed.
+ */
+export const getColours = (length: number): string[] => {
+  if (length <= colourList.length) {
+    return colourList.slice(0, length);
+  }
+  return [
+    ...colourList,
+    ...[...Array(length - colourList.length)].map(
+      () => `#${((Math.random() * 0xffffff) << 0).toString(16)}`
+    ),
+  ];
+};

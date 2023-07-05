@@ -1,22 +1,7 @@
 import { UserModules } from "@wellbeing/graphql-types";
 import { Card } from "../ui";
 import DoughnutChart from "./DoughnutChart";
-
-const data = {
-  labels: ["Red", "Blue", "Yellow"],
-  datasets: [
-    {
-      label: "My First Dataset",
-      data: [300, 50, 100],
-      backgroundColor: [
-        "rgb(255, 99, 132)",
-        "rgb(54, 162, 235)",
-        "rgb(255, 205, 86)",
-      ],
-      hoverOffset: 4,
-    },
-  ],
-};
+import { getColours } from "../utils";
 
 type extractedData = {
   modules: {
@@ -73,30 +58,23 @@ const OverallStats = (props: OverallStatsProps) => {
     const chartDataset = reduced.modules.reduce(
       (acc, curr) => {
         acc.data.push(curr.completedScore);
-        acc.backgroundColor.push(
-          `hsl(${Math.floor(Math.random() * 360)}, 100%, 50%)`
-        );
         return acc;
       },
-      { data: [], backgroundColor: [] } as {
+      { data: [] } as {
         data: number[];
-        backgroundColor: string[];
       }
     );
 
     chartLabels.push("Uncompleted");
     chartDataset.data.push(reduced.uncompletedAmount);
-    chartDataset.backgroundColor.push(
-      `hsl(${Math.floor(Math.random() * 360)}, 100%, 50%)`
-    );
 
     const outVal = {
       labels: chartLabels,
       datasets: [
         {
-          label: "Overall Year 1 Stats",
+          label: "%",
           data: chartDataset.data,
-          backgroundColor: chartDataset.backgroundColor,
+          backgroundColor: getColours(chartDataset.data.length),
           hoverOffset: 4,
         },
       ],
