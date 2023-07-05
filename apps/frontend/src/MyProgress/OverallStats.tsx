@@ -1,7 +1,14 @@
 import { UserModules } from "@wellbeing/graphql-types";
+import { useEffect, useState } from "react";
 import { Card } from "../ui";
 import DoughnutChart from "./DoughnutChart";
-import { getColours, reduceModules } from "../utils";
+import {
+  extractedData,
+  getColours,
+  reduceModules,
+  scaleModuleOverallScore,
+  scoreColours,
+} from "../utils";
 
 type OverallStatsProps = {
   modules: UserModules[] | undefined;
@@ -9,11 +16,18 @@ type OverallStatsProps = {
 
 const OverallStats = (props: OverallStatsProps) => {
   const { modules } = props;
+  const [reducedModules, setReducedModules] = useState<
+    extractedData | undefined
+  >(modules ? reduceModules(modules) : undefined);
+
+  useEffect(() => {
+    if (modules) setReducedModules(reduceModules(modules));
+  }, [modules]);
 
   /**
    * Extracts the data from the modules to be used in the chart
    */
-  const extractData = () => {
+  const getChartData = () => {
     // extracts the completed and uncompleted data from the modules
     if (!modules)
       return {
@@ -21,24 +35,26 @@ const OverallStats = (props: OverallStatsProps) => {
         datasets: [],
       };
 
-    const reduced = reduceModules(modules);
-
     // if there are no modules, return an empty chart
-    if (!reduced)
+    if (!reducedModules)
       return {
         labels: [],
         datasets: [],
       };
 
     // Create the chart labels and dataset
-    const chartLabels = reduced.modules.map((module) => module.moduleName);
-    const chartDataset = reduced.modules.map((module) => module.completedScore);
+    const chartLabels = reducedModules.modules.map(
+      (module) => module.moduleName
+    );
+    const chartDataset = reducedModules.modules.map(
+      (module) => module.completedScore
+    );
 
     // push the general stats to the arrays
     chartLabels.push("Uncompleted");
-    chartDataset.push(reduced.uncompletedAmount);
+    chartDataset.push(reducedModules.uncompletedAmount);
     chartLabels.push("Failed");
-    chartDataset.push(reduced.failedScore);
+    chartDataset.push(reducedModules.failedScore);
 
     // scale the chartDataset to be out of 100
     const total = chartDataset.reduce((acc, curr) => acc + curr, 0);
@@ -77,14 +93,34 @@ const OverallStats = (props: OverallStatsProps) => {
     );
   }
 
-  // on module re-render, destroy the chart and re-render it
-
   return (
     <div className="card bg-base-100 shadow-xl ">
       <div className="card-title bg-info p-2 rounded-t-2xl w-full text-center flex justify-center align-middle h-16">
         <div className="m-auto text-2xl">Overall Stats</div>
       </div>
-      <DoughnutChart data={extractData()} />
+      <div className="w-full bg-black h-10 flex">
+        {/* Set the uncompleted, completed and failed elements to scale proportionally */}
+        {reducedModules &&
+          Object.entries(scaleModuleOverallScore(reducedModules)).map(
+            ([key, value]) => (
+              <div
+                key={key}
+                className="flex-grow flex justify-center align-middle overflow-clip"
+                style={{
+                  width: `${value}%`,
+                  // @ts-ignore
+                  backgroundColor: scoreColours[key],
+                }}
+              >
+                <div className="m-auto">
+                  {key} ({value}%)
+                </div>
+              </div>
+            )
+          )}
+      </div>
+
+      <DoughnutChart data={getChartData()} />
     </div>
   );
 };
