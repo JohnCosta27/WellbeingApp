@@ -8,11 +8,24 @@ type DoughnutChartProps = {
   data: any;
 };
 
+const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: true,
+      position: "left",
+      align: "left",
+    },
+  },
+};
+
 const DoughnutChart = (props: DoughnutChartProps) => {
   const { data } = props;
   return (
-    <div className="h-80 w-80 m-auto">
-      <Doughnut data={data} />
+    <div className="h-80 w-full m-auto">
+      {/* @ts-ignore */}
+      <Doughnut data={data} options={options} />
     </div>
   );
 };
