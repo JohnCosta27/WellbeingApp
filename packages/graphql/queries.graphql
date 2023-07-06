@@ -22,6 +22,7 @@ query CurrentUser {
           word
         }
         date
+        name
       }
     }
     modules {

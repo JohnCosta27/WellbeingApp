@@ -56,6 +56,7 @@ export const createUserTestData = async () => {
 			brands: {
 				create: {
 					id: faker.string.uuid(),
+					name: faker.person.firstName(),
 					brand_word_entries: {
 						create: {
 							id: faker.string.uuid(),

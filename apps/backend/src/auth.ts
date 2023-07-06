@@ -25,6 +25,7 @@ AuthRouter.post("/register", async (req: Request, res: Response) => {
     await prisma.brand.create({
       data: {
         user_id: createNewUser.id,
+        name: "First Brand",
       },
     });
 

@@ -92,6 +92,11 @@ export type MutationAddModuleArgs = {
 };
 
 
+export type MutationAddWholeBrandArgs = {
+  brandName: Scalars['String'];
+};
+
+
 export type MutationRemoveBrandWordArgs = {
   wordId: Scalars['String'];
 };
@@ -104,6 +109,7 @@ export type MutationRemoveModuleArgs = {
 export type PastUserBrand = {
   __typename?: 'PastUserBrand';
   date?: Maybe<Scalars['Float']>;
+  name: Scalars['String'];
   words: Array<BrandWords>;
 };
 
@@ -289,13 +295,14 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
-  addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddWholeBrandArgs, 'brandName'>>;
   removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
   removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
 };
 
 export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
   date?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   words?: Resolver<Array<ResolversTypes['BrandWords']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -378,7 +385,9 @@ export type RemoveBrandWordMutationVariables = Exact<{
 
 export type RemoveBrandWordMutation = { __typename?: 'Mutation', removeBrandWord?: boolean | null };
 
-export type AddWholeBrandMutationVariables = Exact<{ [key: string]: never; }>;
+export type AddWholeBrandMutationVariables = Exact<{
+  brandName: Scalars['String'];
+}>;
 
 
 export type AddWholeBrandMutation = { __typename?: 'Mutation', addWholeBrand?: boolean | null };
@@ -410,7 +419,7 @@ export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -556,8 +565,8 @@ export type RemoveBrandWordMutationHookResult = ReturnType<typeof useRemoveBrand
 export type RemoveBrandWordMutationResult = Apollo.MutationResult<RemoveBrandWordMutation>;
 export type RemoveBrandWordMutationOptions = Apollo.BaseMutationOptions<RemoveBrandWordMutation, RemoveBrandWordMutationVariables>;
 export const AddWholeBrandDocument = gql`
-    mutation addWholeBrand {
-  addWholeBrand
+    mutation addWholeBrand($brandName: String!) {
+  addWholeBrand(brandName: $brandName)
 }
     `;
 export type AddWholeBrandMutationFn = Apollo.MutationFunction<AddWholeBrandMutation, AddWholeBrandMutationVariables>;
@@ -575,6 +584,7 @@ export type AddWholeBrandMutationFn = Apollo.MutationFunction<AddWholeBrandMutat
  * @example
  * const [addWholeBrandMutation, { data, loading, error }] = useAddWholeBrandMutation({
  *   variables: {
+ *      brandName: // value for 'brandName'
  *   },
  * });
  */
@@ -711,6 +721,7 @@ export const CurrentUserDocument = gql`
           word
         }
         date
+        name
       }
     }
     modules {
