@@ -442,6 +442,44 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error, most likely ID not found");
       }
     },
+    async createCommunityMessage(_parent, { message, placeId }, context) {
+      try {
+        await prisma.communityMessage.create({
+          data: {
+            message,
+            place: {
+              connect: {
+                id: placeId,
+              },
+            },
+            user: {
+              connect: {
+                id: context.uuid,
+              },
+            }
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in createCommunityMessage "+ err);
+      }
+    },
+    async createPlace(_parent, { name, latitude, longitude }) {
+      try {
+        await prisma.place.create({
+          data: {
+            name,
+            latitude,
+            longitude,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in createPlace "+ err);
+      }
+    },
   },
 };
 
