@@ -46,7 +46,10 @@ export const WhoDashboard: FC = () => {
         <Card title="IBrand" className="row-span-2 col-span-2">
           <div className="w-full text-center font-bold text-xl">
             {activeBrand.date ? (
-              <>Brand from: {new Date(activeBrand.date).toDateString()}</>
+              <>
+                {activeBrand.name} from:{" "}
+                {new Date(activeBrand.date).toDateString()}
+              </>
             ) : (
               <>Active Brand </>
             )}

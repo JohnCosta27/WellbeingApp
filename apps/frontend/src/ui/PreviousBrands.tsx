@@ -22,7 +22,7 @@ const PreviousBrands: FC<PreviousBrandsProps> = (props) => {
         type="button"
         className="btn btn-info min-w-fit"
         onClick={() => {
-          setActiveBrand({ words: userBrand.words });
+          setActiveBrand({ words: userBrand.words, name: "Current Brand" });
         }}
       >
         Current Brand
@@ -37,7 +37,7 @@ const PreviousBrands: FC<PreviousBrandsProps> = (props) => {
             setActiveBrand(b);
           }}
         >
-          {`Brand ${i + 1}, posted ${dayjs(b.date).fromNow()}`}
+          {`${b.name}, posted ${dayjs(b.date).fromNow()}`}
         </button>
       ))}
     </Card>
