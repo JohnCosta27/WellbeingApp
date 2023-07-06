@@ -101,20 +101,26 @@ export const reduceModules = (data: UserModules[]) =>
         uncompletedAmount: 0,
         failedScore: 0,
         completedScore: 0,
-      } as extractedData
+      } satisfies extractedData
     );
+
+export enum PassTypes {
+  Passed = "Passed",
+  Failed = "Failed",
+  Uncompleted = "Uncompleted",
+}
 
 export const scaleModuleOverallScore = (data: extractedData) => {
   const total = data.completedScore + data.failedScore + data.uncompletedAmount;
   return {
-    Passed: Math.round((data.completedScore / total) * 100),
-    Failed: Math.round((data.failedScore / total) * 100),
-    Uncompleted: Math.round((data.uncompletedAmount / total) * 100),
+    [PassTypes.Passed]: Math.round((data.completedScore / total) * 100),
+    [PassTypes.Failed]: Math.round((data.failedScore / total) * 100),
+    [PassTypes.Uncompleted]: Math.round((data.uncompletedAmount / total) * 100),
   };
 };
 
-export const scoreColours = {
-  Passed: "#5cf76c",
-  Failed: "#fc6f79",
-  Uncompleted: "#6d9290",
+export const scoreColours: Record<PassTypes, string> = {
+  [PassTypes.Passed]: "#5cf76c",
+  [PassTypes.Failed]: "#fc6f79",
+  [PassTypes.Uncompleted]: "#6d9290",
 };

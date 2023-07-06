@@ -1,4 +1,5 @@
-import { scoreColours } from "../utils";
+import { FC } from "react";
+import { PassTypes, scoreColours } from "../utils";
 
 type CompletedBarProps = {
   data: {
@@ -8,18 +9,19 @@ type CompletedBarProps = {
   className?: string;
 };
 
-const CompletedBar = (props: CompletedBarProps) => {
-  const { data, showText, className } = props;
+const CompletedBar: FC<CompletedBarProps> = ({ data, showText, className }) => {
+  const filteredEntries = Object.entries(data).filter(
+    ([key]) => key in PassTypes
+  ) as [PassTypes, number][];
   return (
     <div className={`w-full bg-black h-10 flex ${className}`}>
-      {Object.entries(data).map(([key, value]) => (
+      {filteredEntries.map(([key, value]) => (
         <div
           key={key}
           className="flex-grow flex justify-center align-middle overflow-clip"
           style={{
             width: `${value}%`,
-            // @ts-ignore
-            backgroundColor: scoreColours[key],
+            backgroundColor: scoreColours[key satisfies PassTypes],
           }}
         >
           {showText && (
