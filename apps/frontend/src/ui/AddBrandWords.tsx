@@ -26,9 +26,14 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   onAddWord,
   onRemoveWord,
 }) => {
+  const [brandName, setBrandName] = useState("");
+
   // TODO: when this gets called, the words need to change accordingly
   const [addWholeBrandMutation] = useAddWholeBrandMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
+    variables: {
+      brandName,
+    },
   });
 
   /** The words that are currently selected
@@ -75,7 +80,7 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
 
   return (
     <div className="w-full h-full relative">
-      {/** Why is multiple not valid and why does this work? */}
+      {/** @ts-ignore Why is multiple not valid and why does this work? */}
       <Combobox value={selectedWords} onChange={setSelectedWords} multiple>
         <div className="relative mt-1 z-10">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -144,13 +149,22 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
           </button>
         ))}
       </div>
-      <button
-        type="button"
-        className="btn btn-secondary w-full bottom-0 absolute"
-        onClick={() => addWholeBrandMutation()}
-      >
-        Save Brand
-      </button>
+      <div className="flex justify-between mt-4 bottom-0 absolute w-full gap-4">
+        <input
+          type="text"
+          className="input input-bordered w-full"
+          placeholder="Brand Name"
+          value={brandName}
+          onChange={(event) => setBrandName(event.target.value)}
+        />
+        <button
+          type="button"
+          className="btn btn-secondary w-1/3"
+          onClick={() => addWholeBrandMutation()}
+        >
+          Save Brand
+        </button>
+      </div>
     </div>
   );
 };
