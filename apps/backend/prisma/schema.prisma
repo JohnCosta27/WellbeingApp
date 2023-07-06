@@ -9,72 +9,104 @@ datasource db {
 }
 
 model Users {
-  id String @id @default(uuid())
-  email String @unique
-  password String
-  password_salt String
-  mental_energy MentalEnergy[]
-  how_am_i_phrases UserHowAmIPhrase[]
-  brands Brand[]
-  user_modules UserModules[]
+  id                 String             @id @default(uuid())
+  email              String             @unique
+  password           String
+  password_salt      String
+  mental_energy      MentalEnergy[]
+  how_am_i_phrases   UserHowAmIPhrase[]
+  brands             Brand[]
+  user_modules       UserModules[]
+  community_messages CommunityMessage[]
 }
 
 model MentalEnergy {
-  id String @id @default(uuid())
+  id    String   @id @default(uuid())
   level Float
-  date DateTime @default(now())
+  date  DateTime @default(now())
 
   user_id String
-  user Users @relation(fields: [user_id], references: [id])
+  user    Users  @relation(fields: [user_id], references: [id])
+}
+
+model CommunityMessage {
+  id      String   @id @default(uuid())
+  message String
+  date    DateTime @default(now())
+
+  placeId String
+  place   Place  @relation(fields: [placeId], references: [id])
+
+  userId String
+  user   Users  @relation(fields: [userId], references: [id])
+
+  replies Reply[]
+}
+
+model Reply {
+  id      String   @id @default(uuid())
+  message String
+  date    DateTime @default(now())
+
+  communityMessage   CommunityMessage @relation(fields: [communityMessageId], references: [id])
+  communityMessageId String
+}
+
+model Place {
+  id        String             @id @default(uuid())
+  name      String
+  latitude  Float
+  longitude Float
+  messages  CommunityMessage[]
 }
 
 model HowAmIPhrase {
-  id String @id @default(uuid())
+  id     String @id @default(uuid())
   phrase String
 
   user_phrases UserHowAmIPhrase[]
 }
 
 model UserHowAmIPhrase {
-  id String @id @default(uuid())
+  id         String   @id @default(uuid())
   date_added DateTime @default(now())
 
   how_am_i_phrase_id String
-  user_id String
-  phrase HowAmIPhrase @relation(fields: [how_am_i_phrase_id], references: [id])
-  user Users @relation(fields: [user_id], references: [id])
+  user_id            String
+  phrase             HowAmIPhrase @relation(fields: [how_am_i_phrase_id], references: [id])
+  user               Users        @relation(fields: [user_id], references: [id])
 }
 
 model BrandWords {
-  id String @id @default(uuid())
+  id   String @id @default(uuid())
   word String
 
   brandWordEntries BrandWordEntry[]
 }
 
 model BrandWordEntry {
-  id String @id @default(uuid())
+  id         String   @id @default(uuid())
   date_added DateTime @default(now())
 
   brand_word_id String
-  brand_word BrandWords @relation(fields: [brand_word_id], references: [id])
-  
+  brand_word    BrandWords @relation(fields: [brand_word_id], references: [id])
+
   brand_id String
-  brand Brand @relation(fields: [brand_id], references: [id])
+  brand    Brand  @relation(fields: [brand_id], references: [id])
 }
 
 model Brand {
-  id String @id @default(uuid())
+  id         String    @id @default(uuid())
   date_saved DateTime?
 
   brand_word_entries BrandWordEntry[]
 
   user_id String
-  user Users @relation(fields: [user_id], references: [id])
+  user    Users  @relation(fields: [user_id], references: [id])
 }
 
 model Modules {
-  id String @id @default(uuid())
+  id   String @id @default(uuid())
   name String
   year String
 
@@ -82,22 +114,22 @@ model Modules {
 }
 
 model Assignments {
-  id String @id @default(uuid())
-  name String
-  date DateTime @default(now())
-  score Float
+  id      String   @id @default(uuid())
+  name    String
+  date    DateTime @default(now())
+  score   Float
   percent Float
 
   user_module_id String
-  user_module UserModules @relation(fields: [user_module_id], references: [id])
+  user_module    UserModules @relation(fields: [user_module_id], references: [id])
 }
 
 model UserModules {
-  id String @id @default(uuid())
-  user_id String
-  module_id String
+  id          String        @id @default(uuid())
+  user_id     String
+  module_id   String
   assignments Assignments[]
 
-  user Users @relation(fields: [user_id], references: [id])
+  user   Users   @relation(fields: [user_id], references: [id])
   module Modules @relation(fields: [module_id], references: [id])
 }
