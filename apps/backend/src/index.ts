@@ -22,9 +22,9 @@ import { GraphQLError } from "graphql";
 import { prisma } from "./prisma";
 import winston from "winston";
 import {
-  createUserTestData,
   createGeneralTestData,
   nukeDatabase,
+  createUserProfile,
 } from "./util/createTestData";
 
 const file = fs.readFileSync(
@@ -482,7 +482,7 @@ const setupTestData = async () => {
 
   await createGeneralTestData();
   for (let i = 0; i < 10; i++) {
-    await createUserTestData();
+    await createUserProfile();
   }
 };
 
