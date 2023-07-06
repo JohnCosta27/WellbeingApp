@@ -104,7 +104,7 @@ const ModuleSelector = (props: ModulesSelectorProps) => {
     <Card
       title="Modules"
       description="Click to add module to your list"
-      className="col-span-1 md:row-span-3 row-span-1 min-h-fit"
+      className="col-span-1 row-span-1 min-h-fit"
     >
       {/* @ts-ignore */}
       <Combobox value={selectedModules} onChange={setSelectedModules} multiple>
