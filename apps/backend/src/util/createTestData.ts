@@ -11,8 +11,8 @@ export const createTestPlaces = (amount: number) => {
 			return {
       id: faker.string.uuid(),
       name: faker.location.city(),
-      latitude: faker.location.latitude({min: RHULcoords[0] - 0.1, max: RHULcoords[0] + 0.1}),
-      longitude: faker.location.longitude({min: RHULcoords[1] - 0.1, max: RHULcoords[1] + 0.1})
+      latitude: faker.location.latitude({min: RHULcoords[0] - 0.01, max: RHULcoords[0] + 0.01}),
+      longitude: faker.location.longitude({min: RHULcoords[1] - 0.01, max: RHULcoords[1] + 0.01})
     }}),
   };
 
