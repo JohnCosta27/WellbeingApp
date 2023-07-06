@@ -66,6 +66,21 @@ type UserModules {
   assignments: [Assignments!]!
 }
 
+type Place {
+  id: String!
+  name: String!
+  latitude: Float!
+  longitude: Float!
+}
+
+type CommunityMessage {
+  id: String!
+  message: String!
+  date: Float!
+  place: Place!
+  replies: [CommunityMessage]
+}
+
 type User {
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
@@ -79,6 +94,8 @@ type Query {
   mentalEnergy: [MentalEnergy!]!
   currentUser: User!
   modules: [Module!]!
+  places: [Place!]!
+  CommunityMessage(placeId: String!): [CommunityMessage!]!
 }
 
 type Mutation {
@@ -96,4 +113,6 @@ type Mutation {
     score: Float!
     percent: Float!
   ): Boolean
+  createPlace(name: String!, latitude: Float!, longitude: Float!): Boolean
+  createCommunityMessage(message: String!, placeId: String!): Boolean
 }

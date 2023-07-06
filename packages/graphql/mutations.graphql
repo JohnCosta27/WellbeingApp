@@ -42,3 +42,26 @@ mutation addAssignment(
     percent: $percent
   )
 }
+
+mutation createCommunityMessage(
+  $message: String!, 
+  $placeId: String!
+) {
+  createCommunityMessage(
+    message: $message
+    placeId: $placeId
+  )
+}
+
+mutation createPlace
+(
+  $name: String!, 
+  $latitude: Float!,
+  $longitude: Float!,
+) {
+  createPlace(
+    name: $name
+    latitude: $latitude
+    longitude: $longitude
+  )
+}

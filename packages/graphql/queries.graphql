@@ -61,3 +61,26 @@ query Modules {
     year
   }
 }
+
+query Places {
+  places {
+    id
+    name
+    latitude
+    longitude
+  }
+}
+
+query CommunityMessage {
+  CommunityMessage {
+    id
+    message
+    date
+    place {
+      id
+      name
+      latitude
+      longitude
+    }
+  }
+}
