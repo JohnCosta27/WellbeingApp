@@ -20,14 +20,27 @@ export const CommunityMessages: FC<CommunityMessagesProps> = ({ places }) => {
           <div className="card bg-primary shadow-xl col-span-1" key={place.id}>
             <div className="card-body">
               <div className="card-title">{place.name}</div>
-              {place.messages &&
-                place.messages.map((message) => (
-                  <div className="chat chat-start" key={message?.id}>
-                    <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer">
-                      {message?.message}
+              <div className="flex-auto">
+                {place.messages &&
+                  place.messages.map((message) => (
+                    <div className="chat chat-start" key={message?.id}>
+                      <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer">
+                        {message?.message}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
+
+              <div className="flex justify-end card-action align-bottom">
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-bordered w-full max-w-xs"
+                />
+                <button className="btn btn-secondary ml-2" type="submit">
+                  Send
+                </button>
+              </div>
             </div>
           </div>
         ))}
