@@ -115,6 +115,7 @@ const resolvers: Resolvers<Context> = {
               word: w.brand_word.word,
             })),
             date: b.date_saved?.getTime() || new Date().getTime(),
+            name: b.name,
           })),
         },
         mentalEnergy: user.mental_energy.map((m) => ({
@@ -183,7 +184,7 @@ const resolvers: Resolvers<Context> = {
      * Lets take the active brand (In the DB this is the one with no data_saved field),
      * add a date, and create a new one
      */
-    async addWholeBrand(_parent, _params, context): Promise<boolean> {
+    async addWholeBrand(_parent, params, context): Promise<boolean> {
       try {
         const activeBrand = await prisma.brand.findMany({
           where: {
@@ -210,6 +211,7 @@ const resolvers: Resolvers<Context> = {
         await prisma.brand.create({
           data: {
             user_id: context.uuid,
+            name: params.brandName,
           },
         });
         return true;
