@@ -21,7 +21,11 @@ import { verifyJwt } from "./util/jwt";
 import { GraphQLError } from "graphql";
 import { prisma } from "./prisma";
 import winston from "winston";
-import { createUserTestData, createGeneralTestData, nukeDatabase } from "./util/createTestData";
+import {
+  createUserTestData,
+  createGeneralTestData,
+  nukeDatabase,
+} from "./util/createTestData";
 
 const file = fs.readFileSync(
   path.join(__dirname, "../../../packages/graphql/schema.graphql"),
@@ -131,6 +135,7 @@ const resolvers: Resolvers<Context> = {
             name: a.name,
             date: a.date.getTime(),
             score: a.score,
+            percent: a.percent,
           })),
         })),
       };
@@ -277,7 +282,7 @@ const resolvers: Resolvers<Context> = {
             "User has more/less than 1 brand, user has: " + activeBrand.length
           );
         }
-        
+
         if (
           !activeBrand[0].brand_word_entries.find(
             (w) => w.brand_word.id === wordId
@@ -286,10 +291,14 @@ const resolvers: Resolvers<Context> = {
           throw new Error("User does not have this word");
         }
 
-        const brandWordEntryID = activeBrand[0].brand_word_entries.find((w) => w.brand_word.id === wordId)?.id;
+        const brandWordEntryID = activeBrand[0].brand_word_entries.find(
+          (w) => w.brand_word.id === wordId
+        )?.id;
 
-        if(!brandWordEntryID) {
-          throw new Error("User does not have this word (brandWordEntryID is null)");
+        if (!brandWordEntryID) {
+          throw new Error(
+            "User does not have this word (brandWordEntryID is null)"
+          );
         }
 
         await prisma.brandWordEntry.delete({
@@ -297,8 +306,6 @@ const resolvers: Resolvers<Context> = {
             id: brandWordEntryID,
           },
         });
-
-
       } catch (err) {
         console.log(err);
         throw new Error("Database error, most likely ID not found");
@@ -356,7 +363,7 @@ const resolvers: Resolvers<Context> = {
     },
     async addAssignment(
       _parent,
-      { moduleId, name, score },
+      { moduleId, name, score, percent },
       context
     ): Promise<boolean> {
       try {
@@ -376,6 +383,7 @@ const resolvers: Resolvers<Context> = {
             user_module_id: userModule[0].id,
             name,
             score,
+            percent,
           },
         });
         return true;
@@ -469,17 +477,16 @@ function GetBadValueError(): GraphQLError {
   });
 }
 
-
 const setupTestData = async () => {
   await nukeDatabase();
 
   await createGeneralTestData();
-  for(let i = 0; i < 10; i++) {
+  for (let i = 0; i < 10; i++) {
     await createUserTestData();
   }
-}
+};
 
-if(process.env.NUKE_DATABASE?.toLowerCase() === 'true') setupTestData();
+if (process.env.NUKE_DATABASE?.toLowerCase() === "true") setupTestData();
 
 main();
 

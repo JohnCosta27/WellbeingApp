@@ -32,6 +32,8 @@
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error"
   }
 }

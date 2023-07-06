@@ -58,6 +58,7 @@ type Assignments {
   name: String!
   date: Float!
   score: Float!
+  percent: Float!
 }
 
 type UserModules {
@@ -89,5 +90,10 @@ type Mutation {
   addWholeBrand: Boolean
   addModule(moduleId: String!): Boolean
   removeModule(moduleId: String!): Boolean
-  addAssignment(moduleId: String!, name: String!, score: Float!): Boolean
+  addAssignment(
+    moduleId: String!
+    name: String!
+    score: Float!
+    percent: Float!
+  ): Boolean
 }

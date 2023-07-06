@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   UserModules,
   namedOperations,
@@ -17,6 +17,9 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
     undefined
   );
   const [assignmentScore, setAssignmentScore] = useState(50);
+  const [assignmentPercent, setAssignmentPercent] = useState(50);
+  const [maxPercent, setMaxPercent] = useState(100);
+
   const [assignmentName, setAssignmentName] = useState<string | undefined>(
     undefined
   );
@@ -30,18 +33,43 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
     }
   };
 
+  // Get the remaining percentage that can be filled for the module
+  useEffect(() => {
+    if (!selectedModule) return;
+
+    const module = modules?.find((m) => m.module.id === selectedModule);
+
+    if (!module) return;
+
+    const totalPercent = module.assignments.reduce(
+      (acc, curr) => acc + curr.percent,
+      0
+    );
+    setMaxPercent(100 - totalPercent);
+  }, [selectedModule]);
+
+  useEffect(() => {
+    if (assignmentPercent > maxPercent) setAssignmentPercent(maxPercent);
+  }, [maxPercent]);
+
   const [addAssignment] = useAddAssignmentMutation({
     variables: {
       moduleId: selectedModule || "",
-      score: assignmentScore,
       name: assignmentName || "",
+      score: assignmentScore,
+      percent: assignmentPercent,
     },
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
   const onSubmitAssignment = useCallback(() => {
-    if (assignmentScore < 0 || assignmentScore > 100) {
+    if (assignmentScore < 1 || assignmentScore > 100) {
       setSubError("Assignment score must be a percentage (0 to 100)");
+      return;
+    }
+
+    if (assignmentPercent < 1 || assignmentPercent > maxPercent) {
+      setSubError(`Assignment percentage must be from 0 to ${maxPercent}}`);
       return;
     }
 
@@ -72,7 +100,7 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
   return (
     <Card
       title="Submit Assignment"
-      className="grid grid-cols-1 gap-2 col-span-1"
+      className="grid grid-cols-1 gap-2 col-span-1 min-h-fit"
     >
       <button
         className="dropdown flex-1"
@@ -104,7 +132,7 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
           <input
             className="range range-secondary flex-1 m-auto"
             type="range"
-            min={0}
+            min={1}
             max={100}
             value={assignmentScore}
             onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
@@ -112,7 +140,7 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
           <input
             className="input input-bordered input-primary w-[8rem]"
             placeholder="99%"
-            min={0}
+            min={1}
             max={100}
             type="number"
             id="score-input"
@@ -131,21 +159,21 @@ const SubmitAssignment = (props: SubmitAssignmentProps) => {
           <input
             className="range range-secondary flex-1 m-auto"
             type="range"
-            min={0}
-            max={100}
-            value={assignmentScore}
-            onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+            min={1}
+            max={maxPercent}
+            value={assignmentPercent}
+            onChange={(e) => setAssignmentPercent(parseFloat(e.target.value))}
           />
           <input
             className="input input-bordered input-primary w-[8rem]"
             placeholder="99%"
-            min={0}
-            max={100}
+            min={1}
+            max={maxPercent}
             type="number"
             id="score-input"
-            value={assignmentScore}
+            value={assignmentPercent}
             onFocus={() => setSubError(undefined)}
-            onChange={(e) => setAssignmentScore(parseFloat(e.target.value))}
+            onChange={(e) => setAssignmentPercent(parseFloat(e.target.value))}
           />
         </div>
       </div>

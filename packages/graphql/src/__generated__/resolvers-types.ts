@@ -21,6 +21,7 @@ export type Assignments = {
   __typename?: 'Assignments';
   date: Scalars['Float'];
   name: Scalars['String'];
+  percent: Scalars['Float'];
   score: Scalars['Float'];
 };
 
@@ -66,6 +67,7 @@ export type Mutation = {
 export type MutationAddAssignmentArgs = {
   moduleId: Scalars['String'];
   name: Scalars['String'];
+  percent: Scalars['Float'];
   score: Scalars['Float'];
 };
 
@@ -86,6 +88,16 @@ export type MutationAddMentalEnergyArgs = {
 
 
 export type MutationAddModuleArgs = {
+  moduleId: Scalars['String'];
+};
+
+
+export type MutationRemoveBrandWordArgs = {
+  wordId: Scalars['String'];
+};
+
+
+export type MutationRemoveModuleArgs = {
   moduleId: Scalars['String'];
 };
 
@@ -240,6 +252,7 @@ export type ResolversParentTypes = {
 export type AssignmentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Assignments'] = ResolversParentTypes['Assignments']> = {
   date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  percent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   score?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -271,12 +284,14 @@ export type ModuleResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addAssignment?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddAssignmentArgs, 'moduleId' | 'name' | 'score'>>;
+  addAssignment?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddAssignmentArgs, 'moduleId' | 'name' | 'percent' | 'score'>>;
   addBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddBrandWordArgs, 'wordId'>>;
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
   addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
+  removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
 };
 
 export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
@@ -386,6 +401,7 @@ export type AddAssignmentMutationVariables = Exact<{
   moduleId: Scalars['String'];
   name: Scalars['String'];
   score: Scalars['Float'];
+  percent: Scalars['Float'];
 }>;
 
 
@@ -394,7 +410,7 @@ export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -632,8 +648,13 @@ export type RemoveModuleMutationHookResult = ReturnType<typeof useRemoveModuleMu
 export type RemoveModuleMutationResult = Apollo.MutationResult<RemoveModuleMutation>;
 export type RemoveModuleMutationOptions = Apollo.BaseMutationOptions<RemoveModuleMutation, RemoveModuleMutationVariables>;
 export const AddAssignmentDocument = gql`
-    mutation addAssignment($moduleId: String!, $name: String!, $score: Float!) {
-  addAssignment(moduleId: $moduleId, name: $name, score: $score)
+    mutation addAssignment($moduleId: String!, $name: String!, $score: Float!, $percent: Float!) {
+  addAssignment(
+    moduleId: $moduleId
+    name: $name
+    score: $score
+    percent: $percent
+  )
 }
     `;
 export type AddAssignmentMutationFn = Apollo.MutationFunction<AddAssignmentMutation, AddAssignmentMutationVariables>;
@@ -654,6 +675,7 @@ export type AddAssignmentMutationFn = Apollo.MutationFunction<AddAssignmentMutat
  *      moduleId: // value for 'moduleId'
  *      name: // value for 'name'
  *      score: // value for 'score'
+ *      percent: // value for 'percent'
  *   },
  * });
  */
@@ -701,6 +723,7 @@ export const CurrentUserDocument = gql`
         name
         date
         score
+        percent
       }
     }
   }

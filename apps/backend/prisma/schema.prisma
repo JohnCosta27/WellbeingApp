@@ -86,6 +86,7 @@ model Assignments {
   name String
   date DateTime @default(now())
   score Float
+  percent Float
 
   user_module_id String
   user_module UserModules @relation(fields: [user_module_id], references: [id])
