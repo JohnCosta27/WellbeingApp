@@ -34,6 +34,7 @@ export type BrandWords = {
 export type CommunityMessage = {
   __typename?: 'CommunityMessage';
   date: Scalars['Float'];
+  email: Scalars['String'];
   id: Scalars['String'];
   message: Scalars['String'];
   place?: Maybe<Place>;
@@ -309,6 +310,7 @@ export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversP
 
 export type CommunityMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommunityMessage'] = ResolversParentTypes['CommunityMessage']> = {
   date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType>;
@@ -515,14 +517,14 @@ export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?:
 export type PlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, replies?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number } | null> | null } | null> | null }> };
+export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number } | null> | null } | null> | null }> };
 
 export type CommunityMessageQueryVariables = Exact<{
   placeId: Scalars['String'];
 }>;
 
 
-export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, place?: { __typename?: 'Place', name: string, latitude: number, longitude: number } | null }> };
+export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string, place?: { __typename?: 'Place', name: string, latitude: number, longitude: number } | null }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -1035,6 +1037,7 @@ export const PlacesDocument = gql`
       id
       message
       date
+      email
       replies {
         id
         message
@@ -1077,6 +1080,7 @@ export const CommunityMessageDocument = gql`
     id
     message
     date
+    email
     place {
       name
       latitude

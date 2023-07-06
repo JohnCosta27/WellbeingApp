@@ -151,6 +151,11 @@ const resolvers: Resolvers<Context> = {
           messages: {
             include: {
               replyTo: true,
+              user: {
+                select: {
+                  email: true,
+                },
+              },
             },
           },
         }
@@ -165,6 +170,7 @@ const resolvers: Resolvers<Context> = {
           id: m.id,
           message: m.message,
           date: m.date.getTime(),
+          email: m.user.email,
         })),
       }));
     },
@@ -177,6 +183,11 @@ const resolvers: Resolvers<Context> = {
           messages: {
             include: {
               replyTo: true,
+              user: {
+                select: {
+                  email: true,
+                },
+              }
             },
           },
         },
@@ -190,6 +201,7 @@ const resolvers: Resolvers<Context> = {
         id: m.id,
         message: m.message,
         date: m.date.getTime(),
+        email: m.user.email,
       }));
     }
   },

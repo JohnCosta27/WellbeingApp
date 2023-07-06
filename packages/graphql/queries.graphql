@@ -72,6 +72,7 @@ query Places {
       id
       message
       date
+      email
       replies {
         id
         message
@@ -86,6 +87,7 @@ query CommunityMessage($placeId: String!) {
     id
     message
     date
+    email
     place {
       name
       latitude

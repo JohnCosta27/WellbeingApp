@@ -79,6 +79,7 @@ type CommunityMessage {
   message: String!
   date: Float!
   place: Place
+  email: String!
   replies: [CommunityMessage]
 }
 
