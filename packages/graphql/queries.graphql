@@ -68,16 +68,25 @@ query Places {
     name
     latitude
     longitude
+    messages {
+      id
+      message
+      date
+      replies {
+        id
+        message
+        date
+      }
+    }
   }
 }
 
-query CommunityMessage {
-  CommunityMessage {
+query CommunityMessage($placeId: String!) {
+  CommunityMessage(placeId: $placeId) {
     id
     message
     date
     place {
-      id
       name
       latitude
       longitude
