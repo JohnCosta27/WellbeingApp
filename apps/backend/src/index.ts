@@ -5,9 +5,11 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import {
   BrandWords,
+  CommunityMessage,
   HowAmIPhrase,
   MentalEnergy,
   Module,
+  Place,
   Resolvers,
   User,
 } from "@wellbeing/graphql-types";
@@ -142,6 +144,54 @@ const resolvers: Resolvers<Context> = {
 
       return returnUser;
     },
+
+    async places(): Promise<Array<Place>> {
+      const places = await prisma.place.findMany({
+        include: {
+          messages: {
+            include: {
+              replyTo: true,
+            },
+          },
+        }
+      });
+    
+      return places.map((p) => ({
+        id: p.id,
+        name: p.name,
+        latitude: p.latitude,
+        longitude: p.longitude,
+        messages: p.messages.map((m) => ({
+          id: m.id,
+          message: m.message,
+          date: m.date.getTime(),
+        })),
+      }));
+    },
+    async CommunityMessage(_parent, { placeId }): Promise<Array<CommunityMessage>> {
+      const place = await prisma.place.findFirst({
+        where: {
+          id: placeId,
+        },
+        include: {
+          messages: {
+            include: {
+              replyTo: true,
+            },
+          },
+        },
+      });
+
+      if(!place) {
+        throw new Error("Place not found in CommunityMessage query");
+      }
+
+      return place?.messages.map((m) => ({
+        id: m.id,
+        message: m.message,
+        date: m.date.getTime(),
+      }));
+    }
   },
 
   Mutation: {

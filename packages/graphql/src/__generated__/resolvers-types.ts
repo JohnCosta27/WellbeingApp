@@ -36,7 +36,7 @@ export type CommunityMessage = {
   date: Scalars['Float'];
   id: Scalars['String'];
   message: Scalars['String'];
-  place: Place;
+  place?: Maybe<Place>;
   replies?: Maybe<Array<Maybe<CommunityMessage>>>;
 };
 
@@ -311,7 +311,7 @@ export type CommunityMessageResolvers<ContextType = any, ParentType extends Reso
   date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  place?: Resolver<ResolversTypes['Place'], ParentType, ContextType>;
+  place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType>;
   replies?: Resolver<Maybe<Array<Maybe<ResolversTypes['CommunityMessage']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -522,7 +522,7 @@ export type CommunityMessageQueryVariables = Exact<{
 }>;
 
 
-export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, place: { __typename?: 'Place', name: string, latitude: number, longitude: number } }> };
+export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, place?: { __typename?: 'Place', name: string, latitude: number, longitude: number } | null }> };
 
 
 export const AddMentalEnergyDocument = gql`

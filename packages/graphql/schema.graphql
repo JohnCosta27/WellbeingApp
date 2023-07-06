@@ -78,7 +78,7 @@ type CommunityMessage {
   id: String!
   message: String!
   date: Float!
-  place: Place!
+  place: Place
   replies: [CommunityMessage]
 }
 
