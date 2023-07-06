@@ -3,6 +3,22 @@ import { Prisma } from '.prisma/client';
 import { faker } from '@faker-js/faker';
 import modules from './testData/modules.json';
 
+const RHULcoords = [51.425668, -0.563063];
+
+export const createTestPlaces = (amount: number) => {
+  const places = {
+    data: [...Array(amount)].map(() => {
+			return {
+      id: faker.string.uuid(),
+      name: faker.location.city(),
+      latitude: faker.location.latitude({min: RHULcoords[0] - 0.1, max: RHULcoords[0] + 0.1}),
+      longitude: faker.location.longitude({min: RHULcoords[1] - 0.1, max: RHULcoords[1] + 0.1})
+    }}),
+  };
+
+  return places;
+}
+
 export const createGeneralTestData = async () => {
 	// creating how am i phrases for the user
 	const howAmIPhrases = [...Array(5)].map(() => {
@@ -41,13 +57,11 @@ export const createGeneralTestData = async () => {
 		data: modulesToInsert,
 	});
 
-
+	await prisma.place.createMany(createTestPlaces(50));
 };
 
-
-export const createUserTestData = async () => {
-	// creating a user, the password is always "yeet"
-	const user = await prisma.users.create({
+export const createTestUser = async () => {
+	const user = {
 		data: {
 			id: faker.string.uuid(),
 			email: faker.internet.email(),
@@ -70,11 +84,12 @@ export const createUserTestData = async () => {
 				}
 			}
 		},
-	});
+	};
 
-	console.log(user.email);
-	
-	// creating mental energy entries for the user
+	return await prisma.users.create(user);
+}
+
+export const createUserMentalEnergies = async (user: Prisma.UsersCreateInput) => {
 	const mentalEnergies = [...Array(15)].reduce((acc, _) => {
 		const lastAcc = (acc.length > 0 ? acc[acc.length - 1].level : faker.number.float({min: 0, max: 1}));
 		// last date is the last date + 1 day, or 15 days ago if it's the first entry
@@ -97,14 +112,88 @@ export const createUserTestData = async () => {
 		});
 		return acc;
 	}, []);
-	
+
 	await prisma.mentalEnergy.createMany({
 		data: mentalEnergies,
 	});
 
+	return mentalEnergies;
+};
+
+
+
+export const createTestMessage = async (user: Prisma.UsersCreateInput, placeId: string, replyToId?: string) => {
+	if (!user.id || !placeId) {
+		return;
+	};
+
+	const data: Prisma.CommunityMessageCreateInput = {
+		id: faker.string.uuid(),
+		message: [...Array(faker.number.int({min: 3, max: 10}))].map(() => faker.word.sample()).join(" "),
+		date: faker.date.recent(),
+		user: {
+			connect: {
+				id: user.id,
+			}
+		},
+		place: {
+			connect: {
+				id: placeId,
+			}
+		}
+	};
+
+	if (replyToId) {
+		data.replyTo = {
+			connect: {
+				id: replyToId,
+			}
+		};
+	}
+
+  return await prisma.communityMessage.create({
+    data
+  });
+}
+
+export const createUserProfile = async () => {
+
+	// creating a user, the password is always "yeet"
+	const user = await createTestUser();
+
+	console.log(user.email);
 	
-	// creating some brands 
-	
+	// creating mental energy entries for the user
+	await createUserMentalEnergies(user);
+
+	const places = await prisma.place.findMany({
+		take: 5,
+		skip: faker.number.int({min: 0, max: 45}),
+	});
+
+	// creating the test messages for the user
+	await Promise.all(places.map(async (place) => {
+		await createTestMessage(user, place.id);
+	}));
+
+	// replying to random messages
+	const placesWithMessages = await prisma.place.findMany({
+		where: {
+			messages: {
+				some: {}
+			}
+		},
+		include: {
+			messages: true,
+		},
+		take: 5,
+		skip: faker.number.int({min: 0, max: 45}),
+	});
+
+	await Promise.all(placesWithMessages.map(async (place) => {
+		const message = place.messages[0];
+		await createTestMessage(user, place.id, message.id);
+	}));
 };
 
 // this function is used to clear the database, it may need re-ordering if the database is changed
@@ -122,6 +211,9 @@ export const nukeDatabase = async () => {
 
 	await prisma.userHowAmIPhrase.deleteMany({});
 	await prisma.howAmIPhrase.deleteMany({});
+
+	await prisma.communityMessage.deleteMany({});
+	await prisma.place.deleteMany({});
 
 	await prisma.users.deleteMany({});
 };

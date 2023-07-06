@@ -40,16 +40,10 @@ model CommunityMessage {
   userId String
   user   Users  @relation(fields: [userId], references: [id])
 
-  replies Reply[]
-}
-
-model Reply {
-  id      String   @id @default(uuid())
-  message String
-  date    DateTime @default(now())
-
-  communityMessage   CommunityMessage @relation(fields: [communityMessageId], references: [id])
-  communityMessageId String
+  // replyToId String, for replies
+  replyToId String?
+  replyTo   CommunityMessage? @relation("ReplyTo", fields: [replyToId], references: [id])
+  CommunityMessage CommunityMessage[] @relation("ReplyTo")
 }
 
 model Place {
