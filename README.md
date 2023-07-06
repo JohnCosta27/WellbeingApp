@@ -44,3 +44,8 @@ General stuff:
 - [ ] All Dialogs do not work with mobile
 - [ ] My Progress mobile scaling
 - [ ] My progress removing module endpoint fails if there are any assignments associated with the module.
+
+## URGENT TODO
+
+- [x] Names for the brands
+- [ ] Fix the who am i brand submition, it's not working well, with the active brand and it's failing to save the brand properly.
