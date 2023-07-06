@@ -1,10 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { ProtectedRoute, Login, Register } from "./Auth";
 import { DashboardLayout } from "./DashboardLayout";
-import { HowDashboard } from "./HowDashboard/";
+import { HowDashboard } from "./HowDashboard";
 import { MyProgress } from "./MyProgress";
 import { WhoDashboard } from "./WhoDashboard";
 import MyCV from "./MyCV";
+import { Community } from "./Community";
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +42,11 @@ export const router = createBrowserRouter([
           {
             path: "/mycv",
             element: <MyCV />,
-          }
+          },
+          {
+            path: "/community",
+            element: <Community />,
+          },
         ],
       },
     ],
