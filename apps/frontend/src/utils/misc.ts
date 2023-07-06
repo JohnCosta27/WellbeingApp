@@ -101,7 +101,7 @@ export const reduceModules = (data: UserModules[]) =>
         uncompletedAmount: 0,
         failedScore: 0,
         completedScore: 0,
-      } satisfies extractedData
+      } as extractedData
     );
 
 export enum PassTypes {
