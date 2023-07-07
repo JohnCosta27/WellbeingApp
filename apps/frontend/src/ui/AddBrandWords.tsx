@@ -119,14 +119,30 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
                     }
                     value={w}
                   >
-                    {({ selected }) => (
-                      <span
-                        className={`block truncate ${
-                          selected ? "font-medium" : "font-normal"
-                        }`}
-                      >
-                        {w.word}
-                      </span>
+                    {({ selected, active }) => (
+                      <>
+                        <span
+                          className={`block truncate ${
+                            selected ? "font-medium" : "font-normal"
+                          }`}
+                        >
+                          {w.word}
+                        </span>
+                        {selected ? (
+                          <div>
+                            <span
+                              className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                active ? "text-white" : "text-teal-600"
+                              }`}
+                            >
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          </div>
+                        ) : null}
+                      </>
                     )}
                   </Combobox.Option>
                 ))
