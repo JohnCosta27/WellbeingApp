@@ -38,6 +38,10 @@ query CurrentUser {
         percent
       }
     }
+    skills {
+      id
+      skill
+    }
   }
 }
 

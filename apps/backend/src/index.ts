@@ -88,6 +88,7 @@ const resolvers: Resolvers<Context> = {
               assignments: true,
             },
           },
+          user_skills: true,
         },
       });
 
@@ -138,6 +139,10 @@ const resolvers: Resolvers<Context> = {
             score: a.score,
             percent: a.percent,
           })),
+        })),
+        skills: user.user_skills.map((s) => ({
+          id: s.id,
+          skill: s.skill,
         })),
       };
 
@@ -388,6 +393,35 @@ const resolvers: Resolvers<Context> = {
             percent,
           },
         });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+    },
+    async addSkill(
+      _parent,
+      { skill, replacingSkillId },
+      context
+    ): Promise<boolean> {
+      try {
+        if (replacingSkillId) {
+          // Replace the skill with this ID, for the new one.
+          // If not found, it throws.
+          await prisma.userSkills.delete({
+            where: {
+              id: replacingSkillId,
+            },
+          });
+        }
+
+        await prisma.userSkills.create({
+          data: {
+            user_id: context.uuid,
+            skill,
+          },
+        });
+
         return true;
       } catch (err) {
         console.log(err);

@@ -42,3 +42,7 @@ mutation addAssignment(
     percent: $percent
   )
 }
+
+mutation addSkill($skill: String!, $replacingSkillId: String) {
+  addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
+}

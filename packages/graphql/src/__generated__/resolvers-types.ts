@@ -58,6 +58,7 @@ export type Mutation = {
   addHowAmIPhrase?: Maybe<Scalars['Boolean']>;
   addMentalEnergy?: Maybe<MentalEnergy>;
   addModule?: Maybe<Scalars['Boolean']>;
+  addSkill?: Maybe<Scalars['Boolean']>;
   addWholeBrand?: Maybe<Scalars['Boolean']>;
   removeBrandWord?: Maybe<Scalars['Boolean']>;
   removeModule?: Maybe<Scalars['Boolean']>;
@@ -106,6 +107,22 @@ export type MutationRemoveModuleArgs = {
   moduleId: Scalars['String'];
 };
 
+
+export type MutationAddSkillArgs = {
+  replacingSkillId?: InputMaybe<Scalars['String']>;
+  skill: Scalars['String'];
+};
+
+
+export type MutationRemoveBrandWordArgs = {
+  wordId: Scalars['String'];
+};
+
+
+export type MutationRemoveModuleArgs = {
+  moduleId: Scalars['String'];
+};
+
 export type PastUserBrand = {
   __typename?: 'PastUserBrand';
   date?: Maybe<Scalars['Float']>;
@@ -128,6 +145,7 @@ export type User = {
   howAmIPhrase: Array<UserHowAmIPhrase>;
   mentalEnergy: Array<MentalEnergy>;
   modules: Array<UserModules>;
+  skills: Array<UserSkill>;
 };
 
 export type UserBrand = {
@@ -146,6 +164,12 @@ export type UserModules = {
   __typename?: 'UserModules';
   assignments: Array<Assignments>;
   module: Module;
+};
+
+export type UserSkill = {
+  __typename?: 'UserSkill';
+  id: Scalars['String'];
+  skill: Scalars['String'];
 };
 
 
@@ -234,6 +258,7 @@ export type ResolversTypes = {
   UserBrand: ResolverTypeWrapper<UserBrand>;
   UserHowAmIPhrase: ResolverTypeWrapper<UserHowAmIPhrase>;
   UserModules: ResolverTypeWrapper<UserModules>;
+  UserSkill: ResolverTypeWrapper<UserSkill>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -253,6 +278,7 @@ export type ResolversParentTypes = {
   UserBrand: UserBrand;
   UserHowAmIPhrase: UserHowAmIPhrase;
   UserModules: UserModules;
+  UserSkill: UserSkill;
 };
 
 export type AssignmentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Assignments'] = ResolversParentTypes['Assignments']> = {
@@ -295,9 +321,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
-  addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddWholeBrandArgs, 'brandName'>>;
-  removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
-  removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
+  addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
 };
 
 export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
@@ -320,6 +344,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   howAmIPhrase?: Resolver<Array<ResolversTypes['UserHowAmIPhrase']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
   modules?: Resolver<Array<ResolversTypes['UserModules']>, ParentType, ContextType>;
+  skills?: Resolver<Array<ResolversTypes['UserSkill']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -341,6 +366,12 @@ export type UserModulesResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserSkillResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserSkill'] = ResolversParentTypes['UserSkill']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  skill?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Assignments?: AssignmentsResolvers<ContextType>;
   BrandWords?: BrandWordsResolvers<ContextType>;
@@ -354,6 +385,7 @@ export type Resolvers<ContextType = any> = {
   UserBrand?: UserBrandResolvers<ContextType>;
   UserHowAmIPhrase?: UserHowAmIPhraseResolvers<ContextType>;
   UserModules?: UserModulesResolvers<ContextType>;
+  UserSkill?: UserSkillResolvers<ContextType>;
 };
 
 
@@ -416,10 +448,18 @@ export type AddAssignmentMutationVariables = Exact<{
 
 export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: boolean | null };
 
+export type AddSkillMutationVariables = Exact<{
+  skill: Scalars['String'];
+  replacingSkillId?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type AddSkillMutation = { __typename?: 'Mutation', addSkill?: boolean | null };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -696,6 +736,38 @@ export function useAddAssignmentMutation(baseOptions?: Apollo.MutationHookOption
 export type AddAssignmentMutationHookResult = ReturnType<typeof useAddAssignmentMutation>;
 export type AddAssignmentMutationResult = Apollo.MutationResult<AddAssignmentMutation>;
 export type AddAssignmentMutationOptions = Apollo.BaseMutationOptions<AddAssignmentMutation, AddAssignmentMutationVariables>;
+export const AddSkillDocument = gql`
+    mutation addSkill($skill: String!, $replacingSkillId: String) {
+  addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
+}
+    `;
+export type AddSkillMutationFn = Apollo.MutationFunction<AddSkillMutation, AddSkillMutationVariables>;
+
+/**
+ * __useAddSkillMutation__
+ *
+ * To run a mutation, you first call `useAddSkillMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddSkillMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addSkillMutation, { data, loading, error }] = useAddSkillMutation({
+ *   variables: {
+ *      skill: // value for 'skill'
+ *      replacingSkillId: // value for 'replacingSkillId'
+ *   },
+ * });
+ */
+export function useAddSkillMutation(baseOptions?: Apollo.MutationHookOptions<AddSkillMutation, AddSkillMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddSkillMutation, AddSkillMutationVariables>(AddSkillDocument, options);
+      }
+export type AddSkillMutationHookResult = ReturnType<typeof useAddSkillMutation>;
+export type AddSkillMutationResult = Apollo.MutationResult<AddSkillMutation>;
+export type AddSkillMutationOptions = Apollo.BaseMutationOptions<AddSkillMutation, AddSkillMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -736,6 +808,10 @@ export const CurrentUserDocument = gql`
         score
         percent
       }
+    }
+    skills {
+      id
+      skill
     }
   }
 }
@@ -888,6 +964,7 @@ export const namedOperations = {
     addWholeBrand: 'addWholeBrand',
     addModule: 'addModule',
     removeModule: 'removeModule',
-    addAssignment: 'addAssignment'
+    addAssignment: 'addAssignment',
+    addSkill: 'addSkill'
   }
 }
