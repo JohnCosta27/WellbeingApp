@@ -74,6 +74,23 @@ type UserSkill {
   skill: String!
 }
 
+type Place {
+  id: String!
+  name: String!
+  latitude: Float!
+  longitude: Float!
+  messages: [CommunityMessage]
+}
+
+type CommunityMessage {
+  id: String!
+  message: String!
+  date: Float!
+  place: Place
+  email: String!
+  replies: [CommunityMessage]
+}
+
 type User {
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
@@ -88,6 +105,8 @@ type Query {
   mentalEnergy: [MentalEnergy!]!
   currentUser: User!
   modules: [Module!]!
+  places: [Place!]!
+  CommunityMessage(placeId: String!): [CommunityMessage!]!
 }
 
 type Mutation {
@@ -105,5 +124,4 @@ type Mutation {
     score: Float!
     percent: Float!
   ): Boolean
-  addSkill(skill: String!, replacingSkillId: String): Boolean
 }

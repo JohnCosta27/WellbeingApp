@@ -66,3 +66,37 @@ query Modules {
     year
   }
 }
+
+query Places {
+  places {
+    id
+    name
+    latitude
+    longitude
+    messages {
+      id
+      message
+      date
+      email
+      replies {
+        id
+        message
+        date
+      }
+    }
+  }
+}
+
+query CommunityMessage($placeId: String!) {
+  CommunityMessage(placeId: $placeId) {
+    id
+    message
+    date
+    email
+    place {
+      name
+      latitude
+      longitude
+    }
+  }
+}

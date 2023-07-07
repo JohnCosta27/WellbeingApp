@@ -5,9 +5,11 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import {
   BrandWords,
+  CommunityMessage,
   HowAmIPhrase,
   MentalEnergy,
   Module,
+  Place,
   Resolvers,
   User,
 } from "@wellbeing/graphql-types";
@@ -22,9 +24,9 @@ import { GraphQLError } from "graphql";
 import { prisma } from "./prisma";
 import winston from "winston";
 import {
-  createUserTestData,
   createGeneralTestData,
   nukeDatabase,
+  createUserProfile,
 } from "./util/createTestData";
 
 const file = fs.readFileSync(
@@ -148,6 +150,66 @@ const resolvers: Resolvers<Context> = {
 
       return returnUser;
     },
+
+    async places(): Promise<Array<Place>> {
+      const places = await prisma.place.findMany({
+        include: {
+          messages: {
+            include: {
+              replyTo: true,
+              user: {
+                select: {
+                  email: true,
+                },
+              },
+            },
+          },
+        }
+      });
+    
+      return places.map((p) => ({
+        id: p.id,
+        name: p.name,
+        latitude: p.latitude,
+        longitude: p.longitude,
+        messages: p.messages.map((m) => ({
+          id: m.id,
+          message: m.message,
+          date: m.date.getTime(),
+          email: m.user.email,
+        })),
+      }));
+    },
+    async CommunityMessage(_parent, { placeId }): Promise<Array<CommunityMessage>> {
+      const place = await prisma.place.findFirst({
+        where: {
+          id: placeId,
+        },
+        include: {
+          messages: {
+            include: {
+              replyTo: true,
+              user: {
+                select: {
+                  email: true,
+                },
+              }
+            },
+          },
+        },
+      });
+
+      if(!place) {
+        throw new Error("Place not found in CommunityMessage query");
+      }
+
+      return place?.messages.map((m) => ({
+        id: m.id,
+        message: m.message,
+        date: m.date.getTime(),
+        email: m.user.email,
+      }));
+    }
   },
 
   Mutation: {
@@ -399,6 +461,44 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error, most likely ID not found");
       }
     },
+    async createCommunityMessage(_parent, { message, placeId }, context) {
+      try {
+        await prisma.communityMessage.create({
+          data: {
+            message,
+            place: {
+              connect: {
+                id: placeId,
+              },
+            },
+            user: {
+              connect: {
+                id: context.uuid,
+              },
+            }
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in createCommunityMessage "+ err);
+      }
+    },
+    async createPlace(_parent, { name, latitude, longitude }) {
+      try {
+        await prisma.place.create({
+          data: {
+            name,
+            latitude,
+            longitude,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in createPlace "+ err);
+      }
+    },
     async addSkill(
       _parent,
       { skill, replacingSkillId },
@@ -518,7 +618,7 @@ const setupTestData = async () => {
 
   await createGeneralTestData();
   for (let i = 0; i < 10; i++) {
-    await createUserTestData();
+    await createUserProfile();
   }
 };
 

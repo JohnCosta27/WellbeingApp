@@ -31,6 +31,16 @@ export type BrandWords = {
   word: Scalars['String'];
 };
 
+export type CommunityMessage = {
+  __typename?: 'CommunityMessage';
+  date: Scalars['Float'];
+  email: Scalars['String'];
+  id: Scalars['String'];
+  message: Scalars['String'];
+  place?: Maybe<Place>;
+  replies?: Maybe<Array<Maybe<CommunityMessage>>>;
+};
+
 export type HowAmIPhrase = {
   __typename?: 'HowAmIPhrase';
   date?: Maybe<Scalars['Float']>;
@@ -60,6 +70,8 @@ export type Mutation = {
   addModule?: Maybe<Scalars['Boolean']>;
   addSkill?: Maybe<Scalars['Boolean']>;
   addWholeBrand?: Maybe<Scalars['Boolean']>;
+  createCommunityMessage?: Maybe<Scalars['Boolean']>;
+  createPlace?: Maybe<Scalars['Boolean']>;
   removeBrandWord?: Maybe<Scalars['Boolean']>;
   removeModule?: Maybe<Scalars['Boolean']>;
 };
@@ -98,6 +110,19 @@ export type MutationAddWholeBrandArgs = {
 };
 
 
+export type MutationCreateCommunityMessageArgs = {
+  message: Scalars['String'];
+  placeId: Scalars['String'];
+};
+
+
+export type MutationCreatePlaceArgs = {
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  name: Scalars['String'];
+};
+
+
 export type MutationRemoveBrandWordArgs = {
   wordId: Scalars['String'];
 };
@@ -130,13 +155,29 @@ export type PastUserBrand = {
   words: Array<BrandWords>;
 };
 
+export type Place = {
+  __typename?: 'Place';
+  id: Scalars['String'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  messages?: Maybe<Array<Maybe<CommunityMessage>>>;
+  name: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  CommunityMessage: Array<CommunityMessage>;
   brandWords: Array<BrandWords>;
   currentUser: User;
   howAmIPhrase: Array<HowAmIPhrase>;
   mentalEnergy: Array<MentalEnergy>;
   modules: Array<Module>;
+  places: Array<Place>;
+};
+
+
+export type QueryCommunityMessageArgs = {
+  placeId: Scalars['String'];
 };
 
 export type User = {
@@ -246,12 +287,14 @@ export type ResolversTypes = {
   Assignments: ResolverTypeWrapper<Assignments>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   BrandWords: ResolverTypeWrapper<BrandWords>;
+  CommunityMessage: ResolverTypeWrapper<CommunityMessage>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   HowAmIPhrase: ResolverTypeWrapper<HowAmIPhrase>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
   Module: ResolverTypeWrapper<Module>;
   Mutation: ResolverTypeWrapper<{}>;
   PastUserBrand: ResolverTypeWrapper<PastUserBrand>;
+  Place: ResolverTypeWrapper<Place>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
@@ -266,12 +309,14 @@ export type ResolversParentTypes = {
   Assignments: Assignments;
   Boolean: Scalars['Boolean'];
   BrandWords: BrandWords;
+  CommunityMessage: CommunityMessage;
   Float: Scalars['Float'];
   HowAmIPhrase: HowAmIPhrase;
   MentalEnergy: MentalEnergy;
   Module: Module;
   Mutation: {};
   PastUserBrand: PastUserBrand;
+  Place: Place;
   Query: {};
   String: Scalars['String'];
   User: User;
@@ -292,6 +337,16 @@ export type AssignmentsResolvers<ContextType = any, ParentType extends Resolvers
 export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversParentTypes['BrandWords'] = ResolversParentTypes['BrandWords']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   word?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommunityMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommunityMessage'] = ResolversParentTypes['CommunityMessage']> = {
+  date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType>;
+  replies?: Resolver<Maybe<Array<Maybe<ResolversTypes['CommunityMessage']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -322,6 +377,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
   addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
+  removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
 };
 
 export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
@@ -331,12 +388,23 @@ export type PastUserBrandResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PlaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Place'] = ResolversParentTypes['Place']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  latitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  longitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  messages?: Resolver<Maybe<Array<Maybe<ResolversTypes['CommunityMessage']>>>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  CommunityMessage?: Resolver<Array<ResolversTypes['CommunityMessage']>, ParentType, ContextType, RequireFields<QueryCommunityMessageArgs, 'placeId'>>;
   brandWords?: Resolver<Array<ResolversTypes['BrandWords']>, ParentType, ContextType>;
   currentUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['HowAmIPhrase']>, ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
   modules?: Resolver<Array<ResolversTypes['Module']>, ParentType, ContextType>;
+  places?: Resolver<Array<ResolversTypes['Place']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -375,11 +443,13 @@ export type UserSkillResolvers<ContextType = any, ParentType extends ResolversPa
 export type Resolvers<ContextType = any> = {
   Assignments?: AssignmentsResolvers<ContextType>;
   BrandWords?: BrandWordsResolvers<ContextType>;
+  CommunityMessage?: CommunityMessageResolvers<ContextType>;
   HowAmIPhrase?: HowAmIPhraseResolvers<ContextType>;
   MentalEnergy?: MentalEnergyResolvers<ContextType>;
   Module?: ModuleResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PastUserBrand?: PastUserBrandResolvers<ContextType>;
+  Place?: PlaceResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserBrand?: UserBrandResolvers<ContextType>;
@@ -448,14 +518,6 @@ export type AddAssignmentMutationVariables = Exact<{
 
 export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: boolean | null };
 
-export type AddSkillMutationVariables = Exact<{
-  skill: Scalars['String'];
-  replacingSkillId?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type AddSkillMutation = { __typename?: 'Mutation', addSkill?: boolean | null };
-
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -475,6 +537,18 @@ export type ModulesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?: 'Module', id: string, name: string, year: string }> };
+
+export type PlacesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number } | null> | null } | null> | null }> };
+
+export type CommunityMessageQueryVariables = Exact<{
+  placeId: Scalars['String'];
+}>;
+
+
+export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string, place?: { __typename?: 'Place', name: string, latitude: number, longitude: number } | null }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -736,38 +810,6 @@ export function useAddAssignmentMutation(baseOptions?: Apollo.MutationHookOption
 export type AddAssignmentMutationHookResult = ReturnType<typeof useAddAssignmentMutation>;
 export type AddAssignmentMutationResult = Apollo.MutationResult<AddAssignmentMutation>;
 export type AddAssignmentMutationOptions = Apollo.BaseMutationOptions<AddAssignmentMutation, AddAssignmentMutationVariables>;
-export const AddSkillDocument = gql`
-    mutation addSkill($skill: String!, $replacingSkillId: String) {
-  addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
-}
-    `;
-export type AddSkillMutationFn = Apollo.MutationFunction<AddSkillMutation, AddSkillMutationVariables>;
-
-/**
- * __useAddSkillMutation__
- *
- * To run a mutation, you first call `useAddSkillMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddSkillMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addSkillMutation, { data, loading, error }] = useAddSkillMutation({
- *   variables: {
- *      skill: // value for 'skill'
- *      replacingSkillId: // value for 'replacingSkillId'
- *   },
- * });
- */
-export function useAddSkillMutation(baseOptions?: Apollo.MutationHookOptions<AddSkillMutation, AddSkillMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddSkillMutation, AddSkillMutationVariables>(AddSkillDocument, options);
-      }
-export type AddSkillMutationHookResult = ReturnType<typeof useAddSkillMutation>;
-export type AddSkillMutationResult = Apollo.MutationResult<AddSkillMutation>;
-export type AddSkillMutationOptions = Apollo.BaseMutationOptions<AddSkillMutation, AddSkillMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -949,12 +991,105 @@ export function useModulesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Mo
 export type ModulesQueryHookResult = ReturnType<typeof useModulesQuery>;
 export type ModulesLazyQueryHookResult = ReturnType<typeof useModulesLazyQuery>;
 export type ModulesQueryResult = Apollo.QueryResult<ModulesQuery, ModulesQueryVariables>;
+export const PlacesDocument = gql`
+    query Places {
+  places {
+    id
+    name
+    latitude
+    longitude
+    messages {
+      id
+      message
+      date
+      email
+      replies {
+        id
+        message
+        date
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __usePlacesQuery__
+ *
+ * To run a query within a React component, call `usePlacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlacesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePlacesQuery(baseOptions?: Apollo.QueryHookOptions<PlacesQuery, PlacesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PlacesQuery, PlacesQueryVariables>(PlacesDocument, options);
+      }
+export function usePlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PlacesQuery, PlacesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PlacesQuery, PlacesQueryVariables>(PlacesDocument, options);
+        }
+export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
+export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
+export type PlacesQueryResult = Apollo.QueryResult<PlacesQuery, PlacesQueryVariables>;
+export const CommunityMessageDocument = gql`
+    query CommunityMessage($placeId: String!) {
+  CommunityMessage(placeId: $placeId) {
+    id
+    message
+    date
+    email
+    place {
+      name
+      latitude
+      longitude
+    }
+  }
+}
+    `;
+
+/**
+ * __useCommunityMessageQuery__
+ *
+ * To run a query within a React component, call `useCommunityMessageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommunityMessageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommunityMessageQuery({
+ *   variables: {
+ *      placeId: // value for 'placeId'
+ *   },
+ * });
+ */
+export function useCommunityMessageQuery(baseOptions: Apollo.QueryHookOptions<CommunityMessageQuery, CommunityMessageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CommunityMessageQuery, CommunityMessageQueryVariables>(CommunityMessageDocument, options);
+      }
+export function useCommunityMessageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommunityMessageQuery, CommunityMessageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CommunityMessageQuery, CommunityMessageQueryVariables>(CommunityMessageDocument, options);
+        }
+export type CommunityMessageQueryHookResult = ReturnType<typeof useCommunityMessageQuery>;
+export type CommunityMessageLazyQueryHookResult = ReturnType<typeof useCommunityMessageLazyQuery>;
+export type CommunityMessageQueryResult = Apollo.QueryResult<CommunityMessageQuery, CommunityMessageQueryVariables>;
 export const namedOperations = {
   Query: {
     CurrentUser: 'CurrentUser',
     HowAmIPhrase: 'HowAmIPhrase',
     BrandWords: 'BrandWords',
-    Modules: 'Modules'
+    Modules: 'Modules',
+    Places: 'Places',
+    CommunityMessage: 'CommunityMessage'
   },
   Mutation: {
     addMentalEnergy: 'addMentalEnergy',
@@ -964,7 +1099,6 @@ export const namedOperations = {
     addWholeBrand: 'addWholeBrand',
     addModule: 'addModule',
     removeModule: 'removeModule',
-    addAssignment: 'addAssignment',
-    addSkill: 'addSkill'
+    addAssignment: 'addAssignment'
   }
 }
