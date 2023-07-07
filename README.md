@@ -48,4 +48,4 @@ General stuff:
 ## URGENT TODO
 
 - [x] Names for the brands
-- [ ] Fix the who am i brand submition, it's not working well, with the active brand and it's failing to save the brand properly.
+- [ ] Fix the who am i brand submission, it's not working well, with the active brand and it's failing to save the brand properly.
