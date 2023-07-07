@@ -23,13 +23,17 @@ export const WhoDashboard: FC = () => {
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  const [activeBrand, setActiveBrand] = useState<PastUserBrand>({ words: [] });
+  const [activeBrand, setActiveBrand] = useState<PastUserBrand>({
+    words: [],
+    name: "Active Brand",
+  });
 
   useEffect(() => {
     if (!loading && userBrandWords) {
       setActiveBrand({
         date: undefined,
         words: userBrandWords.currentUser.brand.words,
+        name: "Active Brand",
       });
     }
   }, [loading, userBrandWords]);
