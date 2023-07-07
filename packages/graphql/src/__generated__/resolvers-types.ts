@@ -105,6 +105,12 @@ export type MutationAddModuleArgs = {
 };
 
 
+export type MutationAddSkillArgs = {
+  replacingSkillId?: InputMaybe<Scalars['String']>;
+  skill: Scalars['String'];
+};
+
+
 export type MutationAddWholeBrandArgs = {
   brandName: Scalars['String'];
 };
@@ -120,22 +126,6 @@ export type MutationCreatePlaceArgs = {
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   name: Scalars['String'];
-};
-
-
-export type MutationRemoveBrandWordArgs = {
-  wordId: Scalars['String'];
-};
-
-
-export type MutationRemoveModuleArgs = {
-  moduleId: Scalars['String'];
-};
-
-
-export type MutationAddSkillArgs = {
-  replacingSkillId?: InputMaybe<Scalars['String']>;
-  skill: Scalars['String'];
 };
 
 
@@ -376,7 +366,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
-  addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  addSkill?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddSkillArgs, 'skill'>>;
+  addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddWholeBrandArgs, 'brandName'>>;
+  createCommunityMessage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateCommunityMessageArgs, 'message' | 'placeId'>>;
+  createPlace?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreatePlaceArgs, 'latitude' | 'longitude' | 'name'>>;
   removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
   removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
 };
@@ -518,10 +511,35 @@ export type AddAssignmentMutationVariables = Exact<{
 
 export type AddAssignmentMutation = { __typename?: 'Mutation', addAssignment?: boolean | null };
 
+export type CreateCommunityMessageMutationVariables = Exact<{
+  message: Scalars['String'];
+  placeId: Scalars['String'];
+}>;
+
+
+export type CreateCommunityMessageMutation = { __typename?: 'Mutation', createCommunityMessage?: boolean | null };
+
+export type CreatePlaceMutationVariables = Exact<{
+  name: Scalars['String'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+}>;
+
+
+export type CreatePlaceMutation = { __typename?: 'Mutation', createPlace?: boolean | null };
+
+export type AddSkillMutationVariables = Exact<{
+  skill: Scalars['String'];
+  replacingSkillId?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type AddSkillMutation = { __typename?: 'Mutation', addSkill?: boolean | null };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -810,6 +828,103 @@ export function useAddAssignmentMutation(baseOptions?: Apollo.MutationHookOption
 export type AddAssignmentMutationHookResult = ReturnType<typeof useAddAssignmentMutation>;
 export type AddAssignmentMutationResult = Apollo.MutationResult<AddAssignmentMutation>;
 export type AddAssignmentMutationOptions = Apollo.BaseMutationOptions<AddAssignmentMutation, AddAssignmentMutationVariables>;
+export const CreateCommunityMessageDocument = gql`
+    mutation createCommunityMessage($message: String!, $placeId: String!) {
+  createCommunityMessage(message: $message, placeId: $placeId)
+}
+    `;
+export type CreateCommunityMessageMutationFn = Apollo.MutationFunction<CreateCommunityMessageMutation, CreateCommunityMessageMutationVariables>;
+
+/**
+ * __useCreateCommunityMessageMutation__
+ *
+ * To run a mutation, you first call `useCreateCommunityMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommunityMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCommunityMessageMutation, { data, loading, error }] = useCreateCommunityMessageMutation({
+ *   variables: {
+ *      message: // value for 'message'
+ *      placeId: // value for 'placeId'
+ *   },
+ * });
+ */
+export function useCreateCommunityMessageMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommunityMessageMutation, CreateCommunityMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCommunityMessageMutation, CreateCommunityMessageMutationVariables>(CreateCommunityMessageDocument, options);
+      }
+export type CreateCommunityMessageMutationHookResult = ReturnType<typeof useCreateCommunityMessageMutation>;
+export type CreateCommunityMessageMutationResult = Apollo.MutationResult<CreateCommunityMessageMutation>;
+export type CreateCommunityMessageMutationOptions = Apollo.BaseMutationOptions<CreateCommunityMessageMutation, CreateCommunityMessageMutationVariables>;
+export const CreatePlaceDocument = gql`
+    mutation createPlace($name: String!, $latitude: Float!, $longitude: Float!) {
+  createPlace(name: $name, latitude: $latitude, longitude: $longitude)
+}
+    `;
+export type CreatePlaceMutationFn = Apollo.MutationFunction<CreatePlaceMutation, CreatePlaceMutationVariables>;
+
+/**
+ * __useCreatePlaceMutation__
+ *
+ * To run a mutation, you first call `useCreatePlaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePlaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPlaceMutation, { data, loading, error }] = useCreatePlaceMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      latitude: // value for 'latitude'
+ *      longitude: // value for 'longitude'
+ *   },
+ * });
+ */
+export function useCreatePlaceMutation(baseOptions?: Apollo.MutationHookOptions<CreatePlaceMutation, CreatePlaceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePlaceMutation, CreatePlaceMutationVariables>(CreatePlaceDocument, options);
+      }
+export type CreatePlaceMutationHookResult = ReturnType<typeof useCreatePlaceMutation>;
+export type CreatePlaceMutationResult = Apollo.MutationResult<CreatePlaceMutation>;
+export type CreatePlaceMutationOptions = Apollo.BaseMutationOptions<CreatePlaceMutation, CreatePlaceMutationVariables>;
+export const AddSkillDocument = gql`
+    mutation addSkill($skill: String!, $replacingSkillId: String) {
+  addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
+}
+    `;
+export type AddSkillMutationFn = Apollo.MutationFunction<AddSkillMutation, AddSkillMutationVariables>;
+
+/**
+ * __useAddSkillMutation__
+ *
+ * To run a mutation, you first call `useAddSkillMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddSkillMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addSkillMutation, { data, loading, error }] = useAddSkillMutation({
+ *   variables: {
+ *      skill: // value for 'skill'
+ *      replacingSkillId: // value for 'replacingSkillId'
+ *   },
+ * });
+ */
+export function useAddSkillMutation(baseOptions?: Apollo.MutationHookOptions<AddSkillMutation, AddSkillMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddSkillMutation, AddSkillMutationVariables>(AddSkillDocument, options);
+      }
+export type AddSkillMutationHookResult = ReturnType<typeof useAddSkillMutation>;
+export type AddSkillMutationResult = Apollo.MutationResult<AddSkillMutation>;
+export type AddSkillMutationOptions = Apollo.BaseMutationOptions<AddSkillMutation, AddSkillMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -1099,6 +1214,9 @@ export const namedOperations = {
     addWholeBrand: 'addWholeBrand',
     addModule: 'addModule',
     removeModule: 'removeModule',
-    addAssignment: 'addAssignment'
+    addAssignment: 'addAssignment',
+    createCommunityMessage: 'createCommunityMessage',
+    createPlace: 'createPlace',
+    addSkill: 'addSkill'
   }
 }

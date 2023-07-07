@@ -124,4 +124,7 @@ type Mutation {
     score: Float!
     percent: Float!
   ): Boolean
+  createPlace(name: String!, latitude: Float!, longitude: Float!): Boolean
+  createCommunityMessage(message: String!, placeId: String!): Boolean
+  addSkill(skill: String!, replacingSkillId: String): Boolean
 }

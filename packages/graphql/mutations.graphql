@@ -65,6 +65,7 @@ mutation createPlace
     longitude: $longitude
   )
 }
+
 mutation addSkill($skill: String!, $replacingSkillId: String) {
   addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
 }

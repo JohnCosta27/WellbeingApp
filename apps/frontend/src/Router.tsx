@@ -48,7 +48,6 @@ export const router = createBrowserRouter([
             path: "/myskills",
             element: <MySkills />,
           },
-          },
           {
             path: "/community",
             element: <Community />,
