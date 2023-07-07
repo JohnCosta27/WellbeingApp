@@ -24,7 +24,7 @@ export const createGeneralTestData = async () => {
 	const howAmIPhrases = [...Array(5)].map(() => {
 		return {
 			id: faker.string.uuid(),
-			phrase: [...Array(5)].map(() => faker.word.sample()).join(" "),
+			phrase: faker.company.buzzPhrase(),
 		};
 	});
 	
@@ -32,11 +32,11 @@ export const createGeneralTestData = async () => {
 		data: howAmIPhrases,
 	});
 
-	// creating brand words for the user
-	const brandWords = [...Array(5)].map(() => {
+	// creating brand words
+	const brandWords = [...Array(30)].map(() => {
 		return {
 			id: faker.string.uuid(),
-			word: faker.word.sample(),
+			word: faker.company.buzzVerb(),
 		};
 	});
 
@@ -121,6 +121,36 @@ export const createUserMentalEnergies = async (user: Prisma.UsersCreateInput) =>
 	return mentalEnergies;
 };
 
+export const createUserBrands = async (user: Prisma.UsersCreateInput) => {
+	for(let i = 0; i < 5; i++) {
+		const brandWords = await prisma.brandWords.findMany({
+			take: 10,
+			skip: faker.number.int({min: 0, max: 20}),
+		});
+
+		await prisma.brand.create({
+			data: {
+				id: faker.string.uuid(),
+				name: faker.company.name(),
+				user: {
+					connect: {
+						id: user.id,
+					},
+				},
+				brand_word_entries: {
+					create: brandWords.map((brandWord) => ({
+							id: faker.string.uuid(),
+							brand_word: {
+								connect: {
+									id: brandWord.id,
+								}
+							}
+						})),
+					},
+				}
+			});
+	}
+};
 
 
 export const createTestMessage = async (user: Prisma.UsersCreateInput, placeId: string, replyToId?: string) => {
@@ -215,6 +245,8 @@ export const nukeDatabase = async () => {
 
 	await prisma.communityMessage.deleteMany({});
 	await prisma.place.deleteMany({});
+
+	await prisma.userSkills.deleteMany({});
 
 	await prisma.users.deleteMany({});
 };
