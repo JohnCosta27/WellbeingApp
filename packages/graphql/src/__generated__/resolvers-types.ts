@@ -559,7 +559,7 @@ export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?:
 export type PlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number } | null> | null } | null> | null }> };
+export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string } | null> | null } | null> | null }> };
 
 export type CommunityMessageQueryVariables = Exact<{
   placeId: Scalars['String'];
@@ -1122,6 +1122,7 @@ export const PlacesDocument = gql`
         id
         message
         date
+        email
       }
     }
   }

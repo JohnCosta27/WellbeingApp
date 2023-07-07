@@ -1,8 +1,8 @@
 import { Place } from "@wellbeing/graphql-types";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { FC } from "react";
-import { Card } from "../ui";
 import { LatLngExpression } from "leaflet";
+import { Card } from "../ui";
 
 const pos: LatLngExpression = [51.425668, -0.563063];
 
