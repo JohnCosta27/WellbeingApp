@@ -67,7 +67,7 @@ export const MapCard: FC<MapCardProps> = ({
               },
               popupclose: (m) => {
                 const marker = m.sourceTarget satisfies L.Marker;
-                marker.setOpacity(0.4);
+                marker.setOpacity(0.8);
               },
             }}
           >

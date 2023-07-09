@@ -2,9 +2,13 @@ import "../index.css";
 import { Place, usePlacesQuery } from "@wellbeing/graphql-types";
 import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import dayjs from "dayjs";
+import * as relativeTime from "dayjs/plugin/relativeTime";
 import { Card } from "../ui";
 import { MapCard } from "./MapCard";
 import { CommunityMessages } from "./CommunityMessages";
+
+dayjs.extend(relativeTime);
 
 export const Community = () => {
   const { data } = usePlacesQuery();
@@ -29,7 +33,7 @@ export const Community = () => {
 
           {displayedPlace && data.places && (
             <div className="w-full fixed bottom-0 bg-white h-[50vh] z-10 flex flex-col">
-              <div className="flex w-full">
+              <div className="flex w-full border ">
                 <div className="flex-1 text-xl p-2 m-auto">
                   {displayedPlace.name}
                 </div>
@@ -38,13 +42,22 @@ export const Community = () => {
                   type="button"
                   className="right-0"
                 >
-                  <AiOutlineCloseCircle className="h-10 w-10 m-2" />
+                  <AiOutlineCloseCircle className="h-8 w-8" />
                 </button>
               </div>
-              <div className="overflow-x-auto flex-1">
+              <div className="overflow-x-auto flex-1 justify-end ml-1">
                 {displayedPlace.messages &&
                   displayedPlace.messages.map((message) => (
-                    <div className="chat chat-start" key={message?.id}>
+                    <div
+                      className="chat chat-start flex-col flex"
+                      key={message?.id}
+                    >
+                      <div className="chat-header">
+                        <div className="text-sm text-gray-600">
+                          {message?.email.split("@")[0]} -{" "}
+                          {dayjs(message?.date).fromNow()}
+                        </div>
+                      </div>
                       <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer">
                         {message?.message}
                       </div>
