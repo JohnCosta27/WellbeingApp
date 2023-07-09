@@ -38,7 +38,7 @@ export const MapCard: FC<MapCardProps> = ({
         center={center}
         zoom={16}
         scrollWheelZoom={false}
-        className="md:w-full h-[95vh]  w-screen m-0 p-0"
+        className="md:w-full md:h-[92vh]  w-screen h-[95vh] m-0 p-0"
         touchZoom
         zoomControl
       >

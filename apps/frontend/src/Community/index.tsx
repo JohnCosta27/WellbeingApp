@@ -11,6 +11,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
 import { MapCard } from "./MapCard";
+import { Card } from "../ui/Card";
 
 dayjs.extend(relativeTime);
 
@@ -56,20 +57,21 @@ export const Community = () => {
           />
 
           {displayedPlace && data.places && (
-            <div className="w-full fixed bottom-0 bg-white h-[50vh] z-10 flex flex-col">
-              <div className="flex w-full border ">
-                <div className="flex-1 text-xl p-2 m-auto">
-                  {displayedPlace.name}
+            <div className="w-full md:relative fixed bottom-0 bg-white h-[50vh] z-10 flex flex-col flex-1">
+              <div className="flex w-full border">
+                <div className="flex-1 text-xl p-2 m-auto text-center md:m-0">
+                  {displayedPlace.name} - {displayedPlace.messages?.length}{" "}
+                  Message{displayedPlace.messages?.length !== 1 && "s"}
                 </div>
                 <button
                   onClick={() => setDisplayedPlace(null)}
                   type="button"
-                  className="right-0"
+                  className="right-0 max-h-0 md:p-2"
                 >
                   <AiOutlineCloseCircle className="h-8 w-8" />
                 </button>
               </div>
-              <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen">
+              <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen md:max-w-full">
                 {displayedPlace.messages &&
                   displayedPlace.messages.map((msg) => (
                     <div
@@ -77,7 +79,7 @@ export const Community = () => {
                         user?.currentUser.id === msg?.userId
                           ? "chat-end right-3 "
                           : "chat-start left-3"
-                      } flex-col flex max-w-screen relative`}
+                      } flex-col flex max-w-screen relative md:max-w-full`}
                       key={msg?.id}
                     >
                       <div className="chat-header">
@@ -96,8 +98,8 @@ export const Community = () => {
               <div className="flex justify-end card-action align-bottom m-2 bottom-0">
                 <input
                   type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
+                  placeholder="Your Message"
+                  className="input input-bordered w-full flex-1"
                   onChange={(e) => setMessage(e.target.value)}
                   value={message}
                 />
@@ -111,6 +113,11 @@ export const Community = () => {
               </div>
             </div>
           )}
+
+          {!displayedPlace && (
+            <Card className="flex-1 min-h-full">
+              Click on the markers to add a message to a place
+            </Card>)}
           {/* <CommunityMessages
             places={places}
             displayedPlace={displayedPlace}
