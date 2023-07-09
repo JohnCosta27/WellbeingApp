@@ -488,6 +488,36 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error in createCommunityMessage "+ err);
       }
     },
+    async deleteMessage(_parent, { messageId }, context) {
+      try {
+        const message = await prisma.communityMessage.findUnique({
+          where: {
+            id: messageId,
+          },
+          include: {
+            user: true,
+          },
+        });
+
+        if (!message) {
+          throw new Error("Message not found");
+        }
+
+        if (message.user.id !== context.uuid) {
+          throw new Error("User does not own this message");
+        }
+
+        await prisma.communityMessage.delete({
+          where: {
+            id: messageId,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in deleteMessage "+ err);
+      }
+    },
     async createPlace(_parent, { name, latitude, longitude }) {
       try {
         await prisma.place.create({

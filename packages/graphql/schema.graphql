@@ -128,5 +128,6 @@ type Mutation {
   ): Boolean
   createPlace(name: String!, latitude: Float!, longitude: Float!): Boolean
   createCommunityMessage(message: String!, placeId: String!): Boolean
+  deleteMessage(messageId: String!): Boolean
   addSkill(skill: String!, replacingSkillId: String): Boolean
 }

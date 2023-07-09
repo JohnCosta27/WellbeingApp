@@ -4,10 +4,12 @@ import {
   namedOperations,
   useCreateCommunityMessageMutation,
   useCurrentUserQuery,
+  useDeleteMessageMutation,
   usePlacesQuery,
 } from "@wellbeing/graphql-types";
+
 import { useState } from "react";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineCloseCircle, AiOutlineDelete } from "react-icons/ai";
 import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
 import { MapCard } from "./MapCard";
@@ -35,6 +37,13 @@ export const Community = () => {
       placeId: displayedPlace ? displayedPlace.id : "",
       message,
     },
+  });
+
+  const [deleteMessage] = useDeleteMessageMutation({
+    refetchQueries: [
+      namedOperations.Query.CurrentUser,
+      namedOperations.Query.Places,
+    ],
   });
 
   const handleSendMessage = async () => {
@@ -87,13 +96,34 @@ export const Community = () => {
                         key={msg?.id}
                       >
                         <div className="chat-header">
-                          <div className="text-sm text-gray-600">
-                            {msg?.email.split("@")[0]} -{" "}
-                            {dayjs(msg?.date).fromNow()}
+                          <div className="text-sm text-gray-600 flex justify-center align-middle">
+                            <div className="flex-1 m-auto">
+                              {msg?.email.split("@")[0]} -{" "}
+                              {dayjs(msg?.date).fromNow()}
+                            </div>
                           </div>
                         </div>
-                        <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer">
-                          {msg?.message}
+                        <div className="flex justify-center align-middle">
+                          <div className="flex">
+                            {user?.currentUser.id === msg?.userId && (
+                              <button
+                                className="w-5 h-5 m-auto mr-2"
+                                onClick={() => {
+                                  if (msg) {
+                                    deleteMessage({
+                                      variables: { messageId: msg.id },
+                                    });
+                                  }
+                                }}
+                                type="button"
+                              >
+                                <AiOutlineDelete className="h-full w-full m-auto" />
+                              </button>
+                            )}
+                          </div>
+                          <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer flex-1">
+                            {msg?.message}
+                          </div>
                         </div>
                       </div>
                     ))}
