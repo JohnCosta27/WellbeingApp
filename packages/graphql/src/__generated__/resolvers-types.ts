@@ -39,6 +39,7 @@ export type CommunityMessage = {
   message: Scalars['String'];
   place?: Maybe<Place>;
   replies?: Maybe<Array<Maybe<CommunityMessage>>>;
+  userId: Scalars['String'];
 };
 
 export type HowAmIPhrase = {
@@ -174,6 +175,7 @@ export type User = {
   __typename?: 'User';
   brand: UserBrand;
   howAmIPhrase: Array<UserHowAmIPhrase>;
+  id: Scalars['String'];
   mentalEnergy: Array<MentalEnergy>;
   modules: Array<UserModules>;
   skills: Array<UserSkill>;
@@ -337,6 +339,7 @@ export type CommunityMessageResolvers<ContextType = any, ParentType extends Reso
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType>;
   replies?: Resolver<Maybe<Array<Maybe<ResolversTypes['CommunityMessage']>>>, ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -403,6 +406,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   brand?: Resolver<ResolversTypes['UserBrand'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['UserHowAmIPhrase']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
   modules?: Resolver<Array<ResolversTypes['UserModules']>, ParentType, ContextType>;
   skills?: Resolver<Array<ResolversTypes['UserSkill']>, ParentType, ContextType>;
@@ -539,7 +543,7 @@ export type AddSkillMutation = { __typename?: 'Mutation', addSkill?: boolean | n
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -559,14 +563,14 @@ export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?:
 export type PlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string } | null> | null } | null> | null }> };
+export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, userId: string, message: string, date: number, email: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, userId: string, message: string, date: number, email: string } | null> | null } | null> | null }> };
 
 export type CommunityMessageQueryVariables = Exact<{
   placeId: Scalars['String'];
 }>;
 
 
-export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, date: number, email: string, place?: { __typename?: 'Place', name: string, latitude: number, longitude: number } | null }> };
+export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, userId: string, date: number, email: string, place?: { __typename?: 'Place', name: string, latitude: number, longitude: number } | null }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -928,6 +932,7 @@ export type AddSkillMutationOptions = Apollo.BaseMutationOptions<AddSkillMutatio
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
+    id
     howAmIPhrase {
       phrase {
         id
@@ -1115,11 +1120,13 @@ export const PlacesDocument = gql`
     longitude
     messages {
       id
+      userId
       message
       date
       email
       replies {
         id
+        userId
         message
         date
         email
@@ -1160,6 +1167,7 @@ export const CommunityMessageDocument = gql`
   CommunityMessage(placeId: $placeId) {
     id
     message
+    userId
     date
     email
     place {

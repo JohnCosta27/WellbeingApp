@@ -107,6 +107,7 @@ const resolvers: Resolvers<Context> = {
       }
 
       const returnUser: User = {
+        id: user.id,
         brand: {
           words: currentBrand.brand_word_entries.map((w) => ({
             id: w.brand_word.id,
@@ -174,6 +175,7 @@ const resolvers: Resolvers<Context> = {
         longitude: p.longitude,
         messages: p.messages.map((m) => ({
           id: m.id,
+          userId: m.userId,
           message: m.message,
           date: m.date.getTime(),
           email: m.user.email,
@@ -192,6 +194,7 @@ const resolvers: Resolvers<Context> = {
               user: {
                 select: {
                   email: true,
+                  id: true,
                 },
               }
             },
@@ -205,6 +208,7 @@ const resolvers: Resolvers<Context> = {
 
       return place?.messages.map((m) => ({
         id: m.id,
+        userId: m.userId,
         message: m.message,
         date: m.date.getTime(),
         email: m.user.email,
