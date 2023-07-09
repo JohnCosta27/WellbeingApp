@@ -32,7 +32,7 @@ export const MapCard: FC<MapCardProps> = ({
   }, []);
 
   return (
-    <div className="w-full md:p-3 h-full flex-1 md:order-last top-0 sticky m-0 p-0">
+    <div className=" top-0 sticky m-0 p-0 w-full h-full flex-1 md:order-last">
       <MapContainer
         ref={mapRef}
         center={center}
@@ -41,6 +41,9 @@ export const MapCard: FC<MapCardProps> = ({
         className="md:w-full md:h-[92vh]  w-screen h-[95vh] m-0 p-0"
         touchZoom
         zoomControl
+        tap
+        dragging
+        easeLinearity={0.35}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
