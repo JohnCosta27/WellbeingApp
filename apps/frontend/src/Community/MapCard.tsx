@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Place } from "@wellbeing/graphql-types";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { FC, useEffect, useRef, useState } from "react";
 import L, { LatLngExpression, Map } from "leaflet";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Card } from "../ui";
 
 const pos: LatLngExpression = [51.425668, -0.563063];
@@ -18,7 +20,10 @@ export const MapCard: FC<MapCardProps> = ({
   setDisplayedPlace,
 }) => {
   const [center, setCenter] = useState(pos);
-  // const [map, setMap] = useState<Map | undefined>(undefined);
+
+  const [newPlace, setNewPlace] = useState<Place | null>(null);
+
+  const [showNewPlaceModal, setShowNewPlaceModal] = useState(false);
 
   // TODO: remove the any, but Map | null | undefined doesn't work :(
   const mapRef = useRef<any>();
@@ -79,7 +84,44 @@ export const MapCard: FC<MapCardProps> = ({
             </Popup>
           </Marker>
         ))}
+        <a
+          type="button"
+          className="btn top-1 right-1 z-[1000] absolute btn-info select-none decoration-none"
+          /* onClick={(e) => {
+            console.log("click");
+            e.preventDefault();
+            e.stopPropagation();
+            const map = mapRef.current as Map;
+          }} */
+          href="#newPlaceModal"
+        >
+          Add A Place
+        </a>
       </MapContainer>
+      <div id="newPlaceModal" className="modal w-screen h-screen">
+        <form method="dialog" className="modal-box">
+          <div className="flex justify-center">
+            <h3 className="font-bold text-lg flex-1">Add a new place</h3>
+            <a className="m-auto" href="#">
+              <AiOutlineCloseCircle className="h-8 w-8 m-auto" />
+            </a>
+          </div>
+          <p>
+            This adds the place to the center of the map, so zoom in and the position where you want to add the place.
+          </p>
+          <div className="modal-action flex">
+          <input
+            type="text"
+            placeholder="Name"
+            className="input input-secondary flex-1 max-w-[55vw] m-auto"
+          />
+            {/* if there is a button in form, it will close the modal */}
+            <a className="btn" href="#">
+              Submit
+            </a>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
