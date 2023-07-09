@@ -1,5 +1,6 @@
 /* eslint-disable no-bitwise */
-import { MentalEnergy, UserModules } from "@wellbeing/graphql-types";
+import { MentalEnergy, Place, UserModules } from "@wellbeing/graphql-types";
+import L from "leaflet";
 
 export const getLast7DaysEnergy = (energies: MentalEnergy[]): number => {
   if (energies.length === 0) return 0;
@@ -124,3 +125,18 @@ export const scoreColours: Record<PassTypes, string> = {
   [PassTypes.Failed]: "#fc6f79",
   [PassTypes.Uncompleted]: "#6d9290",
 };
+
+/**
+ * Takes a list of places, a place and a distance, then returns if the place is distinct/far enough from the other places.
+ */
+export const checkIfPlaceIsDistinct = (
+  places: Place[],
+  place: L.LatLngLiteral,
+  distance: number
+) =>
+  !!places.find((p) => {
+    const d = L.latLng(p.latitude, p.longitude).distanceTo(
+      L.latLng(place.lat, place.lng)
+    );
+    return d < distance;
+  });

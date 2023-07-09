@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Place,
@@ -5,11 +6,12 @@ import {
   useCreatePlaceMutation,
 } from "@wellbeing/graphql-types";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { FC, useEffect, useRef, useState, Fragment } from "react";
+import { FC, useRef, useState, Fragment, useEffect } from "react";
 import L, { LatLngExpression, Map } from "leaflet";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Dialog, Transition } from "@headlessui/react";
 import { Card } from "../ui";
+import { checkIfPlaceIsDistinct } from "../utils";
 
 const pos: LatLngExpression = [51.425668, -0.563063];
 
@@ -27,6 +29,23 @@ export const MapCard: FC<MapCardProps> = ({ places, setDisplayedPlace }) => {
 
   const [showNewPlaceModal, setShowNewPlaceModal] = useState(false);
   const [newPlaceName, setNewPlaceName] = useState("");
+
+  useEffect(() => {
+    if (!showNewPlaceModal) return;
+    if (!mapRef.current) return;
+
+    const map = mapRef.current as Map;
+
+    const currentCenter = map.getCenter();
+
+    if (checkIfPlaceIsDistinct(places, currentCenter, 30)) {
+      alert(
+        "This is too close to an existing place. Try again with a different location."
+      );
+      return;
+    }
+    setShowNewPlaceModal(false);
+  }, [showNewPlaceModal]);
 
   const handleNewPlaceSubmit = async () => {
     if (!mapRef.current) return;
