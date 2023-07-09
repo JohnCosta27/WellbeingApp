@@ -1,5 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Place } from "@wellbeing/graphql-types";
+import {
+  Place,
+  namedOperations,
+  useCreatePlaceMutation,
+} from "@wellbeing/graphql-types";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { FC, useEffect, useRef, useState, Fragment } from "react";
 import L, { LatLngExpression, Map } from "leaflet";
@@ -22,9 +26,32 @@ export const MapCard: FC<MapCardProps> = ({
 }) => {
   const [center, setCenter] = useState(pos);
 
+  const [createPlaceMutation] = useCreatePlaceMutation({
+    refetchQueries: [namedOperations.Query.Places],
+  });
+
   const [newPlace, setNewPlace] = useState<Place | null>(null);
 
   const [showNewPlaceModal, setShowNewPlaceModal] = useState(false);
+  const [newPlaceName, setNewPlaceName] = useState("");
+
+  const handleNewPlaceSubmit = async () => {
+    if (!mapRef.current) return;
+
+    const map = mapRef.current as Map;
+
+    const currentCenter = map.getCenter();
+
+    createPlaceMutation({
+      variables: {
+        name: newPlaceName,
+        latitude: currentCenter.lat,
+        longitude: currentCenter.lng,
+      },
+    });
+    setShowNewPlaceModal(false);
+    setNewPlaceName("");
+  };
 
   // TODO: remove the any, but Map | null | undefined doesn't work :(
   const mapRef = useRef<any>();
@@ -152,12 +179,14 @@ export const MapCard: FC<MapCardProps> = ({
                       type="text"
                       placeholder="Name"
                       className="input input-secondary flex-1 max-w-[55vw] m-auto"
+                      value={newPlaceName}
+                      onChange={(e) => setNewPlaceName(e.target.value)}
                     />
                     {/* if there is a button in form, it will close the modal */}
                     <button
                       className="btn"
                       type="submit"
-                      onClick={() => setShowNewPlaceModal(false)}
+                      onClick={() => handleNewPlaceSubmit()}
                     >
                       Submit
                     </button>
