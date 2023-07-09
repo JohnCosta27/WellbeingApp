@@ -111,7 +111,7 @@ export const Community = () => {
                         <div className="chat-header">
                           <div className="text-sm text-gray-600 flex justify-center align-middle">
                             <div className="flex-1 m-auto">
-                              {msg?.email.split("@")[0]} -{" "}
+                              {`${msg?.first_name} ${msg?.last_name}`} -{" "}
                               {dayjs(msg?.date).fromNow()}
                             </div>
                           </div>

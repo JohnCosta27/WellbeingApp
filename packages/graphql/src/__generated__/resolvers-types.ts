@@ -34,8 +34,9 @@ export type BrandWords = {
 export type CommunityMessage = {
   __typename?: 'CommunityMessage';
   date: Scalars['Float'];
-  email: Scalars['String'];
+  first_name: Scalars['String'];
   id: Scalars['String'];
+  last_name: Scalars['String'];
   message: Scalars['String'];
   place?: Maybe<Place>;
   replies?: Maybe<Array<Maybe<CommunityMessage>>>;
@@ -180,8 +181,11 @@ export type QueryCommunityMessageArgs = {
 export type User = {
   __typename?: 'User';
   brand: UserBrand;
+  email: Scalars['String'];
+  first_name: Scalars['String'];
   howAmIPhrase: Array<UserHowAmIPhrase>;
   id: Scalars['String'];
+  last_name: Scalars['String'];
   mentalEnergy: Array<MentalEnergy>;
   modules: Array<UserModules>;
   skills: Array<UserSkill>;
@@ -340,8 +344,9 @@ export type BrandWordsResolvers<ContextType = any, ParentType extends ResolversP
 
 export type CommunityMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommunityMessage'] = ResolversParentTypes['CommunityMessage']> = {
   date?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType>;
   replies?: Resolver<Maybe<Array<Maybe<ResolversTypes['CommunityMessage']>>>, ParentType, ContextType>;
@@ -412,8 +417,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   brand?: Resolver<ResolversTypes['UserBrand'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['UserHowAmIPhrase']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   mentalEnergy?: Resolver<Array<ResolversTypes['MentalEnergy']>, ParentType, ContextType>;
   modules?: Resolver<Array<ResolversTypes['UserModules']>, ParentType, ContextType>;
   skills?: Resolver<Array<ResolversTypes['UserSkill']>, ParentType, ContextType>;
@@ -557,7 +565,7 @@ export type AddSkillMutation = { __typename?: 'Mutation', addSkill?: boolean | n
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, first_name: string, last_name: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -577,14 +585,14 @@ export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?:
 export type PlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, userId: string, message: string, date: number, email: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, userId: string, message: string, date: number, email: string } | null> | null } | null> | null }> };
+export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, userId: string, message: string, date: number, first_name: string, last_name: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, userId: string, message: string, date: number, first_name: string, last_name: string } | null> | null } | null> | null }> };
 
 export type CommunityMessageQueryVariables = Exact<{
   placeId: Scalars['String'];
 }>;
 
 
-export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, userId: string, date: number, email: string, place?: { __typename?: 'Place', name: string, latitude: number, longitude: number } | null }> };
+export type CommunityMessageQuery = { __typename?: 'Query', CommunityMessage: Array<{ __typename?: 'CommunityMessage', id: string, message: string, userId: string, date: number, first_name: string, last_name: string, place?: { __typename?: 'Place', name: string, latitude: number, longitude: number } | null }> };
 
 
 export const AddMentalEnergyDocument = gql`
@@ -978,6 +986,8 @@ export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
     id
+    first_name
+    last_name
     howAmIPhrase {
       phrase {
         id
@@ -1168,13 +1178,15 @@ export const PlacesDocument = gql`
       userId
       message
       date
-      email
+      first_name
+      last_name
       replies {
         id
         userId
         message
         date
-        email
+        first_name
+        last_name
       }
     }
   }
@@ -1214,7 +1226,8 @@ export const CommunityMessageDocument = gql`
     message
     userId
     date
-    email
+    first_name
+    last_name
     place {
       name
       latitude

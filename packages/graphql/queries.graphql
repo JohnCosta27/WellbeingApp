@@ -1,6 +1,8 @@
 query CurrentUser {
   currentUser {
     id
+    first_name
+    last_name
     howAmIPhrase {
       phrase {
         id
@@ -79,13 +81,15 @@ query Places {
       userId
       message
       date
-      email
+      first_name
+      last_name
       replies {
         id
         userId
         message
         date
-        email
+        first_name
+        last_name
       }
     }
   }
@@ -97,7 +101,8 @@ query CommunityMessage($placeId: String!) {
     message
     userId
     date
-    email
+    first_name
+    last_name
     place {
       name
       latitude

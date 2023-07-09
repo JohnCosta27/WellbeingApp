@@ -108,6 +108,9 @@ const resolvers: Resolvers<Context> = {
 
       const returnUser: User = {
         id: user.id,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
         brand: {
           words: currentBrand.brand_word_entries.map((w) => ({
             id: w.brand_word.id,
@@ -160,7 +163,8 @@ const resolvers: Resolvers<Context> = {
               replyTo: true,
               user: {
                 select: {
-                  email: true,
+                  first_name: true,
+                  last_name: true,
                 },
               },
             },
@@ -178,7 +182,8 @@ const resolvers: Resolvers<Context> = {
           userId: m.userId,
           message: m.message,
           date: m.date.getTime(),
-          email: m.user.email,
+          first_name: m.user.first_name,
+          last_name: m.user.last_name,
         })),
       }));
     },
@@ -193,7 +198,8 @@ const resolvers: Resolvers<Context> = {
               replyTo: true,
               user: {
                 select: {
-                  email: true,
+                  first_name: true,
+                  last_name: true,
                   id: true,
                 },
               }
@@ -209,9 +215,10 @@ const resolvers: Resolvers<Context> = {
       return place?.messages.map((m) => ({
         id: m.id,
         userId: m.userId,
+        first_name: m.user.first_name,
+        last_name: m.user.last_name,
         message: m.message,
         date: m.date.getTime(),
-        email: m.user.email,
       }));
     }
   },

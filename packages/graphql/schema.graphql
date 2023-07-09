@@ -86,14 +86,18 @@ type CommunityMessage {
   id: String!
   message: String!
   userId: String!
+  first_name: String!
+  last_name: String!
   date: Float!
   place: Place
-  email: String!
   replies: [CommunityMessage]
 }
 
 type User {
   id: String!
+  first_name: String!
+  last_name: String!
+  email: String!
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
   howAmIPhrase: [UserHowAmIPhrase!]!
