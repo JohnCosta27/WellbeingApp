@@ -57,7 +57,7 @@ export const Community = () => {
           />
 
           {displayedPlace && data.places && (
-            <div className="w-full md:relative fixed bottom-0 bg-white h-[50vh] z-10 flex flex-col flex-1">
+            <div className="w-full md:relative fixed bottom-0 bg-white h-[50vh] md:h-[92vh] z-10 flex flex-col flex-1">
               <div className="flex w-full border">
                 <div className="flex-1 text-xl p-2 m-auto text-center md:m-0">
                   {displayedPlace.name} - {displayedPlace.messages?.length}{" "}
@@ -66,33 +66,37 @@ export const Community = () => {
                 <button
                   onClick={() => setDisplayedPlace(null)}
                   type="button"
-                  className="right-0 max-h-0 md:p-2"
+                  className="right-0 md:max-h-0 md:p-2 flex"
                 >
-                  <AiOutlineCloseCircle className="h-8 w-8" />
+                  <AiOutlineCloseCircle className="h-8 w-8 m-auto" />
                 </button>
               </div>
               <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen md:max-w-full">
                 {displayedPlace.messages &&
-                  displayedPlace.messages.map((msg) => (
-                    <div
-                      className={`chat ${
-                        user?.currentUser.id === msg?.userId
-                          ? "chat-end right-3 "
-                          : "chat-start left-3"
-                      } flex-col flex max-w-screen relative md:max-w-full`}
-                      key={msg?.id}
-                    >
-                      <div className="chat-header">
-                        <div className="text-sm text-gray-600">
-                          {msg?.email.split("@")[0]} -{" "}
-                          {dayjs(msg?.date).fromNow()}
+                  [...displayedPlace.messages]
+                    .sort((a, b) =>
+                      (a?.date ? a.date : 0) > (b?.date ? b.date : 0) ? 1 : -1
+                    )
+                    .map((msg) => (
+                      <div
+                        className={`chat ${
+                          user?.currentUser.id === msg?.userId
+                            ? "chat-end right-3 "
+                            : "chat-start left-3"
+                        } flex-col flex max-w-screen relative md:max-w-full`}
+                        key={msg?.id}
+                      >
+                        <div className="chat-header">
+                          <div className="text-sm text-gray-600">
+                            {msg?.email.split("@")[0]} -{" "}
+                            {dayjs(msg?.date).fromNow()}
+                          </div>
+                        </div>
+                        <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer">
+                          {msg?.message}
                         </div>
                       </div>
-                      <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer">
-                        {msg?.message}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
               </div>
 
               <div className="flex justify-end card-action align-bottom m-2 bottom-0">
@@ -117,7 +121,8 @@ export const Community = () => {
           {!displayedPlace && (
             <Card className="flex-1 min-h-full">
               Click on the markers to add a message to a place
-            </Card>)}
+            </Card>
+          )}
           {/* <CommunityMessages
             places={places}
             displayedPlace={displayedPlace}
