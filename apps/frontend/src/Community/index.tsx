@@ -121,7 +121,7 @@ export const Community = () => {
                               </button>
                             )}
                           </div>
-                          <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer flex-1">
+                          <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer flex-1 max-w-xs break-all">
                             {msg?.message}
                           </div>
                         </div>
