@@ -15,9 +15,12 @@ export const Login: FC = () => {
       const res = await AuthRequests.login({
         email,
         password,
+        // TODO: have different types for login and register
+        first_name: "",
+        last_name: "",
       });
       if (res.data.type === "error") {
-        //TODO: Handle this
+        // TODO: Handle this
         return;
       }
 
@@ -57,6 +60,9 @@ export const Register: FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
   const nav = useNavigate();
 
   const onLogin = useCallback(
@@ -70,10 +76,12 @@ export const Register: FC = () => {
       const res = await AuthRequests.register({
         email,
         password,
+        first_name: firstName,
+        last_name: lastName,
       });
 
       if (res.data.type === "error") {
-        //TODO: Handle this
+        // TODO: Handle this
         return;
       }
 
@@ -93,6 +101,18 @@ export const Register: FC = () => {
           className="input"
           placeholder="Email..."
           onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="name"
+          className="input"
+          placeholder="First Name..."
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+        <input
+          type="name"
+          className="input"
+          placeholder="Last Name..."
+          onChange={(e) => setLastName(e.target.value)}
         />
         <input
           type="password"
