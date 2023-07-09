@@ -1,33 +1,49 @@
 import "../index.css";
 import {
   Place,
+  namedOperations,
+  useCreateCommunityMessageMutation,
   useCurrentUserQuery,
   usePlacesQuery,
 } from "@wellbeing/graphql-types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
-import { Card } from "../ui";
 import { MapCard } from "./MapCard";
-import { CommunityMessages } from "./CommunityMessages";
 
 dayjs.extend(relativeTime);
 
 export const Community = () => {
-  const userData = useCurrentUserQuery();
+  const { data: user } = useCurrentUserQuery();
 
-  const user = userData.data?.currentUser;
-
-  const { data } = usePlacesQuery();
+  const { data, refetch: refetchPlaces } = usePlacesQuery();
 
   const [displayedPlace, setDisplayedPlace] = useState<Place | null>(null);
-
-  useEffect(() => {
-    console.log(`Displayed place: ${displayedPlace?.name}`);
-  }, [displayedPlace]);
+  const [message, setMessage] = useState("");
 
   const places = data?.places;
+
+  // the graphql query for adding messages to a place
+  const [addMessage] = useCreateCommunityMessageMutation({
+    refetchQueries: [
+      namedOperations.Query.CurrentUser,
+      namedOperations.Query.Places,
+    ],
+    variables: {
+      placeId: displayedPlace ? displayedPlace.id : "",
+      message,
+    },
+  });
+
+  const handleSendMessage = async () => {
+    if (!displayedPlace) return;
+    await addMessage({
+      variables: { message, placeId: displayedPlace.id },
+    });
+    setMessage("");
+    await refetchPlaces();
+  };
 
   return (
     <div className="w-full flex gap-4 md:flex-row flex-col">
@@ -55,23 +71,23 @@ export const Community = () => {
               </div>
               <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen">
                 {displayedPlace.messages &&
-                  displayedPlace.messages.map((message) => (
+                  displayedPlace.messages.map((msg) => (
                     <div
                       className={`chat ${
-                        user?.id === message?.userId
+                        user?.currentUser.id === msg?.userId
                           ? "chat-end right-3 "
                           : "chat-start left-3"
                       } flex-col flex max-w-screen relative`}
-                      key={message?.id}
+                      key={msg?.id}
                     >
                       <div className="chat-header">
                         <div className="text-sm text-gray-600">
-                          {message?.email.split("@")[0]} -{" "}
-                          {dayjs(message?.date).fromNow()}
+                          {msg?.email.split("@")[0]} -{" "}
+                          {dayjs(msg?.date).fromNow()}
                         </div>
                       </div>
                       <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer">
-                        {message?.message}
+                        {msg?.message}
                       </div>
                     </div>
                   ))}
@@ -82,8 +98,14 @@ export const Community = () => {
                   type="text"
                   placeholder="Type here"
                   className="input input-bordered w-full max-w-xs"
+                  onChange={(e) => setMessage(e.target.value)}
+                  value={message}
                 />
-                <button className="btn btn-secondary ml-2" type="submit">
+                <button
+                  className="btn btn-secondary ml-2"
+                  type="submit"
+                  onClick={() => handleSendMessage()}
+                >
                   Send
                 </button>
               </div>
