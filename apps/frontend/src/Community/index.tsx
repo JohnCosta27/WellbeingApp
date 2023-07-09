@@ -72,11 +72,7 @@ export const Community = () => {
     <div className="w-full flex gap-4 md:flex-row flex-col">
       {places && (
         <>
-          <MapCard
-            places={places}
-            displayedPlace={displayedPlace}
-            setDisplayedPlace={setDisplayedPlace}
-          />
+          <MapCard places={places} setDisplayedPlace={setDisplayedPlace} />
 
           {displayedPlace && data.places && (
             <div className="w-full md:relative fixed bottom-0 bg-white h-[50vh] md:h-[92vh] z-10 flex flex-col flex-1">

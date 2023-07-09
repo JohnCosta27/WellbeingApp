@@ -15,22 +15,15 @@ const pos: LatLngExpression = [51.425668, -0.563063];
 
 type MapCardProps = {
   places: Place[];
-  displayedPlace?: Place | null;
   setDisplayedPlace: (place: Place | null) => void;
 };
 
-export const MapCard: FC<MapCardProps> = ({
-  places,
-  displayedPlace,
-  setDisplayedPlace,
-}) => {
+export const MapCard: FC<MapCardProps> = ({ places, setDisplayedPlace }) => {
   const [center, setCenter] = useState(pos);
 
   const [createPlaceMutation] = useCreatePlaceMutation({
     refetchQueries: [namedOperations.Query.Places],
   });
-
-  const [newPlace, setNewPlace] = useState<Place | null>(null);
 
   const [showNewPlaceModal, setShowNewPlaceModal] = useState(false);
   const [newPlaceName, setNewPlaceName] = useState("");
@@ -55,14 +48,6 @@ export const MapCard: FC<MapCardProps> = ({
 
   // TODO: remove the any, but Map | null | undefined doesn't work :(
   const mapRef = useRef<any>();
-
-  useEffect(() => {
-    if (!mapRef.current) return;
-
-    const map = mapRef.current as Map;
-
-    // do something with map
-  }, []);
 
   return (
     <div className=" top-0 sticky m-0 p-0 w-full h-full flex-1 md:order-last">
@@ -116,7 +101,6 @@ export const MapCard: FC<MapCardProps> = ({
           type="button"
           className="btn top-1 right-1 z-[1000] absolute btn-info select-none decoration-none"
           onClick={(e) => {
-            console.log("click");
             e.preventDefault();
             e.stopPropagation();
             setShowNewPlaceModal(true);
@@ -125,7 +109,7 @@ export const MapCard: FC<MapCardProps> = ({
           Add A Place
         </button>
       </MapContainer>
-      <Transition appear show={showNewPlaceModal} as={Fragment}>
+      <Transition show={showNewPlaceModal} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
