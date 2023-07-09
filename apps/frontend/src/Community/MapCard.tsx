@@ -42,7 +42,6 @@ export const MapCard: FC<MapCardProps> = ({ places, setDisplayedPlace }) => {
       alert(
         "This is too close to an existing place. Try again with a different location."
       );
-      return;
     }
     setShowNewPlaceModal(false);
   }, [showNewPlaceModal]);
