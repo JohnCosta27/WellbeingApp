@@ -1,7 +1,7 @@
 import { Place } from "@wellbeing/graphql-types";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { FC, useEffect, useRef, useState } from "react";
-import { LatLngExpression, Map } from "leaflet";
+import L, { LatLngExpression, Map } from "leaflet";
 import { Card } from "../ui";
 
 const pos: LatLngExpression = [51.425668, -0.563063];
@@ -26,7 +26,7 @@ export const MapCard: FC<MapCardProps> = ({
   useEffect(() => {
     if (!mapRef.current) return;
 
-    const { leafletElement: map } = mapRef.current;
+    const map = mapRef.current as Map;
 
     // do something with map
   }, []);
@@ -51,34 +51,28 @@ export const MapCard: FC<MapCardProps> = ({
             position={[place.latitude, place?.longitude]}
             key={place.id}
             interactive
+            opacity={0.8}
             eventHandlers={{
-              click: () => {
+              popupopen: (m) => {
                 setDisplayedPlace(place);
                 if (!mapRef.current) return;
-                mapRef.current.flyTo([place.latitude, place?.longitude], 16);
+                // -0.002 is a hack to make the marker appear in the middle of the screen
+                mapRef.current.flyTo(
+                  [place.latitude - 0.002, place?.longitude],
+                  16
+                );
                 setCenter([place.latitude, place?.longitude]);
+                const marker = m.sourceTarget satisfies L.Marker;
+                marker.setOpacity(1);
+              },
+              popupclose: (m) => {
+                const marker = m.sourceTarget satisfies L.Marker;
+                marker.setOpacity(0.4);
               },
             }}
           >
-            <Popup>
-              <div>
-                {place.messages && place.messages?.length > 0 && (
-                  <div className="overflow-x-auto">
-                    <div className="card">
-                      <div className="card-body">
-                        <h5 className="card-title">{place.name}</h5>
-                        {place.messages.map((message) => (
-                          <div className="chat chat-start" key={message?.id}>
-                            <div className="chat-bubble chat-bubble-primary select-none cursor-pointer">
-                              {message?.message}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
+            <Popup keepInView={false} className="m-0 p-0">
+              {place.name}
             </Popup>
           </Marker>
         ))}
