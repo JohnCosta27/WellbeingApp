@@ -1,5 +1,6 @@
 query CurrentUser {
   currentUser {
+    id
     howAmIPhrase {
       phrase {
         id
@@ -75,11 +76,13 @@ query Places {
     longitude
     messages {
       id
+      userId
       message
       date
       email
       replies {
         id
+        userId
         message
         date
         email
@@ -92,6 +95,7 @@ query CommunityMessage($placeId: String!) {
   CommunityMessage(placeId: $placeId) {
     id
     message
+    userId
     date
     email
     place {

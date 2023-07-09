@@ -85,6 +85,7 @@ type Place {
 type CommunityMessage {
   id: String!
   message: String!
+  userId: String!
   date: Float!
   place: Place
   email: String!
@@ -92,6 +93,7 @@ type CommunityMessage {
 }
 
 type User {
+  id: String!
   brand: UserBrand!
   mentalEnergy: [MentalEnergy!]!
   howAmIPhrase: [UserHowAmIPhrase!]!
