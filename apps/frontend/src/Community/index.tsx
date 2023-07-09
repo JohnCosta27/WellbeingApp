@@ -1,5 +1,9 @@
 import "../index.css";
-import { Place, usePlacesQuery } from "@wellbeing/graphql-types";
+import {
+  Place,
+  useCurrentUserQuery,
+  usePlacesQuery,
+} from "@wellbeing/graphql-types";
 import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import dayjs from "dayjs";
@@ -11,6 +15,10 @@ import { CommunityMessages } from "./CommunityMessages";
 dayjs.extend(relativeTime);
 
 export const Community = () => {
+  const userData = useCurrentUserQuery();
+
+  const user = userData.data?.currentUser;
+
   const { data } = usePlacesQuery();
 
   const [displayedPlace, setDisplayedPlace] = useState<Place | null>(null);
@@ -45,11 +53,15 @@ export const Community = () => {
                   <AiOutlineCloseCircle className="h-8 w-8" />
                 </button>
               </div>
-              <div className="overflow-x-auto flex-1 justify-end ml-1">
+              <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen">
                 {displayedPlace.messages &&
                   displayedPlace.messages.map((message) => (
                     <div
-                      className="chat chat-start flex-col flex"
+                      className={`chat ${
+                        user?.id === message?.userId
+                          ? "chat-end right-3 "
+                          : "chat-start left-3"
+                      } flex-col flex max-w-screen relative`}
                       key={message?.id}
                     >
                       <div className="chat-header">
