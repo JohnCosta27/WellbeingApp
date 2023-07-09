@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Place } from "@wellbeing/graphql-types";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState, Fragment } from "react";
 import L, { LatLngExpression, Map } from "leaflet";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { Dialog, Transition } from "@headlessui/react";
 import { Card } from "../ui";
 
 const pos: LatLngExpression = [51.425668, -0.563063];
@@ -84,44 +85,89 @@ export const MapCard: FC<MapCardProps> = ({
             </Popup>
           </Marker>
         ))}
-        <a
+        <button
           type="button"
           className="btn top-1 right-1 z-[1000] absolute btn-info select-none decoration-none"
-          /* onClick={(e) => {
+          onClick={(e) => {
             console.log("click");
             e.preventDefault();
             e.stopPropagation();
-            const map = mapRef.current as Map;
-          }} */
-          href="#newPlaceModal"
+            setShowNewPlaceModal(true);
+          }}
         >
           Add A Place
-        </a>
+        </button>
       </MapContainer>
-      <div id="newPlaceModal" className="modal w-screen h-screen">
-        <form method="dialog" className="modal-box">
-          <div className="flex justify-center">
-            <h3 className="font-bold text-lg flex-1">Add a new place</h3>
-            <a className="m-auto" href="#">
-              <AiOutlineCloseCircle className="h-8 w-8 m-auto" />
-            </a>
+      <Transition appear show={showNewPlaceModal} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={setShowNewPlaceModal}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title as="h3">
+                    <div className="flex justify-center">
+                      <h3 className="font-bold text-lg flex-1">
+                        Add a new place
+                      </h3>
+                      <button
+                        className="m-auto"
+                        type="button"
+                        onClick={() => setShowNewPlaceModal(false)}
+                      >
+                        <AiOutlineCloseCircle className="h-8 w-8 m-auto" />
+                      </button>
+                    </div>
+                  </Dialog.Title>
+
+                  <p>
+                    This adds the place to the center of the map, so zoom in and
+                    the position where you want to add the place.
+                  </p>
+                  <div className="modal-action flex">
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      className="input input-secondary flex-1 max-w-[55vw] m-auto"
+                    />
+                    {/* if there is a button in form, it will close the modal */}
+                    <button
+                      className="btn"
+                      type="submit"
+                      onClick={() => setShowNewPlaceModal(false)}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
-          <p>
-            This adds the place to the center of the map, so zoom in and the position where you want to add the place.
-          </p>
-          <div className="modal-action flex">
-          <input
-            type="text"
-            placeholder="Name"
-            className="input input-secondary flex-1 max-w-[55vw] m-auto"
-          />
-            {/* if there is a button in form, it will close the modal */}
-            <a className="btn" href="#">
-              Submit
-            </a>
-          </div>
-        </form>
-      </div>
+        </Dialog>
+      </Transition>
     </div>
   );
 };
