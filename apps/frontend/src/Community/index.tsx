@@ -8,7 +8,7 @@ import {
   usePlacesQuery,
 } from "@wellbeing/graphql-types";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineCloseCircle, AiOutlineDelete } from "react-icons/ai";
 import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
@@ -24,6 +24,8 @@ export const Community = () => {
 
   const [displayedPlace, setDisplayedPlace] = useState<Place | null>(null);
   const [message, setMessage] = useState("");
+
+  const bottomDiv = useRef<HTMLDivElement | null>(null);
 
   const places = data?.places;
 
@@ -54,6 +56,12 @@ export const Community = () => {
     setMessage("");
     await refetchPlaces();
   };
+
+  useEffect(() => {
+    if (bottomDiv.current) {
+      bottomDiv.current.scrollIntoView();
+    }
+  }, [displayedPlace, bottomDiv.current, refetchPlaces]);
 
   return (
     <div className="w-full flex gap-4 md:flex-row flex-col">
@@ -127,6 +135,7 @@ export const Community = () => {
                         </div>
                       </div>
                     ))}
+                <div ref={bottomDiv} />
               </div>
 
               <div className="flex justify-end card-action align-bottom m-2 bottom-0">
