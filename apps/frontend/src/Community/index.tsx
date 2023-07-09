@@ -15,6 +15,7 @@ import * as relativeTime from "dayjs/plugin/relativeTime";
 import { MapCard } from "./MapCard";
 import { Card } from "../ui/Card";
 
+// used for the relative time of messages
 dayjs.extend(relativeTime);
 
 export const Community = () => {
@@ -48,6 +49,7 @@ export const Community = () => {
     ],
   });
 
+  // TODO: this doesn't refetch for some reason
   const handleSendMessage = async () => {
     if (!displayedPlace) return;
     await addMessage({
@@ -57,6 +59,9 @@ export const Community = () => {
     await refetchPlaces();
   };
 
+  /**
+   * Scroll to the bottom of the chat when a new message is added or a new place is selected
+   */
   useEffect(() => {
     if (bottomDiv.current) {
       bottomDiv.current.scrollIntoView();
@@ -90,7 +95,7 @@ export const Community = () => {
               </div>
               <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen md:max-w-full">
                 {displayedPlace.messages &&
-                  [...displayedPlace.messages]
+                  [...displayedPlace.messages] // sorting is done here
                     .sort((a, b) =>
                       (a?.date ? a.date : 0) > (b?.date ? b.date : 0) ? 1 : -1
                     )
@@ -162,11 +167,6 @@ export const Community = () => {
               Click on the markers to add a message to a place
             </Card>
           )}
-          {/* <CommunityMessages
-            places={places}
-            displayedPlace={displayedPlace}
-            setDisplayedPlace={setDisplayedPlace}
-      /> */}
         </>
       )}
     </div>
