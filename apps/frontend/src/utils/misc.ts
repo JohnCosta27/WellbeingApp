@@ -115,15 +115,15 @@ export const scaleModuleOverallScore = (data: extractedData) => {
   const total = data.completedScore + data.failedScore + data.uncompletedAmount;
   return {
     [PassTypes.Passed]: Math.round((data.completedScore / total) * 100),
-    [PassTypes.Failed]: Math.round((data.failedScore / total) * 100),
     [PassTypes.Uncompleted]: Math.round((data.uncompletedAmount / total) * 100),
+    [PassTypes.Failed]: Math.round((data.failedScore / total) * 100),
   };
 };
 
 export const scoreColours: Record<PassTypes, string> = {
   [PassTypes.Passed]: "#5cf76c",
-  [PassTypes.Failed]: "#fc6f79",
   [PassTypes.Uncompleted]: "#6d9290",
+  [PassTypes.Failed]: "#fc6f79",
 };
 
 /**
