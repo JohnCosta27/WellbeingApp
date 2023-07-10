@@ -10,15 +10,20 @@ import { FC, ReactNode, createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
 
-export const UserContext = createContext<
-  | QueryResult<
-      CurrentUserQuery,
-      Exact<{
-        [key: string]: never;
-      }>
-    >
-  | undefined
->(undefined);
+export type UserContextType = {
+  data: CurrentUserQuery | undefined;
+  loading: boolean;
+  refetch: () => void;
+  called: boolean;
+};
+
+export const UserContext = createContext<UserContextType>({
+  data: undefined,
+  loading: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  refetch: () => {},
+  called: false,
+});
 
 const HamburgerIcon = () => (
   <svg
