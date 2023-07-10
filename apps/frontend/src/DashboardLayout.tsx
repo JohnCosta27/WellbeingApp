@@ -1,7 +1,29 @@
+import { QueryResult } from "@apollo/client";
+import {
+  CurrentUserQuery,
+  Exact,
+  User,
+  useCurrentUserQuery,
+} from "@wellbeing/graphql-types";
 import clsx from "clsx";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
+
+export type UserContextType = {
+  data: CurrentUserQuery | undefined;
+  loading: boolean;
+  refetch: () => void;
+  called: boolean;
+};
+
+export const UserContext = createContext<UserContextType>({
+  data: undefined,
+  loading: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  refetch: () => {},
+  called: false,
+});
 
 const HamburgerIcon = () => (
   <svg
@@ -23,6 +45,8 @@ const HamburgerIcon = () => (
 const MD_SIZE = 768;
 
 export const DashboardLayout: FC = () => {
+  const query = useCurrentUserQuery();
+
   const [openSidebar, setOpenSidebar] = useState(window.innerWidth > MD_SIZE);
 
   useEffect(() => {
@@ -38,71 +62,90 @@ export const DashboardLayout: FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen bg-base-100 flex flex-col overflow-y-hidden">
-      <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
-        <div className="w-full flex items-center gap-4">
-          <div className="flex md:hidden">
-            <button
-              type="button"
-              onClick={() => {
-                if (window.innerWidth < MD_SIZE) {
-                  setOpenSidebar(!openSidebar);
-                }
-              }}
-            >
-              <HamburgerIcon />
-            </button>
-          </div>
-          <h1 className="text-xl">Wellbeing App</h1>
-        </div>
-      </div>
-      <div className="w-full h-full flex">
-        <div
-          className={clsx(
-            "flex-col bg-white shadow-xl fixed h-full md:relative transition-all z-10",
-            !openSidebar ? "w-0" : "w-64"
-          )}
-        >
-          {openSidebar && (
-            <div className="grid m-1">
-              <TopbarItem onNav="/who" setSidebar={setOpenSidebar}>
-                Who
-              </TopbarItem>
-              <TopbarItem onNav="/how" setSidebar={setOpenSidebar}>
-                How
-              </TopbarItem>
-              <TopbarItem onNav="/how" setSidebar={setOpenSidebar}>
-                What
-              </TopbarItem>
-              <TopbarItem onNav="/progress" setSidebar={setOpenSidebar}>
-                Progress
-              </TopbarItem>
-              <TopbarItem onNav="/community" setSidebar={setOpenSidebar}>
-                Community
-              </TopbarItem>
-              <TopbarItem onNav="/mycv" setSidebar={setOpenSidebar}>
-                My CV
-              </TopbarItem>
-              <TopbarItem onNav="/myskills" setSidebar={setOpenSidebar}>
-                My Skills
-              </TopbarItem>
+    <UserContext.Provider value={query}>
+      <div className="w-full h-screen bg-base-100 flex flex-col overflow-y-hidden">
+        <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
+          <div className="w-full flex items-center gap-4">
+            <div className="flex md:hidden">
+              <button
+                type="button"
+                onClick={() => {
+                  if (window.innerWidth < MD_SIZE) {
+                    setOpenSidebar(!openSidebar);
+                  }
+                }}
+              >
+                <HamburgerIcon />
+              </button>
             </div>
-          )}
+            <h1 className="text-xl">Wellbeing App</h1>
+          </div>
         </div>
-        <div className="w-full h-full bg-[#F6F8FA] overflow-y-auto">
-          {/* Hacky way to get bottom pading to appear in mobile view (adding the margin) */}
-          <div className="w-full md:p-6 mb-4 md:mb-12">
-            <Outlet />
+        <div className="w-full h-full flex">
+          <div
+            className={clsx(
+              "flex-col bg-white shadow-xl fixed h-full md:relative transition-all z-10",
+              !openSidebar ? "w-0" : "w-64"
+            )}
+          >
+            {openSidebar && (
+              <div className="grid m-1">
+                <TopbarItem onNav="/who" setSidebar={setOpenSidebar} emoji="🤔">
+                  Who
+                </TopbarItem>
+                <TopbarItem onNav="/how" setSidebar={setOpenSidebar} emoji="🔍">
+                  How
+                </TopbarItem>
+                <TopbarItem onNav="/how" setSidebar={setOpenSidebar} emoji="❓">
+                  What
+                </TopbarItem>
+                <TopbarItem
+                  onNav="/progress"
+                  setSidebar={setOpenSidebar}
+                  emoji="📈"
+                >
+                  Progress
+                </TopbarItem>
+                <TopbarItem
+                  onNav="/community"
+                  setSidebar={setOpenSidebar}
+                  emoji="🏘️"
+                >
+                  Community
+                </TopbarItem>
+                <TopbarItem
+                  onNav="/mycv"
+                  setSidebar={setOpenSidebar}
+                  emoji="📝"
+                >
+                  My CV
+                </TopbarItem>
+                <TopbarItem
+                  onNav="/myskills"
+                  setSidebar={setOpenSidebar}
+                  emoji="🧠"
+                >
+                  My Skills
+                </TopbarItem>
+              </div>
+            )}
+          </div>
+          <div className="w-full h-full bg-[#F6F8FA] overflow-y-auto">
+            {/* Hacky way to get bottom pading to appear in mobile view (adding the margin) */}
+            <div className="w-full md:p-6 mb-4 md:mb-12">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </UserContext.Provider>
   );
 };
 
 interface TopBarItemProps {
   onNav: string;
   children: ReactNode;
+  emoji?: string;
   setSidebar: (open: boolean) => void;
 }
 
@@ -110,6 +153,7 @@ export const TopbarItem: FC<TopBarItemProps> = ({
   onNav,
   children,
   setSidebar,
+  emoji,
 }) => (
   <Link
     to={onNav}
@@ -120,6 +164,13 @@ export const TopbarItem: FC<TopBarItemProps> = ({
       }
     }}
   >
-    {children}
+    {emoji ? (
+      <div className="flex w-full">
+        <div>{emoji}</div>
+        <div className="text-center w-full">{children}</div>
+      </div>
+    ) : (
+      children
+    )}
   </Link>
 );

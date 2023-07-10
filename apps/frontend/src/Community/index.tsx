@@ -8,18 +8,19 @@ import {
   usePlacesQuery,
 } from "@wellbeing/graphql-types";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineCloseCircle, AiOutlineDelete } from "react-icons/ai";
 import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
 import { MapCard } from "./MapCard";
 import { Card } from "../ui/Card";
+import { UserContext } from "../DashboardLayout";
 
 // used for the relative time of messages
 dayjs.extend(relativeTime);
 
 export const Community = () => {
-  const { data: user } = useCurrentUserQuery();
+  const { data: user } = useContext(UserContext);
 
   const { data, refetch: refetchPlaces } = usePlacesQuery();
 
