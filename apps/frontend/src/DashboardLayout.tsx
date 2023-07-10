@@ -90,6 +90,9 @@ export const DashboardLayout: FC = () => {
           >
             {openSidebar && (
               <div className="grid m-1">
+                <TopbarItem onNav="/" setSidebar={setOpenSidebar} emoji="🏠">
+                  Home
+                </TopbarItem>
                 <TopbarItem onNav="/who" setSidebar={setOpenSidebar} emoji="🤔">
                   Who
                 </TopbarItem>
