@@ -65,25 +65,37 @@ export const DashboardLayout: FC = () => {
         >
           {openSidebar && (
             <div className="grid m-1">
-              <TopbarItem onNav="/who" setSidebar={setOpenSidebar}>
+              <TopbarItem onNav="/who" setSidebar={setOpenSidebar} emoji="🤔">
                 Who
               </TopbarItem>
-              <TopbarItem onNav="/how" setSidebar={setOpenSidebar}>
+              <TopbarItem onNav="/how" setSidebar={setOpenSidebar} emoji="🔍">
                 How
               </TopbarItem>
-              <TopbarItem onNav="/how" setSidebar={setOpenSidebar}>
+              <TopbarItem onNav="/how" setSidebar={setOpenSidebar} emoji="❓">
                 What
               </TopbarItem>
-              <TopbarItem onNav="/progress" setSidebar={setOpenSidebar}>
+              <TopbarItem
+                onNav="/progress"
+                setSidebar={setOpenSidebar}
+                emoji="📈"
+              >
                 Progress
               </TopbarItem>
-              <TopbarItem onNav="/community" setSidebar={setOpenSidebar}>
+              <TopbarItem
+                onNav="/community"
+                setSidebar={setOpenSidebar}
+                emoji="🏘️"
+              >
                 Community
               </TopbarItem>
-              <TopbarItem onNav="/mycv" setSidebar={setOpenSidebar}>
+              <TopbarItem onNav="/mycv" setSidebar={setOpenSidebar} emoji="📝">
                 My CV
               </TopbarItem>
-              <TopbarItem onNav="/myskills" setSidebar={setOpenSidebar}>
+              <TopbarItem
+                onNav="/myskills"
+                setSidebar={setOpenSidebar}
+                emoji="🧠"
+              >
                 My Skills
               </TopbarItem>
             </div>
@@ -103,6 +115,7 @@ export const DashboardLayout: FC = () => {
 interface TopBarItemProps {
   onNav: string;
   children: ReactNode;
+  emoji?: string;
   setSidebar: (open: boolean) => void;
 }
 
@@ -110,6 +123,7 @@ export const TopbarItem: FC<TopBarItemProps> = ({
   onNav,
   children,
   setSidebar,
+  emoji,
 }) => (
   <Link
     to={onNav}
@@ -120,6 +134,13 @@ export const TopbarItem: FC<TopBarItemProps> = ({
       }
     }}
   >
-    {children}
+    {emoji ? (
+      <div className="flex w-full">
+        <div>{emoji}</div>
+        <div className="text-center w-full">{children}</div>
+      </div>
+    ) : (
+      children
+    )}
   </Link>
 );
