@@ -1,5 +1,7 @@
+import { QueryResult } from "@apollo/client";
 import {
   CurrentUserQuery,
+  Exact,
   User,
   useCurrentUserQuery,
 } from "@wellbeing/graphql-types";
@@ -9,7 +11,13 @@ import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
 
 export const UserContext = createContext<
-  CurrentUserQuery["currentUser"] | undefined
+  | QueryResult<
+      CurrentUserQuery,
+      Exact<{
+        [key: string]: never;
+      }>
+    >
+  | undefined
 >(undefined);
 
 const HamburgerIcon = () => (
@@ -32,7 +40,7 @@ const HamburgerIcon = () => (
 const MD_SIZE = 768;
 
 export const DashboardLayout: FC = () => {
-  const { data, loading } = useCurrentUserQuery();
+  const query = useCurrentUserQuery();
 
   const [openSidebar, setOpenSidebar] = useState(window.innerWidth > MD_SIZE);
 
@@ -49,7 +57,7 @@ export const DashboardLayout: FC = () => {
   }, []);
 
   return (
-    <UserContext.Provider value={data?.currentUser}>
+    <UserContext.Provider value={query}>
       <div className="w-full h-screen bg-base-100 flex flex-col overflow-y-hidden">
         <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
           <div className="w-full flex items-center gap-4">
