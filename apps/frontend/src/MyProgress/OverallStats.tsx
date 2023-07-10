@@ -15,10 +15,11 @@ type OverallStatsProps = {
   modules: UserModules[] | undefined;
   showBarText?: boolean;
   className?: string;
+  title?: string;
 };
 
 const OverallStats = (props: OverallStatsProps) => {
-  const { modules, showBarText, className } = props;
+  const { modules, showBarText, className, title } = props;
   const [reducedModules, setReducedModules] = useState<
     extractedData | undefined
   >(modules ? reduceModules(modules) : undefined);
@@ -85,7 +86,7 @@ const OverallStats = (props: OverallStatsProps) => {
 
   if (!modules) {
     return (
-      <Card title="Overall Stats" className="col-span-1 row-span-1">
+      <Card title={title || "Overall Stats"} className="col-span-1 row-span-1">
         Loading...
       </Card>
     );
@@ -93,7 +94,10 @@ const OverallStats = (props: OverallStatsProps) => {
 
   if (modules.length === 0) {
     return (
-      <Card title="Overall Stats" className="flex justify-center align-middle">
+      <Card
+        title={title || "Overall Stats"}
+        className="flex justify-center align-middle"
+      >
         <div className="">
           Here&apos;s where your stats will be when you fill in your progress!
         </div>
