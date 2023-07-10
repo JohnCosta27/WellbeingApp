@@ -108,7 +108,7 @@ const OverallStats = (props: OverallStatsProps) => {
   return (
     <div className={`card bg-base-100 shadow-xl ${className}`}>
       <div className="card-title bg-info p-2 rounded-t-2xl w-full text-center flex justify-center align-middle h-16">
-        <div className="m-auto text-2xl">Overall Stats</div>
+        <div className="m-auto text-2xl">{title || "Overall Stats"}</div>
       </div>
       {reducedModules && (
         <CompletedBar

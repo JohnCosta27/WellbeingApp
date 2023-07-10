@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { Card } from "../ui";
 
 type ModulesSelectorProps = {
-  user?: CurrentUser;
+  user?: User;
 };
 
 const ModuleSelector = (props: ModulesSelectorProps) => {
