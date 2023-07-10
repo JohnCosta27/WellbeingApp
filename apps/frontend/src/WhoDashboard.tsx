@@ -4,16 +4,17 @@ import {
   useAddBrandWordMutation,
   useRemoveBrandWordMutation,
   useBrandWordsQuery,
-  useCurrentUserQuery,
   PastUserBrand,
 } from "@wellbeing/graphql-types";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { AddBrandWords, Card, IBrand } from "./ui";
 import PreviousBrands from "./ui/PreviousBrands";
+import { UserContext } from "./DashboardLayout";
 
 export const WhoDashboard: FC = () => {
   const { data } = useBrandWordsQuery();
-  const { data: userBrandWords, loading } = useCurrentUserQuery();
+  // This is using the userContext from DashboardLayout.tsx
+  const { data: userBrandWords, loading } = useContext(UserContext);
 
   const [addBrandWords] = useAddBrandWordMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
