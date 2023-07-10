@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import {
   namedOperations,
   useAddMentalEnergyMutation,
@@ -16,9 +16,10 @@ import {
 import { QuickHelp } from "../MyProgress/QuickHelp";
 import { YourStats } from "./YourStats";
 import { getLast7DaysEnergy, isToday } from "../utils";
+import { UserContext } from "../DashboardLayout";
 
 export const HowDashboard: FC = () => {
-  const { data, loading } = useCurrentUserQuery();
+  const { data, loading } = useContext(UserContext);
 
   const words = useHowAmIPhraseQuery();
 
