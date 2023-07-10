@@ -13,10 +13,12 @@ import { DoughnutChart } from "./DoughnutChart";
 
 type OverallStatsProps = {
   modules: UserModules[] | undefined;
+  showBarText?: boolean;
+  className?: string;
 };
 
 const OverallStats = (props: OverallStatsProps) => {
-  const { modules } = props;
+  const { modules, showBarText, className } = props;
   const [reducedModules, setReducedModules] = useState<
     extractedData | undefined
   >(modules ? reduceModules(modules) : undefined);
@@ -100,12 +102,15 @@ const OverallStats = (props: OverallStatsProps) => {
   }
 
   return (
-    <div className="card bg-base-100 shadow-xl ">
+    <div className={`card bg-base-100 shadow-xl ${className}`}>
       <div className="card-title bg-info p-2 rounded-t-2xl w-full text-center flex justify-center align-middle h-16">
         <div className="m-auto text-2xl">Overall Stats</div>
       </div>
       {reducedModules && (
-        <CompletedBar showText data={scaleModuleOverallScore(reducedModules)} />
+        <CompletedBar
+          showText={showBarText}
+          data={scaleModuleOverallScore(reducedModules)}
+        />
       )}
 
       <DoughnutChart data={getChartData()} />
