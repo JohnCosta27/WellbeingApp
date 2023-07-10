@@ -53,6 +53,15 @@ mutation createCommunityMessage(
   )
 }
 
+mutation deleteMessage(
+  $messageId: String!
+) {
+  deleteMessage(
+    messageId: $messageId
+  )
+}
+
+
 mutation createPlace
 (
   $name: String!, 

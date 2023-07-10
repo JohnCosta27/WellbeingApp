@@ -65,19 +65,33 @@ export const DashboardLayout: FC = () => {
         >
           {openSidebar && (
             <div className="grid m-1">
-              <TopbarItem onNav="/who">Who</TopbarItem>
-              <TopbarItem onNav="/how">How</TopbarItem>
-              <TopbarItem onNav="/how">What</TopbarItem>
-              <TopbarItem onNav="/progress">Progress</TopbarItem>
-              <TopbarItem onNav="/community">Community</TopbarItem>
-              <TopbarItem onNav="/mycv">My CV</TopbarItem>
-              <TopbarItem onNav="/myskills">My Skills</TopbarItem>
+              <TopbarItem onNav="/who" setSidebar={setOpenSidebar}>
+                Who
+              </TopbarItem>
+              <TopbarItem onNav="/how" setSidebar={setOpenSidebar}>
+                How
+              </TopbarItem>
+              <TopbarItem onNav="/how" setSidebar={setOpenSidebar}>
+                What
+              </TopbarItem>
+              <TopbarItem onNav="/progress" setSidebar={setOpenSidebar}>
+                Progress
+              </TopbarItem>
+              <TopbarItem onNav="/community" setSidebar={setOpenSidebar}>
+                Community
+              </TopbarItem>
+              <TopbarItem onNav="/mycv" setSidebar={setOpenSidebar}>
+                My CV
+              </TopbarItem>
+              <TopbarItem onNav="/myskills" setSidebar={setOpenSidebar}>
+                My Skills
+              </TopbarItem>
             </div>
           )}
         </div>
         <div className="w-full h-full bg-[#F6F8FA] overflow-y-auto">
           {/* Hacky way to get bottom pading to appear in mobile view (adding the margin) */}
-          <div className="w-full p-2 md:p-6 mb-4 md:mb-12">
+          <div className="w-full md:p-6 mb-4 md:mb-12">
             <Outlet />
           </div>
         </div>
@@ -89,12 +103,22 @@ export const DashboardLayout: FC = () => {
 interface TopBarItemProps {
   onNav: string;
   children: ReactNode;
+  setSidebar: (open: boolean) => void;
 }
 
-export const TopbarItem: FC<TopBarItemProps> = ({ onNav, children }) => (
+export const TopbarItem: FC<TopBarItemProps> = ({
+  onNav,
+  children,
+  setSidebar,
+}) => (
   <Link
     to={onNav}
     className="w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-neutral-focus rounded-md transition-all"
+    onClick={() => {
+      if (window.innerWidth < MD_SIZE) {
+        setSidebar(false);
+      }
+    }}
   >
     {children}
   </Link>

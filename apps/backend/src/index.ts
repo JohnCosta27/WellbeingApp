@@ -107,6 +107,10 @@ const resolvers: Resolvers<Context> = {
       }
 
       const returnUser: User = {
+        id: user.id,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
         brand: {
           words: currentBrand.brand_word_entries.map((w) => ({
             id: w.brand_word.id,
@@ -159,7 +163,8 @@ const resolvers: Resolvers<Context> = {
               replyTo: true,
               user: {
                 select: {
-                  email: true,
+                  first_name: true,
+                  last_name: true,
                 },
               },
             },
@@ -174,9 +179,11 @@ const resolvers: Resolvers<Context> = {
         longitude: p.longitude,
         messages: p.messages.map((m) => ({
           id: m.id,
+          userId: m.userId,
           message: m.message,
           date: m.date.getTime(),
-          email: m.user.email,
+          first_name: m.user.first_name,
+          last_name: m.user.last_name,
         })),
       }));
     },
@@ -191,7 +198,9 @@ const resolvers: Resolvers<Context> = {
               replyTo: true,
               user: {
                 select: {
-                  email: true,
+                  first_name: true,
+                  last_name: true,
+                  id: true,
                 },
               }
             },
@@ -205,9 +214,11 @@ const resolvers: Resolvers<Context> = {
 
       return place?.messages.map((m) => ({
         id: m.id,
+        userId: m.userId,
+        first_name: m.user.first_name,
+        last_name: m.user.last_name,
         message: m.message,
         date: m.date.getTime(),
-        email: m.user.email,
       }));
     }
   },
@@ -482,6 +493,36 @@ const resolvers: Resolvers<Context> = {
       } catch (err) {
         console.log(err);
         throw new Error("Database error in createCommunityMessage "+ err);
+      }
+    },
+    async deleteMessage(_parent, { messageId }, context) {
+      try {
+        const message = await prisma.communityMessage.findUnique({
+          where: {
+            id: messageId,
+          },
+          include: {
+            user: true,
+          },
+        });
+
+        if (!message) {
+          throw new Error("Message not found");
+        }
+
+        if (message.user.id !== context.uuid) {
+          throw new Error("User does not own this message");
+        }
+
+        await prisma.communityMessage.delete({
+          where: {
+            id: messageId,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in deleteMessage "+ err);
       }
     },
     async createPlace(_parent, { name, latitude, longitude }) {

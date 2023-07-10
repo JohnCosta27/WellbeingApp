@@ -11,6 +11,8 @@ datasource db {
 model Users {
   id String @id @default(uuid())
   email String @unique
+  first_name String
+  last_name String
   password String
   password_salt String
   mental_energy MentalEnergy[]
