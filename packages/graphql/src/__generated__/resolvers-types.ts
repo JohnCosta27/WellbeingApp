@@ -74,6 +74,7 @@ export type Mutation = {
   addWholeBrand?: Maybe<Scalars['Boolean']>;
   createCommunityMessage?: Maybe<Scalars['Boolean']>;
   createPlace?: Maybe<Scalars['Boolean']>;
+  deleteAccount?: Maybe<Scalars['Boolean']>;
   deleteMessage?: Maybe<Scalars['Boolean']>;
   removeBrandWord?: Maybe<Scalars['Boolean']>;
   removeModule?: Maybe<Scalars['Boolean']>;
@@ -158,7 +159,6 @@ export type Place = {
   id: Scalars['String'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
-  messages?: Maybe<Array<Maybe<CommunityMessage>>>;
   name: Scalars['String'];
 };
 
@@ -384,6 +384,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddWholeBrandArgs, 'brandName'>>;
   createCommunityMessage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateCommunityMessageArgs, 'message' | 'placeId'>>;
   createPlace?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreatePlaceArgs, 'latitude' | 'longitude' | 'name'>>;
+  deleteAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   deleteMessage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteMessageArgs, 'messageId'>>;
   removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
   removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
@@ -400,7 +401,6 @@ export type PlaceResolvers<ContextType = any, ParentType extends ResolversParent
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   latitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   longitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  messages?: Resolver<Maybe<Array<Maybe<ResolversTypes['CommunityMessage']>>>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -562,6 +562,11 @@ export type AddSkillMutationVariables = Exact<{
 
 export type AddSkillMutation = { __typename?: 'Mutation', addSkill?: boolean | null };
 
+export type DeleteAccountMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount?: boolean | null };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -585,7 +590,7 @@ export type ModulesQuery = { __typename?: 'Query', modules: Array<{ __typename?:
 export type PlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number, messages?: Array<{ __typename?: 'CommunityMessage', id: string, userId: string, message: string, date: number, first_name: string, last_name: string, replies?: Array<{ __typename?: 'CommunityMessage', id: string, userId: string, message: string, date: number, first_name: string, last_name: string } | null> | null } | null> | null }> };
+export type PlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', id: string, name: string, latitude: number, longitude: number }> };
 
 export type CommunityMessageQueryVariables = Exact<{
   placeId: Scalars['String'];
@@ -982,6 +987,36 @@ export function useAddSkillMutation(baseOptions?: Apollo.MutationHookOptions<Add
 export type AddSkillMutationHookResult = ReturnType<typeof useAddSkillMutation>;
 export type AddSkillMutationResult = Apollo.MutationResult<AddSkillMutation>;
 export type AddSkillMutationOptions = Apollo.BaseMutationOptions<AddSkillMutation, AddSkillMutationVariables>;
+export const DeleteAccountDocument = gql`
+    mutation deleteAccount {
+  deleteAccount
+}
+    `;
+export type DeleteAccountMutationFn = Apollo.MutationFunction<DeleteAccountMutation, DeleteAccountMutationVariables>;
+
+/**
+ * __useDeleteAccountMutation__
+ *
+ * To run a mutation, you first call `useDeleteAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAccountMutation, { data, loading, error }] = useDeleteAccountMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeleteAccountMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAccountMutation, DeleteAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAccountMutation, DeleteAccountMutationVariables>(DeleteAccountDocument, options);
+      }
+export type DeleteAccountMutationHookResult = ReturnType<typeof useDeleteAccountMutation>;
+export type DeleteAccountMutationResult = Apollo.MutationResult<DeleteAccountMutation>;
+export type DeleteAccountMutationOptions = Apollo.BaseMutationOptions<DeleteAccountMutation, DeleteAccountMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -1174,22 +1209,6 @@ export const PlacesDocument = gql`
     name
     latitude
     longitude
-    messages {
-      id
-      userId
-      message
-      date
-      first_name
-      last_name
-      replies {
-        id
-        userId
-        message
-        date
-        first_name
-        last_name
-      }
-    }
   }
 }
     `;
@@ -1286,6 +1305,7 @@ export const namedOperations = {
     createCommunityMessage: 'createCommunityMessage',
     deleteMessage: 'deleteMessage',
     createPlace: 'createPlace',
-    addSkill: 'addSkill'
+    addSkill: 'addSkill',
+    deleteAccount: 'deleteAccount'
   }
 }

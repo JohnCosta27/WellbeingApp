@@ -78,3 +78,7 @@ mutation createPlace
 mutation addSkill($skill: String!, $replacingSkillId: String) {
   addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
 }
+
+mutation deleteAccount {
+  deleteAccount
+}
