@@ -1,7 +1,9 @@
 import "../index.css";
 import {
+  CommunityMessage,
   Place,
   namedOperations,
+  useCommunityMessageQuery,
   useCreateCommunityMessageMutation,
   useCurrentUserQuery,
   useDeleteMessageMutation,
@@ -26,6 +28,7 @@ export const Community = () => {
   const { data, refetch: refetchPlaces } = usePlacesQuery();
 
   const [displayedPlace, setDisplayedPlace] = useState<Place | null>(null);
+
   const [message, setMessage] = useState("");
 
   const bottomDiv = useRef<HTMLDivElement | null>(null);
@@ -34,14 +37,15 @@ export const Community = () => {
 
   // the graphql query for adding messages to a place
   const [addMessage] = useCreateCommunityMessageMutation({
-    refetchQueries: [
-      namedOperations.Query.CurrentUser,
-      namedOperations.Query.Places,
-    ],
+    refetchQueries: [namedOperations.Query.CommunityMessage],
     variables: {
       placeId: displayedPlace ? displayedPlace.id : "",
       message,
     },
+  });
+
+  const { data: messageData } = useCommunityMessageQuery({
+    variables: { placeId: displayedPlace ? displayedPlace.id : "" },
   });
 
   useEffect(() => {
@@ -54,10 +58,7 @@ export const Community = () => {
   }, [data?.places]);
 
   const [deleteMessage] = useDeleteMessageMutation({
-    refetchQueries: [
-      namedOperations.Query.CurrentUser,
-      namedOperations.Query.Places,
-    ],
+    refetchQueries: [namedOperations.Query.CommunityMessage],
   });
 
   // TODO: this doesn't refetch for some reason
@@ -101,8 +102,8 @@ export const Community = () => {
                 </button>
               </div>
               <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen md:max-w-full">
-                {displayedPlace.messages &&
-                  [...displayedPlace.messages] // sorting is done here
+                {messageData &&
+                  [...messageData.CommunityMessage] // sorting is done here
                     .sort((a, b) =>
                       (a?.date ? a.date : 0) > (b?.date ? b.date : 0) ? 1 : -1
                     )
