@@ -66,10 +66,7 @@ const HomePage = () => {
         >
           <YourStats sortedEnergy={sortedEnergy} />
         </Card>
-        <Card
-          title="Your Skills"
-          className="col-span-2 lg:col-span-1 shadow-none"
-        >
+        <div className="col-span-2 lg:col-span-1 shadow-none bg-white p-5">
           <div className="grid grid-cols-2 gap-4">
             {" "}
             {data.currentUser.skills.map((skill, i) => (
@@ -78,7 +75,7 @@ const HomePage = () => {
               </div>
             ))}
           </div>
-        </Card>
+        </div>
       </div>
 
       {/* <Card className="row-span-1" title="Your Current Active Brand">
