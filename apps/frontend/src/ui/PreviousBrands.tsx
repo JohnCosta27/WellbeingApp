@@ -28,7 +28,7 @@ const PreviousBrands: FC<PreviousBrandsProps> = (props) => {
         Current Brand
       </button>
       {/* If there are any past brands, list them here */}
-      {userBrand.pastBrand?.map((b, i) => (
+      {userBrand.pastBrand?.map((b) => (
         <button
           type="button"
           key={b.date}

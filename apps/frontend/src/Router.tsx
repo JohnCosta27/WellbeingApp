@@ -7,6 +7,7 @@ import { WhoDashboard } from "./WhoDashboard";
 import MyCV from "./MyCV";
 import { Community } from "./Community";
 import { MySkills } from "./MySkills";
+import HomePage from "./HomePage";
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Navigate to="/how" />,
+            element: <HomePage />,
           },
           {
             path: "/how",

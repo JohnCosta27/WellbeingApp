@@ -90,6 +90,9 @@ export const DashboardLayout: FC = () => {
           >
             {openSidebar && (
               <div className="grid m-1">
+                <TopbarItem onNav="/" setSidebar={setOpenSidebar} emoji="🏠">
+                  Home
+                </TopbarItem>
                 <TopbarItem onNav="/who" setSidebar={setOpenSidebar} emoji="🤔">
                   Who
                 </TopbarItem>
@@ -134,6 +137,20 @@ export const DashboardLayout: FC = () => {
             {/* Hacky way to get bottom pading to appear in mobile view (adding the margin) */}
             <div className="w-full md:p-6 mb-4 md:mb-12">
               <Outlet />
+              <div className="bottom-0 relative z-10 text-center p-10">
+                {/* Footer with codegroovers stamp */}
+                Made with ❤️ by CodeGroovers -{" "}
+                <a href="https://j4a.uk/" className="text-blue-600 underline">
+                  James
+                </a>{" "}
+                &{" "}
+                <a
+                  href="https://johncosta.tech"
+                  className="text-blue-600 underline"
+                >
+                  John
+                </a>
+              </div>
             </div>
           </div>
         </div>
