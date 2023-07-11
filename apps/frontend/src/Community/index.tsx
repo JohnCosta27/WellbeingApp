@@ -44,6 +44,15 @@ export const Community = () => {
     },
   });
 
+  useEffect(() => {
+    if (data?.places && displayedPlace) {
+      const place = data.places.find((p) => p.id === displayedPlace.id);
+      if (place) {
+        setDisplayedPlace(place);
+      }
+    }
+  }, [data?.places]);
+
   const [deleteMessage] = useDeleteMessageMutation({
     refetchQueries: [
       namedOperations.Query.CurrentUser,
