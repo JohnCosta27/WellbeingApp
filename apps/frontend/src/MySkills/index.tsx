@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
+  namedOperations,
   useAddSkillMutation,
   useCurrentUserQuery,
 } from "@wellbeing/graphql-types";
@@ -164,7 +165,9 @@ const globalSkills = [
 
 export const MySkills: FC = () => {
   const user = useCurrentUserQuery();
-  const [addSkillMutation] = useAddSkillMutation();
+  const [addSkillMutation] = useAddSkillMutation({
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  });
 
   const [skills, setSkills] = useState<
     Array<{ skill: string; index: undefined | number }>
