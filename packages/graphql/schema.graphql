@@ -94,7 +94,7 @@ type User {
   first_name: String!
   last_name: String!
   email: String!
-  brands: [UserBrands]!
+  brands: [UserBrands!]!
   mentalEnergy: [MentalEnergy!]!
   howAmIPhrase: [UserHowAmIPhrase!]!
   modules: [UserModules!]!
