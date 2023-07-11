@@ -177,14 +177,6 @@ const resolvers: Resolvers<Context> = {
         name: p.name,
         latitude: p.latitude,
         longitude: p.longitude,
-        messages: p.messages.map((m) => ({
-          id: m.id,
-          userId: m.userId,
-          message: m.message,
-          date: m.date.getTime(),
-          first_name: m.user.first_name,
-          last_name: m.user.last_name,
-        })),
       }));
     },
     async CommunityMessage(_parent, { placeId }): Promise<Array<CommunityMessage>> {
@@ -204,6 +196,10 @@ const resolvers: Resolvers<Context> = {
                 },
               }
             },
+            take: 200, // capped at 200 of the most recent messages
+            orderBy: {
+              date: "desc",
+            }
           },
         },
       });

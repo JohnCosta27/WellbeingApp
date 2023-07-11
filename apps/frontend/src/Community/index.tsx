@@ -97,72 +97,78 @@ export const Community = () => {
       {places && (
         <>
           <MapCard places={places} setDisplayedPlace={setDisplayedPlace} />
-
           {displayedPlace && data.places && (
             <div className="w-full md:relative fixed bottom-0 bg-white h-[50vh] md:h-[92vh] z-10 flex flex-col flex-1">
-              <div className="flex w-full border">
-                <div className="flex-1 text-xl p-2 m-auto text-center md:m-0">
-                  {displayedPlace.name} - {displayedPlace.messages?.length}{" "}
-                  Message{displayedPlace.messages?.length !== 1 && "s"}
-                </div>
-                <button
-                  onClick={() => setDisplayedPlace(null)}
-                  type="button"
-                  className="right-0 md:max-h-0 md:p-2 flex"
-                >
-                  <AiOutlineCloseCircle className="h-8 w-8 m-auto" />
-                </button>
-              </div>
-              <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen md:max-w-full">
-                {messageData &&
-                  [...messageData.CommunityMessage] // sorting is done here
-                    .sort((a, b) =>
-                      (a?.date ? a.date : 0) > (b?.date ? b.date : 0) ? 1 : -1
-                    )
-                    .map((msg) => (
-                      <div
-                        className={`chat ${
-                          user?.currentUser.id === msg?.userId
-                            ? "chat-end right-3 "
-                            : "chat-start left-3"
-                        } flex-col flex max-w-screen relative md:max-w-full`}
-                        key={msg?.id}
-                      >
-                        <div className="chat-header">
-                          <div className="text-sm text-gray-600 flex justify-center align-middle">
-                            <div className="flex-1 m-auto">
-                              {`${msg?.first_name} ${msg?.last_name}`} -{" "}
-                              {dayjs(msg?.date).fromNow()}
+              {messageData ? (
+                <>
+                  <div className="flex w-full border">
+                    <div className="flex-1 text-xl p-2 m-auto text-center md:m-0">
+                      {displayedPlace.name} -{" "}
+                      {messageData.CommunityMessage?.length} Message
+                      {messageData.CommunityMessage?.length !== 1 && "s"}
+                    </div>
+                    <button
+                      onClick={() => setDisplayedPlace(null)}
+                      type="button"
+                      className="right-0 md:max-h-0 md:p-2 flex"
+                    >
+                      <AiOutlineCloseCircle className="h-8 w-8 m-auto" />
+                    </button>
+                  </div>
+                  <div className="overflow-y-auto overflow-x-hidden flex-1 justify-end ml-1 max-w-screen md:max-w-full">
+                    {[...messageData.CommunityMessage]
+                      .sort((a, b) =>
+                        (a?.date ? a.date : 0) > (b?.date ? b.date : 0) ? 1 : -1
+                      )
+                      .map((msg) => (
+                        <div
+                          className={`chat ${
+                            user?.currentUser.id === msg?.userId
+                              ? "chat-end right-3 "
+                              : "chat-start left-3"
+                          } flex-col flex max-w-screen relative md:max-w-full`}
+                          key={msg?.id}
+                        >
+                          <div className="chat-header">
+                            <div className="text-sm text-gray-600 flex justify-center align-middle">
+                              <div className="flex-1 m-auto">
+                                {`${msg?.first_name} ${msg?.last_name}`} -{" "}
+                                {dayjs(msg?.date).fromNow()}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex justify-center align-middle">
+                            <div className="flex">
+                              {user?.currentUser.id === msg?.userId && (
+                                <button
+                                  className="w-5 h-5 m-auto mr-2"
+                                  onClick={() => {
+                                    if (msg) {
+                                      deleteMessage({
+                                        variables: { messageId: msg.id },
+                                      });
+                                    }
+                                  }}
+                                  type="button"
+                                >
+                                  <AiOutlineDelete className="h-full w-full m-auto" />
+                                </button>
+                              )}
+                            </div>
+                            <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer flex-1 max-w-xs break-all">
+                              {msg?.message}
                             </div>
                           </div>
                         </div>
-                        <div className="flex justify-center align-middle">
-                          <div className="flex">
-                            {user?.currentUser.id === msg?.userId && (
-                              <button
-                                className="w-5 h-5 m-auto mr-2"
-                                onClick={() => {
-                                  if (msg) {
-                                    deleteMessage({
-                                      variables: { messageId: msg.id },
-                                    });
-                                  }
-                                }}
-                                type="button"
-                              >
-                                <AiOutlineDelete className="h-full w-full m-auto" />
-                              </button>
-                            )}
-                          </div>
-                          <div className="chat-bubble chat-bubble-secondary select-none cursor-pointer flex-1 max-w-xs break-all">
-                            {msg?.message}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                <div ref={bottomDiv} />
-              </div>
-
+                      ))}
+                    <div ref={bottomDiv} />
+                  </div>
+                </>
+              ) : (
+                <div className="flex-1 flex justify-center align-middle">
+                  <div className="m-auto">Loading...</div>
+                </div>
+              )}
               <div className="flex justify-end card-action align-bottom m-2 bottom-0">
                 <input
                   type="text"
@@ -181,7 +187,6 @@ export const Community = () => {
               </div>
             </div>
           )}
-
           {!displayedPlace && (
             <Card className="flex-1 min-h-full">
               Click on the markers to add a message to a place

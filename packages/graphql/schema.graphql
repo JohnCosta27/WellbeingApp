@@ -79,7 +79,6 @@ type Place {
   name: String!
   latitude: Float!
   longitude: Float!
-  messages: [CommunityMessage]
 }
 
 type CommunityMessage {

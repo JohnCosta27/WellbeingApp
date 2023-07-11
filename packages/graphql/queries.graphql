@@ -77,22 +77,6 @@ query Places {
     name
     latitude
     longitude
-    messages {
-      id
-      userId
-      message
-      date
-      first_name
-      last_name
-      replies {
-        id
-        userId
-        message
-        date
-        first_name
-        last_name
-      }
-    }
   }
 }
 
