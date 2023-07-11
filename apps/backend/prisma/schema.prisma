@@ -94,7 +94,7 @@ model BrandWordEntry {
 
 model Brand {
   id         String    @id @default(uuid())
-  date_saved DateTime?
+  date_saved DateTime? // the date_saved is also a flag for whether or not that is the current active brand
   name String
 
   brand_word_entries BrandWordEntry[]
