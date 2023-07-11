@@ -147,13 +147,6 @@ export type MutationRemoveModuleArgs = {
   moduleId: Scalars['String'];
 };
 
-export type PastUserBrand = {
-  __typename?: 'PastUserBrand';
-  date?: Maybe<Scalars['Float']>;
-  name: Scalars['String'];
-  words: Array<BrandWords>;
-};
-
 export type Place = {
   __typename?: 'Place';
   id: Scalars['String'];
@@ -180,7 +173,7 @@ export type QueryCommunityMessageArgs = {
 
 export type User = {
   __typename?: 'User';
-  brand: UserBrand;
+  brands: Array<Maybe<UserBrands>>;
   email: Scalars['String'];
   first_name: Scalars['String'];
   howAmIPhrase: Array<UserHowAmIPhrase>;
@@ -191,9 +184,11 @@ export type User = {
   skills: Array<UserSkill>;
 };
 
-export type UserBrand = {
-  __typename?: 'UserBrand';
-  pastBrand: Array<PastUserBrand>;
+export type UserBrands = {
+  __typename?: 'UserBrands';
+  date?: Maybe<Scalars['Float']>;
+  id: Scalars['String'];
+  name: Scalars['String'];
   words: Array<BrandWords>;
 };
 
@@ -295,12 +290,11 @@ export type ResolversTypes = {
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
   Module: ResolverTypeWrapper<Module>;
   Mutation: ResolverTypeWrapper<{}>;
-  PastUserBrand: ResolverTypeWrapper<PastUserBrand>;
   Place: ResolverTypeWrapper<Place>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
-  UserBrand: ResolverTypeWrapper<UserBrand>;
+  UserBrands: ResolverTypeWrapper<UserBrands>;
   UserHowAmIPhrase: ResolverTypeWrapper<UserHowAmIPhrase>;
   UserModules: ResolverTypeWrapper<UserModules>;
   UserSkill: ResolverTypeWrapper<UserSkill>;
@@ -317,12 +311,11 @@ export type ResolversParentTypes = {
   MentalEnergy: MentalEnergy;
   Module: Module;
   Mutation: {};
-  PastUserBrand: PastUserBrand;
   Place: Place;
   Query: {};
   String: Scalars['String'];
   User: User;
-  UserBrand: UserBrand;
+  UserBrands: UserBrands;
   UserHowAmIPhrase: UserHowAmIPhrase;
   UserModules: UserModules;
   UserSkill: UserSkill;
@@ -390,13 +383,6 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
 };
 
-export type PastUserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['PastUserBrand'] = ResolversParentTypes['PastUserBrand']> = {
-  date?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  words?: Resolver<Array<ResolversTypes['BrandWords']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type PlaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Place'] = ResolversParentTypes['Place']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   latitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -416,7 +402,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  brand?: Resolver<ResolversTypes['UserBrand'], ParentType, ContextType>;
+  brands?: Resolver<Array<Maybe<ResolversTypes['UserBrands']>>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['UserHowAmIPhrase']>, ParentType, ContextType>;
@@ -428,8 +414,10 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserBrandResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserBrand'] = ResolversParentTypes['UserBrand']> = {
-  pastBrand?: Resolver<Array<ResolversTypes['PastUserBrand']>, ParentType, ContextType>;
+export type UserBrandsResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserBrands'] = ResolversParentTypes['UserBrands']> = {
+  date?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   words?: Resolver<Array<ResolversTypes['BrandWords']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -460,11 +448,10 @@ export type Resolvers<ContextType = any> = {
   MentalEnergy?: MentalEnergyResolvers<ContextType>;
   Module?: ModuleResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  PastUserBrand?: PastUserBrandResolvers<ContextType>;
   Place?: PlaceResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
-  UserBrand?: UserBrandResolvers<ContextType>;
+  UserBrands?: UserBrandsResolvers<ContextType>;
   UserHowAmIPhrase?: UserHowAmIPhraseResolvers<ContextType>;
   UserModules?: UserModulesResolvers<ContextType>;
   UserSkill?: UserSkillResolvers<ContextType>;
@@ -570,7 +557,7 @@ export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, first_name: string, last_name: string, email: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brand: { __typename?: 'UserBrand', words: Array<{ __typename?: 'BrandWords', id: string, word: string }>, pastBrand: Array<{ __typename?: 'PastUserBrand', date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }> }, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, first_name: string, last_name: string, email: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brands: Array<{ __typename?: 'UserBrands', id: string, date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> } | null>, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1035,19 +1022,14 @@ export const CurrentUserDocument = gql`
       date
       level
     }
-    brand {
+    brands {
       words {
         id
         word
       }
-      pastBrand {
-        words {
-          id
-          word
-        }
-        date
-        name
-      }
+      id
+      date
+      name
     }
     modules {
       module {

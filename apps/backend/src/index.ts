@@ -98,33 +98,21 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Context user not found");
       }
 
-      // Current brand won't be saved yet so it will be null.
-      const currentBrand = user.brands.find((b) => b.date_saved == null);
-      const pastBrands = user.brands.filter((b) => b != null);
-
-      if (!currentBrand) {
-        throw new Error("User does not have a valid current brand");
-      }
 
       const returnUser: User = {
         id: user.id,
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
-        brand: {
-          words: currentBrand.brand_word_entries.map((w) => ({
-            id: w.brand_word.id,
+        brands: user.brands.map((b) => ({
+          id: b.id,
+          name: b.name,
+          date: b.date_saved ? timestamp(b.date_saved) : null,
+          words: b.brand_word_entries.map((w) => ({
+            id: w.id,
             word: w.brand_word.word,
           })),
-          pastBrand: pastBrands.map((b) => ({
-            words: b.brand_word_entries.map((w) => ({
-              id: w.brand_word.id,
-              word: w.brand_word.word,
-            })),
-            date: b.date_saved?.getTime() || new Date().getTime(),
-            name: b.name,
-          })),
-        },
+        })),
         mentalEnergy: user.mental_energy.map((m) => ({
           date: timestamp(m.date),
           level: m.level,

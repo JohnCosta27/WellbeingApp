@@ -11,17 +11,14 @@ type BrandWords {
 # Users current brand, they can save this brand
 # and create a new one, at which point this will reset.
 
-type UserBrand {
+type UserBrands {
   # words represents the users CURRENT active brand, naming could be better.
-  words: [BrandWords!]!
-  pastBrand: [PastUserBrand!]!
-}
-
-type PastUserBrand {
   words: [BrandWords!]!
   date: Float
   name: String!
+  id: String!
 }
+
 
 # ------------------------------------- #
 # Mental Energy                         #
@@ -97,7 +94,7 @@ type User {
   first_name: String!
   last_name: String!
   email: String!
-  brand: UserBrand!
+  brands: [UserBrands]!
   mentalEnergy: [MentalEnergy!]!
   howAmIPhrase: [UserHowAmIPhrase!]!
   modules: [UserModules!]!
