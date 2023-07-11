@@ -139,7 +139,17 @@ export const DashboardLayout: FC = () => {
               <Outlet />
               <div className="bottom-0 relative z-10 text-center p-10">
                 {/* Footer with codegroovers stamp */}
-                Made with ❤️ by CodeGroovers
+                Made with ❤️ by CodeGroovers -{" "}
+                <a href="https://j4a.uk/" className="text-blue-600 underline">
+                  James
+                </a>{" "}
+                &{" "}
+                <a
+                  href="https://johncosta.tech"
+                  className="text-blue-600 underline"
+                >
+                  John
+                </a>
               </div>
             </div>
           </div>
