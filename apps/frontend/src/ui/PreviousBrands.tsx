@@ -28,7 +28,8 @@ const PreviousBrands: FC<PreviousBrandsProps> = ({
           setActiveBrand(b);
         }}
       >
-        {`${b.name}${b.date ? `, posted ${dayjs(b.date).fromNow()}`: ""}`}
+        {b.name}
+        {b.date ? `, posted ${dayjs(b.date).fromNow()}` : ""}
       </button>
     ))}
   </Card>
