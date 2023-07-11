@@ -114,6 +114,7 @@ export const App: FC = () => {
               <button
                 className="btn btn-accent text-2xl"
                 onClick={() => onAddPhrase(w.id)}
+                type="button"
               >
                 Add Word
               </button>
@@ -136,7 +137,7 @@ export const App: FC = () => {
         {!brandWordsLoading &&
           data &&
           brandWords &&
-          brandWords.brandWords
+          brandWords.brandWords// TODO: fix this, (broken after brandword refactor)
             .filter(
               (w) =>
                 !data.currentUser.brand.words.find(
