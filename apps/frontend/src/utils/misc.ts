@@ -1,5 +1,10 @@
 /* eslint-disable no-bitwise */
-import { MentalEnergy, Place, UserModules } from "@wellbeing/graphql-types";
+import {
+  MentalEnergy,
+  Place,
+  User,
+  UserModules,
+} from "@wellbeing/graphql-types";
 import L from "leaflet";
 
 export const getLast7DaysEnergy = (energies: MentalEnergy[]): number => {
@@ -140,3 +145,11 @@ export const checkIfPlaceIsDistinct = (
     );
     return d < distance;
   });
+
+export const recentMentalEnergy = (user: User | undefined) => {
+  if (!user) return [];
+  return user.mentalEnergy
+    .slice()
+    .sort((a, b) => a.date - b.date)
+    .slice(-10);
+};

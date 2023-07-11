@@ -15,7 +15,7 @@ import {
 
 import { QuickHelp } from "../MyProgress/QuickHelp";
 import { YourStats } from "./YourStats";
-import { getLast7DaysEnergy, isToday } from "../utils";
+import { getLast7DaysEnergy, isToday, recentMentalEnergy } from "../utils";
 import { UserContext } from "../DashboardLayout";
 
 export const HowDashboard: FC = () => {
@@ -23,12 +23,7 @@ export const HowDashboard: FC = () => {
 
   const words = useHowAmIPhraseQuery();
 
-  const sortedEnergy = !data
-    ? []
-    : data.currentUser.mentalEnergy
-        .slice()
-        .sort((a, b) => a.date - b.date)
-        .slice(-10);
+  const sortedEnergy = recentMentalEnergy(data?.currentUser);
 
   const energyAverage = data
     ? getLast7DaysEnergy(data.currentUser.mentalEnergy)
