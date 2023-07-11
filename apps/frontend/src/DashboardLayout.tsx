@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { FC, ReactNode, createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
+import { FiLogOut, FiSettings } from "react-icons/fi";
 
 export type UserContextType = {
   data: CurrentUserQuery | undefined;
@@ -89,48 +90,74 @@ export const DashboardLayout: FC = () => {
             )}
           >
             {openSidebar && (
-              <div className="grid m-1">
-                <TopbarItem onNav="/" setSidebar={setOpenSidebar} emoji="🏠">
-                  Home
-                </TopbarItem>
-                <TopbarItem onNav="/who" setSidebar={setOpenSidebar} emoji="🤔">
-                  Who
-                </TopbarItem>
-                <TopbarItem onNav="/how" setSidebar={setOpenSidebar} emoji="🔍">
-                  How
-                </TopbarItem>
-                <TopbarItem onNav="/how" setSidebar={setOpenSidebar} emoji="❓">
-                  What
-                </TopbarItem>
-                <TopbarItem
-                  onNav="/progress"
-                  setSidebar={setOpenSidebar}
-                  emoji="📈"
-                >
-                  Progress
-                </TopbarItem>
-                <TopbarItem
-                  onNav="/community"
-                  setSidebar={setOpenSidebar}
-                  emoji="🏘️"
-                >
-                  Community
-                </TopbarItem>
-                <TopbarItem
-                  onNav="/mycv"
-                  setSidebar={setOpenSidebar}
-                  emoji="📝"
-                >
-                  My CV
-                </TopbarItem>
-                <TopbarItem
-                  onNav="/myskills"
-                  setSidebar={setOpenSidebar}
-                  emoji="🧠"
-                >
-                  My Skills
-                </TopbarItem>
-              </div>
+              <>
+                <div className="grid m-1">
+                  <TopbarItem onNav="/" setSidebar={setOpenSidebar} emoji="🏠">
+                    Home
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/who"
+                    setSidebar={setOpenSidebar}
+                    emoji="🤔"
+                  >
+                    Who
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/how"
+                    setSidebar={setOpenSidebar}
+                    emoji="🔍"
+                  >
+                    How
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/how"
+                    setSidebar={setOpenSidebar}
+                    emoji="❓"
+                  >
+                    What
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/progress"
+                    setSidebar={setOpenSidebar}
+                    emoji="📈"
+                  >
+                    Progress
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/community"
+                    setSidebar={setOpenSidebar}
+                    emoji="🏘️"
+                  >
+                    Community
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/mycv"
+                    setSidebar={setOpenSidebar}
+                    emoji="📝"
+                  >
+                    My CV
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/myskills"
+                    setSidebar={setOpenSidebar}
+                    emoji="🧠"
+                  >
+                    My Skills
+                  </TopbarItem>
+                </div>
+                <div className="flex bottom-10 absolute w-full">
+                  <TopbarItem
+                    onNav="/settings"
+                    setSidebar={setOpenSidebar}
+                    className="text-4xl"
+                  >
+                    <FiSettings className="w-10 h-10" />
+                  </TopbarItem>
+                  <TopbarItem onNav="/logout" setSidebar={setOpenSidebar}>
+                    <FiLogOut className="w-10 h-10" />
+                  </TopbarItem>
+                </div>
+              </>
             )}
           </div>
           <div className="w-full h-full bg-[#F6F8FA] overflow-y-auto">
@@ -163,18 +190,20 @@ interface TopBarItemProps {
   onNav: string;
   children: ReactNode;
   emoji?: string;
+  className?: string;
   setSidebar: (open: boolean) => void;
 }
 
 export const TopbarItem: FC<TopBarItemProps> = ({
   onNav,
   children,
-  setSidebar,
   emoji,
+  className,
+  setSidebar,
 }) => (
   <Link
     to={onNav}
-    className="w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-neutral-focus rounded-md transition-all"
+    className={`w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-neutral-focus rounded-md transition-all ${className}`}
     onClick={() => {
       if (window.innerWidth < MD_SIZE) {
         setSidebar(false);
