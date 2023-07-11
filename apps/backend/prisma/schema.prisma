@@ -9,17 +9,17 @@ datasource db {
 }
 
 model Users {
-  id String @id @default(uuid())
-  email String @unique
-  first_name String
-  last_name String
-  password String
-  password_salt String
-  mental_energy MentalEnergy[]
-  how_am_i_phrases UserHowAmIPhrase[]
-  brands Brand[]
-  user_modules UserModules[]
-  user_skills UserSkills[]
+  id                 String             @id @default(uuid())
+  email              String             @unique
+  first_name         String
+  last_name          String
+  password           String
+  password_salt      String
+  mental_energy      MentalEnergy[]
+  how_am_i_phrases   UserHowAmIPhrase[]
+  brands             Brand[]
+  user_modules       UserModules[]
+  user_skills        UserSkills[]
   community_messages CommunityMessage[]
 }
 
@@ -44,8 +44,8 @@ model CommunityMessage {
   user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // replyToId String, for replies
-  replyToId String?
-  replyTo   CommunityMessage? @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
+  replyToId        String?
+  replyTo          CommunityMessage?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
   CommunityMessage CommunityMessage[] @relation("ReplyTo")
 }
 
@@ -94,8 +94,8 @@ model BrandWordEntry {
 
 model Brand {
   id         String    @id @default(uuid())
-  date_saved DateTime?
-  name String
+  date_saved DateTime? // the date_saved is also a flag for whether or not that is the current active brand
+  name       String
 
   brand_word_entries BrandWordEntry[]
 
@@ -133,7 +133,7 @@ model UserModules {
 }
 
 model UserSkills {
-  id String @id @default(uuid())
+  id      String @id @default(uuid())
   user_id String
 
   skill String

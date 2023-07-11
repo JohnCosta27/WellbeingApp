@@ -1,10 +1,9 @@
 import {
-  BrandWords,
   namedOperations,
   useAddBrandWordMutation,
   useRemoveBrandWordMutation,
   useBrandWordsQuery,
-  PastUserBrand,
+  UserBrands,
 } from "@wellbeing/graphql-types";
 import { FC, useContext, useEffect, useState } from "react";
 import { AddBrandWords, Card, IBrand } from "./ui";
@@ -24,17 +23,20 @@ export const WhoDashboard: FC = () => {
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  const [activeBrand, setActiveBrand] = useState<PastUserBrand>({
+  const [activeBrand, setActiveBrand] = useState<UserBrands>({
     words: [],
     name: "Active Brand",
+    id: "",
   });
 
   useEffect(() => {
     if (!loading && userBrandWords) {
+      const active = userBrandWords.currentUser.brands.find((b) => !b?.date);
       setActiveBrand({
         date: undefined,
-        words: userBrandWords.currentUser.brand.words,
+        words: active?.words || [],
         name: "Active Brand",
+        id: active?.id || "",
       });
     }
   }, [loading, userBrandWords]);
@@ -81,11 +83,12 @@ export const WhoDashboard: FC = () => {
                 },
               });
             }}
+            activeBrand={activeBrand}
           />
         </Card>
-        {userBrandWords?.currentUser.brand && (
+        {userBrandWords?.currentUser.brands && (
           <PreviousBrands
-            userBrand={userBrandWords?.currentUser.brand}
+            userBrands={userBrandWords.currentUser.brands}
             setActiveBrand={setActiveBrand}
           />
         )}

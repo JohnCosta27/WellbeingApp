@@ -15,19 +15,14 @@ query CurrentUser {
       date
       level
     }
-    brand {
+    brands {
       words {
         id
         word
       }
-      pastBrand {
-        words {
-          id
-          word
-        }
-        date
-        name
-      }
+      id
+      date
+      name
     }
     modules {
       module {
