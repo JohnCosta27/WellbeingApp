@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import { useContext } from "react";
 import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
@@ -74,7 +73,9 @@ const HomePage = () => {
           <div className="grid grid-cols-2 gap-4">
             {" "}
             {data.currentUser.skills.map((skill, i) => (
-              <div className="bg-primary p-2 rounded-2xl" key={i}>{skill.skill}</div>
+              <div className="bg-primary p-2 rounded-2xl" key={skill.id}>
+                {skill.skill}
+              </div>
             ))}
           </div>
         </Card>
