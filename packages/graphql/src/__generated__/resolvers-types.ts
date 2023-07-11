@@ -173,7 +173,7 @@ export type QueryCommunityMessageArgs = {
 
 export type User = {
   __typename?: 'User';
-  brands: Array<Maybe<UserBrands>>;
+  brands: Array<UserBrands>;
   email: Scalars['String'];
   first_name: Scalars['String'];
   howAmIPhrase: Array<UserHowAmIPhrase>;
@@ -402,7 +402,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  brands?: Resolver<Array<Maybe<ResolversTypes['UserBrands']>>, ParentType, ContextType>;
+  brands?: Resolver<Array<ResolversTypes['UserBrands']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   howAmIPhrase?: Resolver<Array<ResolversTypes['UserHowAmIPhrase']>, ParentType, ContextType>;
@@ -557,7 +557,7 @@ export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, first_name: string, last_name: string, email: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brands: Array<{ __typename?: 'UserBrands', id: string, date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> } | null>, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, first_name: string, last_name: string, email: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brands: Array<{ __typename?: 'UserBrands', id: string, date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }>, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 

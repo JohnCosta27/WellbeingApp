@@ -83,6 +83,9 @@ const resolvers: Resolvers<Context> = {
                 },
               },
             },
+            orderBy: {
+              date_saved: "asc",
+            }
           },
           user_modules: {
             include: {

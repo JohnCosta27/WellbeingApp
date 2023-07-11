@@ -1,20 +1,21 @@
 import {
   BrandWords,
+  UserBrands,
   namedOperations,
   useAddWholeBrandMutation,
 } from "@wellbeing/graphql-types";
-import { FC, Fragment, useState, useEffect, useRef } from "react";
+import { FC, Fragment, useState, useEffect, useRef, useContext } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-
-type ListWord = BrandWords & { size?: number };
+import { UserContext } from "../DashboardLayout";
 
 interface AddBrandWordsProps {
   /** First element of tuple is the ID of the word */
-  brandWords: Array<ListWord>;
+  brandWords: Array<BrandWords>;
 
   onAddWord: (wordId: string) => void;
   onRemoveWord: (wordId: string) => void;
+  activeBrand: UserBrands;
 }
 
 /**
@@ -25,7 +26,9 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   brandWords,
   onAddWord,
   onRemoveWord,
+  activeBrand,
 }) => {
+  const { data: userBrandWords, loading } = useContext(UserContext);
   const [brandName, setBrandName] = useState("");
 
   // TODO: when this gets called, the words need to change accordingly
@@ -40,9 +43,16 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
    * Whenever a word is added/removed, this array should be modified
    * instead of calling onAddWord/onRemoveWord
    */
-  const [selectedWords, setSelectedWords] = useState<ListWord[]>([]);
+  const [selectedWords, setSelectedWords] = useState<BrandWords[]>([]);
 
-  const prevSelectedWords = useRef<ListWord[]>([]);
+  useEffect(() => {
+    if (!loading && userBrandWords) {
+      const active = userBrandWords.currentUser.brands.find((b) => !b?.date);
+      setSelectedWords(active?.words || []);
+    }
+  }, [userBrandWords]);
+
+  const prevSelectedWords = useRef<BrandWords[]>([]);
 
   useEffect(() => {
     // if the selected words have changed, then we need to see which words have been added/removed
@@ -78,6 +88,9 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
+  if (activeBrand.date) {
+    return <div> You can&apos;t edit previous brands!</div>;
+  }
   return (
     <div className="w-full h-full relative">
       {/** @ts-ignore Why is multiple not valid and why does this work? */}
