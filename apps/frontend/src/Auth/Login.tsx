@@ -3,7 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { setToken } from ".";
 import { AuthRequests } from "../Network";
 
-export const Login: FC = () => {
+type LoginProps = {
+  logout?: boolean;
+};
+
+export const Login: FC<LoginProps> = ({ logout }) => {
+  if (logout) {
+    setToken("access", "");
+    setToken("refresh", "");
+  }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

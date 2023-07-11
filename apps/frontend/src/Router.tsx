@@ -20,6 +20,10 @@ export const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: "/logout",
+    element: <Login logout />,
+  },
+  {
     path: "/",
     element: <ProtectedRoute />,
     children: [

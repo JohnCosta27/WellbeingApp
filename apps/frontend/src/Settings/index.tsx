@@ -71,7 +71,11 @@ export const Settings = () => {
                     <button
                       className="btn btn-error w-full"
                       type="submit"
-                      onClick={() => deleteAccount()}
+                      onClick={() =>
+                        deleteAccount().then(() =>
+                          window.location.replace("/logout")
+                        )
+                      }
                     >
                       Delete Account
                     </button>
