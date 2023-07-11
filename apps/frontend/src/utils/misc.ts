@@ -153,3 +153,15 @@ export const recentMentalEnergy = (user: User | undefined) => {
     .sort((a, b) => a.date - b.date)
     .slice(-10);
 };
+
+export const scrollIntoViewIfNeeded = (target: Element) => {
+  if (!target.parentElement) return;
+  if (
+    target.getBoundingClientRect().bottom > target.parentElement.clientHeight
+  ) {
+    target.scrollIntoView(false);
+  }
+  if (target.getBoundingClientRect().top < 0) {
+    target.scrollIntoView();
+  }
+};

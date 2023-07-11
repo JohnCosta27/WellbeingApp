@@ -15,6 +15,7 @@ import * as relativeTime from "dayjs/plugin/relativeTime";
 import { MapCard } from "./MapCard";
 import { Card } from "../ui/Card";
 import { UserContext } from "../DashboardLayout";
+import { scrollIntoViewIfNeeded } from "../utils";
 
 // used for the relative time of messages
 dayjs.extend(relativeTime);
@@ -65,7 +66,7 @@ export const Community = () => {
    */
   useEffect(() => {
     if (bottomDiv.current) {
-      bottomDiv.current.scrollIntoView();
+      scrollIntoViewIfNeeded(bottomDiv.current);
     }
   }, [displayedPlace, bottomDiv.current, refetchPlaces]);
 
