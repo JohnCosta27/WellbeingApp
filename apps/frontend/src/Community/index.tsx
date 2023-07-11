@@ -44,9 +44,21 @@ export const Community = () => {
     },
   });
 
-  const { data: messageData } = useCommunityMessageQuery({
+  const {
+    data: messageData,
+    startPolling: pollForMessages,
+    stopPolling: stopPollingForMessages,
+  } = useCommunityMessageQuery({
     variables: { placeId: displayedPlace ? displayedPlace.id : "" },
   });
+
+  useEffect(() => {
+    if (displayedPlace) {
+      pollForMessages(1000);
+    } else {
+      stopPollingForMessages();
+    }
+  }, [displayedPlace]);
 
   useEffect(() => {
     if (data?.places && displayedPlace) {
