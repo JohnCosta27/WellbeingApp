@@ -565,6 +565,27 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error, most likely ID not found");
       }
     },
+    async deleteAccount(_parent, _args, context) {
+      try {
+        await prisma.users.delete({
+          where: {
+            id: context.uuid,
+          },
+          include: {
+            brands: true,
+            community_messages: true,
+            how_am_i_phrases: true,
+            mental_energy: true,
+            user_modules: true,
+            user_skills: true,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in deleteAccount "+ err);
+      }
+    },
   },
 };
 

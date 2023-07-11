@@ -8,6 +8,7 @@ import MyCV from "./MyCV";
 import { Community } from "./Community";
 import { MySkills } from "./MySkills";
 import HomePage from "./HomePage";
+import { Settings } from "./Settings";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/logout",
+    element: <Login logout />,
   },
   {
     path: "/",
@@ -52,6 +57,10 @@ export const router = createBrowserRouter([
           {
             path: "/community",
             element: <Community />,
+          },
+          {
+            path: "/settings",
+            element: <Settings />,
           },
         ],
       },

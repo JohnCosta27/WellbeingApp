@@ -173,8 +173,8 @@ export const MapCard: FC<MapCardProps> = ({ places, setDisplayedPlace }) => {
                   </Dialog.Title>
 
                   <p>
-                    This adds the place to the center of the map, so zoom in and
-                    the position where you want to add the place.
+                    This will add a place the center of your current map view.
+                    Zoom in if you want to be more preicse with your location!
                   </p>
                   <div className="modal-action flex">
                     <input
