@@ -246,7 +246,7 @@ const resolvers: Resolvers<Context> = {
      * Lets take the active brand (In the DB this is the one with no data_saved field),
      * add a date, and create a new one
      */
-    async addWholeBrand(_parent, params, context): Promise<boolean> {
+    async addWholeBrand(_parent, {brandName}, context): Promise<boolean> {
       try {
         const activeBrand = await prisma.brand.findMany({
           where: {
@@ -267,13 +267,14 @@ const resolvers: Resolvers<Context> = {
           },
           data: {
             date_saved: new Date(),
+            name: brandName,
           },
         });
 
         await prisma.brand.create({
           data: {
             user_id: context.uuid,
-            name: params.brandName,
+            name: "Active Brand",
           },
         });
         return true;
