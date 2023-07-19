@@ -130,5 +130,6 @@ type Mutation {
   createCommunityMessage(message: String!, placeId: String!): Boolean
   deleteMessage(messageId: String!): Boolean
   addSkill(skill: String!, ui_index: Int!): Boolean
+  deleteSkill(skillId: String!): Boolean
   deleteAccount: Boolean
 }

@@ -563,6 +563,29 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error, most likely ID not found");
       }
     },
+    async deleteSkill(_parent, { skillId }, context): Promise<boolean> {
+      try {
+        const skill = await prisma.userSkills.findUnique({
+          where: {
+            id: skillId,
+          },
+        });
+
+        if (skill?.user_id === context.uuid) {
+          await prisma.userSkills.delete({
+            where: {
+              id: skillId,
+            },
+          });
+          return true;
+        }
+
+        return false;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+    },
     async deleteAccount(_parent, _args, context) {
       try {
         await prisma.users.delete({

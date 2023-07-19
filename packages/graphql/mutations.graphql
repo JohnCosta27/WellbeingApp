@@ -59,6 +59,10 @@ mutation addSkill($skill: String!, $ui_index: Int!) {
   addSkill(skill: $skill, ui_index: $ui_index)
 }
 
+mutation deleteSkill($skillId: String!) {
+  deleteSkill(skillId: $skillId)
+}
+
 mutation deleteAccount {
   deleteAccount
 }

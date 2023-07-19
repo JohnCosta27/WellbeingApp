@@ -10,6 +10,7 @@ import {
   namedOperations,
   useAddSkillMutation,
   useCurrentUserQuery,
+  useDeleteSkillMutation,
 } from "@wellbeing/graphql-types";
 import { Card } from "../ui";
 import { DraggableSkill } from "./DraggableSkill";
@@ -58,6 +59,10 @@ export const MySkills: FC = () => {
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
+  const [deleteSkillMutation] = useDeleteSkillMutation({
+    refetchQueries: [namedOperations.Query.CurrentUser],
+  });
+
   function onDropSkill(skill: string, ui_index: number): void {
     addSkillMutation({
       variables: {
@@ -65,6 +70,36 @@ export const MySkills: FC = () => {
         ui_index,
       },
       refetchQueries: [namedOperations.Query.CurrentUser],
+    });
+  }
+
+  function onClickSkill(skill: string) {
+    if (userSkills && userSkills.length >= 5) {
+      // eslint-disable-next-line no-alert
+      alert("You already reached 5 skills! Remove some to add others.");
+      return;
+    }
+
+    const remainingIndexes = [0, 1, 2, 3, 4].filter(
+      (n) => !userSkills?.some((s) => s.ui_skill === n)
+    );
+
+    addSkillMutation({
+      variables: {
+        skill,
+        ui_index: remainingIndexes[0],
+      },
+    });
+  }
+
+  function deleteSkill(skill: string) {
+    const userSkill = userSkills?.find((s) => s.skill === skill);
+    if (!userSkill) return;
+
+    deleteSkillMutation({
+      variables: {
+        skillId: userSkill.id,
+      },
     });
   }
 
@@ -96,7 +131,7 @@ export const MySkills: FC = () => {
                 <h2 className="text-xl font-bold">{skillClass}</h2>
                 <ul className="p-4">
                   {skill.map((s) => (
-                    <DraggableSkill key={s} name={s} />
+                    <DraggableSkill key={s} name={s} onClick={onClickSkill} />
                   ))}
                 </ul>
               </div>
@@ -111,26 +146,31 @@ export const MySkills: FC = () => {
               onDropSkill={onDropSkill}
               index={0}
               skill={userSkills?.find((s) => s.ui_skill === 0)?.skill}
+              onDelete={deleteSkill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={1}
               skill={userSkills?.find((s) => s.ui_skill === 1)?.skill}
+              onDelete={deleteSkill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={2}
               skill={userSkills?.find((s) => s.ui_skill === 2)?.skill}
+              onDelete={deleteSkill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={3}
               skill={userSkills?.find((s) => s.ui_skill === 3)?.skill}
+              onDelete={deleteSkill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={4}
               skill={userSkills?.find((s) => s.ui_skill === 4)?.skill}
+              onDelete={deleteSkill}
             />
           </Card>
         </div>

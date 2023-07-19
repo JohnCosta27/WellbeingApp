@@ -76,6 +76,7 @@ export type Mutation = {
   createPlace?: Maybe<Scalars['Boolean']>;
   deleteAccount?: Maybe<Scalars['Boolean']>;
   deleteMessage?: Maybe<Scalars['Boolean']>;
+  deleteSkill?: Maybe<Scalars['Boolean']>;
   removeBrandWord?: Maybe<Scalars['Boolean']>;
   removeModule?: Maybe<Scalars['Boolean']>;
 };
@@ -135,6 +136,11 @@ export type MutationCreatePlaceArgs = {
 
 export type MutationDeleteMessageArgs = {
   messageId: Scalars['String'];
+};
+
+
+export type MutationDeleteSkillArgs = {
+  skillId: Scalars['String'];
 };
 
 
@@ -382,6 +388,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createPlace?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreatePlaceArgs, 'latitude' | 'longitude' | 'name'>>;
   deleteAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   deleteMessage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteMessageArgs, 'messageId'>>;
+  deleteSkill?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteSkillArgs, 'skillId'>>;
   removeBrandWord?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveBrandWordArgs, 'wordId'>>;
   removeModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveModuleArgs, 'moduleId'>>;
 };
@@ -552,6 +559,13 @@ export type AddSkillMutationVariables = Exact<{
 
 
 export type AddSkillMutation = { __typename?: 'Mutation', addSkill?: boolean | null };
+
+export type DeleteSkillMutationVariables = Exact<{
+  skillId: Scalars['String'];
+}>;
+
+
+export type DeleteSkillMutation = { __typename?: 'Mutation', deleteSkill?: boolean | null };
 
 export type DeleteAccountMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -978,6 +992,37 @@ export function useAddSkillMutation(baseOptions?: Apollo.MutationHookOptions<Add
 export type AddSkillMutationHookResult = ReturnType<typeof useAddSkillMutation>;
 export type AddSkillMutationResult = Apollo.MutationResult<AddSkillMutation>;
 export type AddSkillMutationOptions = Apollo.BaseMutationOptions<AddSkillMutation, AddSkillMutationVariables>;
+export const DeleteSkillDocument = gql`
+    mutation deleteSkill($skillId: String!) {
+  deleteSkill(skillId: $skillId)
+}
+    `;
+export type DeleteSkillMutationFn = Apollo.MutationFunction<DeleteSkillMutation, DeleteSkillMutationVariables>;
+
+/**
+ * __useDeleteSkillMutation__
+ *
+ * To run a mutation, you first call `useDeleteSkillMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSkillMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSkillMutation, { data, loading, error }] = useDeleteSkillMutation({
+ *   variables: {
+ *      skillId: // value for 'skillId'
+ *   },
+ * });
+ */
+export function useDeleteSkillMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSkillMutation, DeleteSkillMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteSkillMutation, DeleteSkillMutationVariables>(DeleteSkillDocument, options);
+      }
+export type DeleteSkillMutationHookResult = ReturnType<typeof useDeleteSkillMutation>;
+export type DeleteSkillMutationResult = Apollo.MutationResult<DeleteSkillMutation>;
+export type DeleteSkillMutationOptions = Apollo.BaseMutationOptions<DeleteSkillMutation, DeleteSkillMutationVariables>;
 export const DeleteAccountDocument = gql`
     mutation deleteAccount {
   deleteAccount
@@ -1293,6 +1338,7 @@ export const namedOperations = {
     deleteMessage: 'deleteMessage',
     createPlace: 'createPlace',
     addSkill: 'addSkill',
+    deleteSkill: 'deleteSkill',
     deleteAccount: 'deleteAccount'
   }
 }
