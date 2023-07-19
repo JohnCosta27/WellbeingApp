@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
 import { Link } from "react-router-dom";
@@ -12,6 +12,14 @@ dayjs.extend(relativeTime);
 
 const HomePage = () => {
   const { data, loading } = useContext(UserContext);
+
+  const topWords: Array<[string, number]> = useMemo(
+    () =>
+      data?.currentUser.brands
+        ? calculateMostUsedBrandWords(data!.currentUser.brands, 5)
+        : [],
+    [data?.currentUser.brands]
+  );
 
   if (loading || !data) return <div>Loading...</div>;
 
@@ -78,11 +86,41 @@ const HomePage = () => {
         </div>
       </div>
 
+      <Card
+        title="Brand Words"
+        description="A list of your most used brand words."
+      >
+        <ul className="p-4">
+          {topWords.map(([word, number]) => (
+            <li key={word} className="list-disc">
+              {word} - {number}
+            </li>
+          ))}
+        </ul>
+      </Card>
+
       {/* <Card className="row-span-1" title="Your Current Active Brand">
          	TODO: this laggs out the page for some reason? <IBrand brandWords={data.currentUser.brand.words} /> 
       </Card> */}
     </div>
   );
 };
+
+function calculateMostUsedBrandWords(
+  brands: Array<UserBrands>,
+  topX: number
+): Array<[string, number]> {
+  const freqMap = new Map<string, number>();
+
+  for (const brand of brands) {
+    for (const { word } of brand.words) {
+      const num = freqMap.get(word);
+      freqMap.set(word, num === undefined ? 1 : num + 1);
+    }
+  }
+
+  const sortedMap = new Map([...freqMap.entries()].sort((a, b) => b[1] - a[1]));
+  return Array.from(sortedMap).slice(0, topX);
+}
 
 export default HomePage;

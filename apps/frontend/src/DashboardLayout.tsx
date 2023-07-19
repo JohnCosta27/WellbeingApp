@@ -1,8 +1,5 @@
-import { QueryResult } from "@apollo/client";
 import {
   CurrentUserQuery,
-  Exact,
-  User,
   useCurrentUserQuery,
 } from "@wellbeing/graphql-types";
 import clsx from "clsx";
@@ -136,13 +133,6 @@ export const DashboardLayout: FC = () => {
                     emoji="🧠"
                   >
                     My Skills
-                  </TopbarItem>
-                  <TopbarItem
-                    onNav="/professional-self"
-                    setSidebar={setOpenSidebar}
-                    emoji="🧠"
-                  >
-                    My Professional Self
                   </TopbarItem>
                 </div>
                 <div className="flex bottom-10 absolute w-full">
