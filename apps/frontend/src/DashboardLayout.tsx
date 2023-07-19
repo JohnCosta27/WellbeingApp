@@ -110,13 +110,6 @@ export const DashboardLayout: FC = () => {
                     How
                   </TopbarItem>
                   <TopbarItem
-                    onNav="/how"
-                    setSidebar={setOpenSidebar}
-                    emoji="❓"
-                  >
-                    What
-                  </TopbarItem>
-                  <TopbarItem
                     onNav="/progress"
                     setSidebar={setOpenSidebar}
                     emoji="📈"
