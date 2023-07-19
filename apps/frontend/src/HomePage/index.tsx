@@ -21,13 +21,18 @@ const HomePage = () => {
 
   if (loading || !data) return <div>Loading...</div>;
 
-  const lastEnergySubmitted = data?.currentUser.mentalEnergy.reduce(
-    (acc, curr) => (acc.date > curr.date ? acc : curr)
-  );
+  const lastEnergySubmitted =
+    data.currentUser.mentalEnergy.length > 0
+      ? data?.currentUser.mentalEnergy.reduce((acc, curr) =>
+          acc.date > curr.date ? acc : curr
+        )
+      : undefined;
 
   const sortedEnergy = recentMentalEnergy(data?.currentUser);
 
-  const nextEnergySubmit = lastEnergySubmitted.date + SIX_HOURS;
+  const nextEnergySubmit = lastEnergySubmitted
+    ? lastEnergySubmitted.date + SIX_HOURS
+    : undefined;
 
   return (
     <div className="grid">
@@ -38,15 +43,22 @@ const HomePage = () => {
               🔋
             </div>
             <div className="flex-1 m-auto p-2">
-              {nextEnergySubmit < Date.now() ? (
-                <>
-                  You can submit your energy levels now! You last submitted them{" "}
-                </>
+              {!nextEnergySubmit || nextEnergySubmit < Date.now() ? (
+                <>You can submit your energy levels now!</>
               ) : (
-                <>You can submit your energy levels again in </>
+                <>
+                  can submit your energy levels again in{" "}
+                  {parseInt(
+                    new Date(nextEnergySubmit! - new Date().getTime())
+                      .toISOString()
+                      .substring(11, 13),
+                    10
+                  )}{" "}
+                  hours
+                </>
               )}
             </div>
-            {nextEnergySubmit < Date.now() && (
+            {(!nextEnergySubmit || nextEnergySubmit < Date.now()) && (
               <Link to="/how" className="m-auto">
                 <button className="btn btn-secondary" type="button">
                   Click here to submit them now!

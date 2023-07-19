@@ -25,6 +25,7 @@ const PreviousBrands: FC<PreviousBrandsProps> = ({
         }}
       >
         {b.name}
+        {b.date ? `Posted ${new Date(b.date).toLocaleDateString()}` : ""}
       </button>
     ))}
   </Card>
