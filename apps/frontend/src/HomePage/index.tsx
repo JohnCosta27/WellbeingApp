@@ -1,9 +1,11 @@
+/* eslint-disable no-restricted-syntax */
 import { useContext, useMemo } from "react";
 import dayjs from "dayjs";
 import * as relativeTime from "dayjs/plugin/relativeTime";
 import { Link } from "react-router-dom";
+import { UserBrands } from "@wellbeing/graphql-types";
 import { UserContext } from "../DashboardLayout";
-import { Card, IBrand, SIX_HOURS } from "../ui";
+import { Card, SIX_HOURS } from "../ui";
 import OverallStats from "../MyProgress/OverallStats";
 import { recentMentalEnergy } from "../utils";
 import { YourStats } from "../HowDashboard/YourStats";
@@ -77,7 +79,7 @@ const HomePage = () => {
         <div className="col-span-2 lg:col-span-1 shadow-none bg-white p-5">
           <div className="grid grid-cols-2 gap-4">
             {" "}
-            {data.currentUser.skills.map((skill, i) => (
+            {data.currentUser.skills.map((skill) => (
               <div className="bg-primary p-2 rounded-2xl" key={skill.id}>
                 {skill.skill}
               </div>
