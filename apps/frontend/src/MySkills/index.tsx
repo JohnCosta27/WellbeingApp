@@ -1,9 +1,12 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable camelcase */
 /* eslint-disable no-plusplus */
 /* eslint-disable react/jsx-no-bind */
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
+  UserSkill,
   namedOperations,
   useAddSkillMutation,
   useCurrentUserQuery,
@@ -11,210 +14,73 @@ import {
 import { Card } from "../ui";
 import { DraggableSkill } from "./DraggableSkill";
 import { DroppableSkill } from "./DroppableSkill";
+import { TouchBackend } from "react-dnd-touch-backend";
 
-const globalSkills = [
-  [
-    "COMPUTER LITERATE",
-    "Develop, Organize and Complete Tasks and Projects Using Software Programs Such as Word, Excel and PowerPoint.",
+const globalSkills = {
+  Innovative: ["Critical thinking", "Sense making", "Creativity", "Curiosity"],
+
+  "Social Intelligence": [
+    "Communicating",
+    "Active Listening",
+    "Intuition",
+    "Empathy",
+    "Collaborating",
+    "Diplomacy",
   ],
-  [
-    "PLAN, ORGANIZE",
-    "Define Goals and Objectives, Schedule and Develop Projects or Programs.",
+  "Self Management": [
+    "Focussing",
+    "Adapting",
+    "Integrity",
+    "Initiative",
+    "Collaborating",
+    "Setting Priorities",
+    "Organise",
+    "Coordinate",
+    "Achieve",
   ],
-  [
-    "OBSERVE",
-    "Study, Scrutinize, Examine Data, People, or Things Scientifically.",
+  Leadership: [
+    "Decision-Taking",
+    "Professionalism",
+    "Influence",
+    "Scrutiny",
+    "Mentoring",
+    "Mediate",
+    "Motivate",
   ],
-  [
-    "MAINTAIN RECORDS",
-    "Keep Accurate and Up-to-Date Records, Log, Record, Itemize, Collate, Tabulate Data.",
-  ],
-  [
-    "TEACH, TRAIN",
-    "Inform, Explain, Give Instruction to Students, Employees, or Customers.",
-  ],
-  [
-    "INTERVIEW FOR INFORMATION",
-    "Draw Out Subjects Through Incisive Questioning.",
-  ],
-  [
-    "CUSTOMER SERVICE",
-    "Effectively Solve Problems and Challenges That Satisfy Customers.",
-  ],
-  [
-    "ADAPT TO CHANGE",
-    "Easily and Quickly Respond to Changing Assignments, Work Settings and Priorities.",
-  ],
-  [
-    "WORK WITH NUMBERS",
-    "Easily Calculate, Compute, Organize Understand and Solve Numerical and Quantitative Problems.",
-  ],
-  ["CONCEPTUALIZE", "Conceive and Internally Develop Concepts and Ideas."],
-  ["MEDIATE", "Manage Conflict, Reconcile Differences."],
-  ["CLASSIFY", "Group, Categorize, Systematize Data, People, or Things."],
-  ["MAKE ARRANGEMENTS", "Coordinate Events, Handle Logistics."],
-  ["BUDGET", "Economize, Save, Stretch Money or Other Sources."],
-  [
-    "ENTERTAIN-PERFORM",
-    "Amuse, Sing, Dance, Art, Play Music for, Give a Demonstration to, Speak to an Audience.",
-  ],
-  [
-    "READ FOR INFORMATION",
-    "Research Written Resources Efficiently and Exhaustively.",
-  ],
-  [
-    "INITIATE CHANGE",
-    "Exert Influence on Changing the Status Quo, Exercise Leadership in Bringing About New Directions.",
-  ],
-  [
-    "DEAL WITH AMBIGUITY",
-    "Be Comfortable and Effective with Issues That Lack Clarity, Structure or Certainty.",
-  ],
-  ["DELEGATE", "Achieve Effective Results by Assigning Tasks to Others."],
-  ["MONITOR", "Keep Track of the Movement of Data, People, or Things."],
-  ["PERCEIVE INTUITIVELY", "Sense, Show Insight and Foresight."],
-  [
-    "PROOFREAD, EDIT",
-    "Check Writings for Proper Usage and Stylistic Flair, Make Improvements.",
-  ],
-  ["MAKE DECISIONS", "Make Major, Complex, or Frequent Decisions."],
-  [
-    "SELL",
-    "Promote a Person, Company Goods or Services, Convince of Merits, Raise Money.",
-  ],
-  ["NEGOTIATE", "Bargain for Rights or Advantages."],
-  [
-    "DESIGN",
-    "Structure New or Innovative Practices, Programs, Products or Environments.",
-  ],
-  [
-    "MANAGE TIME",
-    "Ability to Prioritized, Structure and Schedule Tasks to Maximize Effort and Meet Deadlines.",
-  ],
-  [
-    "COUNSEL",
-    "Facilitate Insight, and Personal Growth, Guide Advice, Coach Students, Employees, or Clients.",
-  ],
-  [
-    "DEAL WITH FEELINGS",
-    "Draw Out, Listen, Accept, Empathize, Express Sensitivity, Defuse Anger, Calm, Inject Humor, Appreciate.",
-  ],
-  [
-    "EXPEDITE",
-    "Speed Up Production or Services, Trouble-Shoot Problems, Streamline Procedures.",
-  ],
-  ["IMPROVISE", "To Effectively Think, Speak and Act Without Preparation."],
-  [
-    "MOTIVATE",
-    "Recruit Involvement, Mobilize Energy, Stimulate Peak Performance.",
-  ],
-  [
-    "USE MECHANICAL ABILITIES",
-    "Assemble, Tune, Repair or Operate Engines or Other Machinery.",
-  ],
-  ["IMPLEMENT", "Provide Detailed Follow-Through of Policies and Plans."],
-  ["PORTRAY IMAGES", "Sketch, Draw, Illustrate, Paint, Photograph."],
-  [
-    "ACT AS LIASON",
-    "Represent, Serve as a Link Between Individuals or Groups.",
-  ],
-  ["ANALYZE", "Break Down and Figure Out Problems Logically."],
-  ["TEAM WORK", "Easily and Effectively Work With Others to Obtain Results."],
-  ["SUPERVISE", "Oversee, Direct the Work of Others."],
-  [
-    "TEST",
-    "Measure Proficiency, Quality, or Validity, Check and Double-Check.",
-  ],
-  ["VISUALIZE", "Imagine Possibilities, See in Mind's Eye."],
-  [
-    "STRATEGIZE",
-    "Effectively Plan and Develop Long-Range Strategies That Successfully Accomplish Objectives.",
-  ],
-  [
-    "INNOVATE-INVENT",
-    "Create Unique Ideas or Combine Existing Ideas to Obtain a New or Unique Result.",
-  ],
-  ["GENERATE IDEAS", "Reflect Upon, Conceive of, Dream Up, Brainstorm Ideas."],
-  [
-    "WRITE",
-    "Compose Reports, Letters, Articles, Ads, Stories, or Educational Materials.",
-  ],
-  ["EVALUATE", "Assess, Review, Critique Feasibility or Quality."],
-  [
-    "SYNTHESIZE",
-    "Integrate Ideas and Information, Combine Diverse Elements Into a Coherent Whole.",
-  ],
-  ["ESTIMATE", "Appraise Value or Cost."],
-  [
-    "MENTOR",
-    "Educate, Guide, Coach or Counsel a Less Accomplished or Junior Colleague.",
-  ],
-  [
-    "MULTI-TASK",
-    "To effectively Manage a Variety of Tasks and Projects Simultaneously.",
-  ],
-  [
-    "RESEARCH ON-LINE",
-    "Able to Use Search Engines and The World Wide Web to Gather and Organize Information and Data.",
-  ],
-  [
-    "LEADERSHIP",
-    "Organizing, motivating and providing direction to a group of people to achieve a common goal.",
-  ],
-];
+};
+
+const DndBackend = "ontouchstart" in window ? TouchBackend : HTML5Backend;
 
 export const MySkills: FC = () => {
-  const user = useCurrentUserQuery();
+  const userSkills = useCurrentUserQuery().data?.currentUser.skills;
+
   const [addSkillMutation] = useAddSkillMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  const [skills, setSkills] = useState<
-    Array<{ skill: string; index: undefined | number }>
-  >(
-    globalSkills.map(([title, text]) => ({
-      skill: `${title} - ${text}`,
-      index: undefined,
-    }))
-  );
-
-  const [userSkills, setUserSkills] = useState<
-    Array<{ skill: string; index: number }>
-  >([]);
-
-  useEffect(() => {
-    if (!user.loading && user.data) {
-      let index = 0;
-      setUserSkills(
-        user.data.currentUser.skills.map((s) => ({
-          skill: s.skill,
-          index: ++index,
-        }))
-      );
-    }
-  }, [user.data]);
-
-  function onDropSkill(skill: string, index: number): void {
-    const item = skills.find((s) => s.skill === skill);
-    if (!item) return;
-
-    const prev = skills.find((s) => s.index === index);
-    if (prev) {
-      prev.index = undefined;
-    }
-
-    item.index = index;
-    setSkills([...skills]);
-
+  function onDropSkill(skill: string, ui_index: number): void {
     addSkillMutation({
       variables: {
         skill,
+        ui_index,
       },
+      refetchQueries: [namedOperations.Query.CurrentUser],
     });
   }
 
+  const availableSkills: { [key: string]: Array<string> } = useMemo(
+    () =>
+      Object.entries(globalSkills).reduce((prev, [category, skill]) => {
+        prev[category] = skill.filter(
+          (s) => !userSkills?.some((userSkill) => userSkill.skill === s)
+        );
+        return prev;
+      }, {} as { [key: string]: Array<string> }),
+    [userSkills]
+  );
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={DndBackend}>
       <div className="w-full flex flex-col gap-4">
         <div className="w-full">
           <h2 className="text-3xl font-bold">My Skills</h2>
@@ -222,44 +88,49 @@ export const MySkills: FC = () => {
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-6 ">
           <Card
             title="Skills"
-            description="A list of skills to pick from"
+            description="A list of skills to pick from, just drag and drop! (or click)"
             className="col-span-1 max-h-[80vh] min-h-[40vh] overflow-y-auto grid grid-cols-2 gap-4"
           >
-            {skills
-              .filter((s) => s.index === undefined)
-              .map((s) => (
-                <DraggableSkill key={s.skill} name={s.skill} />
-              ))}
+            {Object.entries(availableSkills).map(([skillClass, skill]) => (
+              <div key={skillClass}>
+                <h2 className="text-xl font-bold">{skillClass}</h2>
+                <ul className="p-4">
+                  {skill.map((s) => (
+                    <DraggableSkill key={s} name={s} />
+                  ))}
+                </ul>
+              </div>
+            ))}
           </Card>
           <Card
             title="My skills"
-            className="col-span-2 lg:col-span-1 h-[80vh] grid grid-cols-2 gap-4 gap-4"
+            className="col-span-2 lg:col-span-1 h-[80vh] grid grid-cols-2 gap-4"
             description="Skills that you feel best describe you"
           >
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={0}
-              skill={userSkills.find((s) => s.index === 0)?.skill}
+              skill={userSkills?.find((s) => s.ui_skill === 0)?.skill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={1}
-              skill={userSkills.find((s) => s.index === 1)?.skill}
+              skill={userSkills?.find((s) => s.ui_skill === 1)?.skill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={2}
-              skill={userSkills.find((s) => s.index === 2)?.skill}
+              skill={userSkills?.find((s) => s.ui_skill === 2)?.skill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={3}
-              skill={userSkills.find((s) => s.index === 3)?.skill}
+              skill={userSkills?.find((s) => s.ui_skill === 3)?.skill}
             />
             <DroppableSkill
               onDropSkill={onDropSkill}
               index={4}
-              skill={userSkills.find((s) => s.index === 4)?.skill}
+              skill={userSkills?.find((s) => s.ui_skill === 4)?.skill}
             />
           </Card>
         </div>

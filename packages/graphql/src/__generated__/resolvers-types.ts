@@ -110,8 +110,8 @@ export type MutationAddModuleArgs = {
 
 
 export type MutationAddSkillArgs = {
-  replacingSkillId?: InputMaybe<Scalars['String']>;
   skill: Scalars['String'];
+  ui_index: Scalars['Int'];
 };
 
 
@@ -208,6 +208,7 @@ export type UserSkill = {
   __typename?: 'UserSkill';
   id: Scalars['String'];
   skill: Scalars['String'];
+  ui_skill: Scalars['Int'];
 };
 
 
@@ -287,6 +288,7 @@ export type ResolversTypes = {
   CommunityMessage: ResolverTypeWrapper<CommunityMessage>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   HowAmIPhrase: ResolverTypeWrapper<HowAmIPhrase>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   MentalEnergy: ResolverTypeWrapper<MentalEnergy>;
   Module: ResolverTypeWrapper<Module>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -308,6 +310,7 @@ export type ResolversParentTypes = {
   CommunityMessage: CommunityMessage;
   Float: Scalars['Float'];
   HowAmIPhrase: HowAmIPhrase;
+  Int: Scalars['Int'];
   MentalEnergy: MentalEnergy;
   Module: Module;
   Mutation: {};
@@ -373,7 +376,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addHowAmIPhrase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddHowAmIPhraseArgs, 'id'>>;
   addMentalEnergy?: Resolver<Maybe<ResolversTypes['MentalEnergy']>, ParentType, ContextType, RequireFields<MutationAddMentalEnergyArgs, 'level'>>;
   addModule?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddModuleArgs, 'moduleId'>>;
-  addSkill?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddSkillArgs, 'skill'>>;
+  addSkill?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddSkillArgs, 'skill' | 'ui_index'>>;
   addWholeBrand?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddWholeBrandArgs, 'brandName'>>;
   createCommunityMessage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateCommunityMessageArgs, 'message' | 'placeId'>>;
   createPlace?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreatePlaceArgs, 'latitude' | 'longitude' | 'name'>>;
@@ -437,6 +440,7 @@ export type UserModulesResolvers<ContextType = any, ParentType extends Resolvers
 export type UserSkillResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserSkill'] = ResolversParentTypes['UserSkill']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   skill?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ui_skill?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -543,7 +547,7 @@ export type CreatePlaceMutation = { __typename?: 'Mutation', createPlace?: boole
 
 export type AddSkillMutationVariables = Exact<{
   skill: Scalars['String'];
-  replacingSkillId?: InputMaybe<Scalars['String']>;
+  ui_index: Scalars['Int'];
 }>;
 
 
@@ -557,7 +561,7 @@ export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount?: b
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, first_name: string, last_name: string, email: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brands: Array<{ __typename?: 'UserBrands', id: string, date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }>, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, first_name: string, last_name: string, email: string, howAmIPhrase: Array<{ __typename?: 'UserHowAmIPhrase', date: number, phrase: { __typename?: 'HowAmIPhrase', id: string, phrase: string } }>, mentalEnergy: Array<{ __typename?: 'MentalEnergy', date: number, level: number }>, brands: Array<{ __typename?: 'UserBrands', id: string, date?: number | null, name: string, words: Array<{ __typename?: 'BrandWords', id: string, word: string }> }>, modules: Array<{ __typename?: 'UserModules', module: { __typename?: 'Module', id: string, name: string, year: string }, assignments: Array<{ __typename?: 'Assignments', name: string, date: number, score: number, percent: number }> }>, skills: Array<{ __typename?: 'UserSkill', id: string, skill: string, ui_skill: number }> } };
 
 export type HowAmIPhraseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -943,8 +947,8 @@ export type CreatePlaceMutationHookResult = ReturnType<typeof useCreatePlaceMuta
 export type CreatePlaceMutationResult = Apollo.MutationResult<CreatePlaceMutation>;
 export type CreatePlaceMutationOptions = Apollo.BaseMutationOptions<CreatePlaceMutation, CreatePlaceMutationVariables>;
 export const AddSkillDocument = gql`
-    mutation addSkill($skill: String!, $replacingSkillId: String) {
-  addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
+    mutation addSkill($skill: String!, $ui_index: Int!) {
+  addSkill(skill: $skill, ui_index: $ui_index)
 }
     `;
 export type AddSkillMutationFn = Apollo.MutationFunction<AddSkillMutation, AddSkillMutationVariables>;
@@ -963,7 +967,7 @@ export type AddSkillMutationFn = Apollo.MutationFunction<AddSkillMutation, AddSk
  * const [addSkillMutation, { data, loading, error }] = useAddSkillMutation({
  *   variables: {
  *      skill: // value for 'skill'
- *      replacingSkillId: // value for 'replacingSkillId'
+ *      ui_index: // value for 'ui_index'
  *   },
  * });
  */
@@ -1047,6 +1051,7 @@ export const CurrentUserDocument = gql`
     skills {
       id
       skill
+      ui_skill
     }
   }
 }

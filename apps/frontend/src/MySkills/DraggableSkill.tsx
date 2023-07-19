@@ -16,8 +16,11 @@ export const DraggableSkill: FC<DraggableSkillProps> = ({ name }) => {
   }));
 
   return (
-    <div ref={drag} className={clsx(isDragging && "bg-red-200")}>
+    <li
+      ref={drag}
+      className={clsx("list-disc text-lg", isDragging && "bg-red-200")}
+    >
       {name}
-    </div>
+    </li>
   );
 };

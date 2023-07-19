@@ -85,7 +85,7 @@ const resolvers: Resolvers<Context> = {
             },
             orderBy: {
               date_saved: "asc",
-            }
+            },
           },
           user_modules: {
             include: {
@@ -100,7 +100,6 @@ const resolvers: Resolvers<Context> = {
       if (!user) {
         throw new Error("Context user not found");
       }
-
 
       const returnUser: User = {
         id: user.id,
@@ -140,6 +139,7 @@ const resolvers: Resolvers<Context> = {
         skills: user.user_skills.map((s) => ({
           id: s.id,
           skill: s.skill,
+          ui_skill: s.ui_index,
         })),
       };
 
@@ -160,9 +160,9 @@ const resolvers: Resolvers<Context> = {
               },
             },
           },
-        }
+        },
       });
-    
+
       return places.map((p) => ({
         id: p.id,
         name: p.name,
@@ -170,7 +170,10 @@ const resolvers: Resolvers<Context> = {
         longitude: p.longitude,
       }));
     },
-    async CommunityMessage(_parent, { placeId }): Promise<Array<CommunityMessage>> {
+    async CommunityMessage(
+      _parent,
+      { placeId }
+    ): Promise<Array<CommunityMessage>> {
       const place = await prisma.place.findFirst({
         where: {
           id: placeId,
@@ -185,17 +188,17 @@ const resolvers: Resolvers<Context> = {
                   last_name: true,
                   id: true,
                 },
-              }
+              },
             },
             take: 200, // capped at 200 of the most recent messages
             orderBy: {
               date: "desc",
-            }
+            },
           },
         },
       });
 
-      if(!place) {
+      if (!place) {
         throw new Error("Place not found in CommunityMessage query");
       }
 
@@ -207,7 +210,7 @@ const resolvers: Resolvers<Context> = {
         message: m.message,
         date: m.date.getTime(),
       }));
-    }
+    },
   },
 
   Mutation: {
@@ -249,7 +252,7 @@ const resolvers: Resolvers<Context> = {
      * Lets take the active brand (In the DB this is the one with no data_saved field),
      * add a date, and create a new one
      */
-    async addWholeBrand(_parent, {brandName}, context): Promise<boolean> {
+    async addWholeBrand(_parent, { brandName }, context): Promise<boolean> {
       try {
         const activeBrand = await prisma.brand.findMany({
           where: {
@@ -474,13 +477,13 @@ const resolvers: Resolvers<Context> = {
               connect: {
                 id: context.uuid,
               },
-            }
+            },
           },
         });
         return true;
       } catch (err) {
         console.log(err);
-        throw new Error("Database error in createCommunityMessage "+ err);
+        throw new Error("Database error in createCommunityMessage " + err);
       }
     },
     async deleteMessage(_parent, { messageId }, context) {
@@ -510,7 +513,7 @@ const resolvers: Resolvers<Context> = {
         return true;
       } catch (err) {
         console.log(err);
-        throw new Error("Database error in deleteMessage "+ err);
+        throw new Error("Database error in deleteMessage " + err);
       }
     },
     async createPlace(_parent, { name, latitude, longitude }) {
@@ -525,21 +528,23 @@ const resolvers: Resolvers<Context> = {
         return true;
       } catch (err) {
         console.log(err);
-        throw new Error("Database error in createPlace "+ err);
+        throw new Error("Database error in createPlace " + err);
       }
     },
-    async addSkill(
-      _parent,
-      { skill, replacingSkillId },
-      context
-    ): Promise<boolean> {
+    async addSkill(_parent, { skill, ui_index }, context): Promise<boolean> {
       try {
-        if (replacingSkillId) {
+        const existingSkill = await prisma.userSkills.findFirst({
+          where: {
+            ui_index,
+          },
+        });
+
+        if (existingSkill) {
           // Replace the skill with this ID, for the new one.
           // If not found, it throws.
           await prisma.userSkills.delete({
             where: {
-              id: replacingSkillId,
+              id: existingSkill.id,
             },
           });
         }
@@ -548,6 +553,7 @@ const resolvers: Resolvers<Context> = {
           data: {
             user_id: context.uuid,
             skill,
+            ui_index,
           },
         });
 
@@ -575,7 +581,7 @@ const resolvers: Resolvers<Context> = {
         return true;
       } catch (err) {
         console.log(err);
-        throw new Error("Database error in deleteAccount "+ err);
+        throw new Error("Database error in deleteAccount " + err);
       }
     },
   },

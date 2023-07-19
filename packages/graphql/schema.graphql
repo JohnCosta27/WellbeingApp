@@ -19,7 +19,6 @@ type UserBrands {
   id: String!
 }
 
-
 # ------------------------------------- #
 # Mental Energy                         #
 # ------------------------------------- #
@@ -69,6 +68,7 @@ type UserModules {
 type UserSkill {
   id: String!
   skill: String!
+  ui_skill: Int!
 }
 
 type Place {
@@ -129,6 +129,6 @@ type Mutation {
   createPlace(name: String!, latitude: Float!, longitude: Float!): Boolean
   createCommunityMessage(message: String!, placeId: String!): Boolean
   deleteMessage(messageId: String!): Boolean
-  addSkill(skill: String!, replacingSkillId: String): Boolean
+  addSkill(skill: String!, ui_index: Int!): Boolean
   deleteAccount: Boolean
 }

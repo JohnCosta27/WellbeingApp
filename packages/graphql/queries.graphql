@@ -40,6 +40,7 @@ query CurrentUser {
     skills {
       id
       skill
+      ui_skill
     }
   }
 }

@@ -43,40 +43,20 @@ mutation addAssignment(
   )
 }
 
-mutation createCommunityMessage(
-  $message: String!, 
-  $placeId: String!
-) {
-  createCommunityMessage(
-    message: $message
-    placeId: $placeId
-  )
+mutation createCommunityMessage($message: String!, $placeId: String!) {
+  createCommunityMessage(message: $message, placeId: $placeId)
 }
 
-mutation deleteMessage(
-  $messageId: String!
-) {
-  deleteMessage(
-    messageId: $messageId
-  )
+mutation deleteMessage($messageId: String!) {
+  deleteMessage(messageId: $messageId)
 }
 
-
-mutation createPlace
-(
-  $name: String!, 
-  $latitude: Float!,
-  $longitude: Float!,
-) {
-  createPlace(
-    name: $name
-    latitude: $latitude
-    longitude: $longitude
-  )
+mutation createPlace($name: String!, $latitude: Float!, $longitude: Float!) {
+  createPlace(name: $name, latitude: $latitude, longitude: $longitude)
 }
 
-mutation addSkill($skill: String!, $replacingSkillId: String) {
-  addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
+mutation addSkill($skill: String!, $ui_index: Int!) {
+  addSkill(skill: $skill, ui_index: $ui_index)
 }
 
 mutation deleteAccount {

@@ -137,6 +137,7 @@ model UserSkills {
   user_id String
 
   skill String
+  ui_index Int
 
   user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
