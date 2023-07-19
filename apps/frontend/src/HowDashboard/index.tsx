@@ -2,7 +2,6 @@ import { FC, useContext } from "react";
 import {
   namedOperations,
   useAddMentalEnergyMutation,
-  useCurrentUserQuery,
   useHowAmIPhraseQuery,
   useAddHowAmIPhraseMutation,
 } from "@wellbeing/graphql-types";

@@ -137,6 +137,13 @@ export const DashboardLayout: FC = () => {
                   >
                     My Skills
                   </TopbarItem>
+                  <TopbarItem
+                    onNav="/professional-self"
+                    setSidebar={setOpenSidebar}
+                    emoji="🧠"
+                  >
+                    My Professional Self
+                  </TopbarItem>
                 </div>
                 <div className="flex bottom-10 absolute w-full">
                   <TopbarItem
@@ -204,7 +211,7 @@ export const TopbarItem: FC<TopBarItemProps> = ({
     }}
   >
     {emoji ? (
-      <div className="flex w-full">
+      <div className="flex w-full items-center">
         <div>{emoji}</div>
         <div className="text-center w-full">{children}</div>
       </div>

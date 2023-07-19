@@ -9,6 +9,7 @@ import { Community } from "./Community";
 import { MySkills } from "./MySkills";
 import HomePage from "./HomePage";
 import { Settings } from "./Settings";
+import { MyProfessionalSelf } from "./MyProfessionalSelf";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
           {
             path: "/community",
             element: <Community />,
+          },
+          {
+            path: "/professional-self",
+            element: <MyProfessionalSelf />,
           },
           {
             path: "/settings",
