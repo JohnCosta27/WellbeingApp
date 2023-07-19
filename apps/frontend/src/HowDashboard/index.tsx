@@ -1,9 +1,8 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import {
   namedOperations,
   useAddMentalEnergyMutation,
   useCurrentUserQuery,
-  MentalEnergy,
   useHowAmIPhraseQuery,
   useAddHowAmIPhraseMutation,
 } from "@wellbeing/graphql-types";
@@ -16,19 +15,15 @@ import {
 
 import { QuickHelp } from "../MyProgress/QuickHelp";
 import { YourStats } from "./YourStats";
-import { getLast7DaysEnergy, isToday } from "../utils";
+import { getLast7DaysEnergy, isToday, recentMentalEnergy } from "../utils";
+import { UserContext } from "../DashboardLayout";
 
 export const HowDashboard: FC = () => {
-  const { data, loading } = useCurrentUserQuery();
+  const { data, loading } = useContext(UserContext);
 
   const words = useHowAmIPhraseQuery();
 
-  const sortedEnergy = !data
-    ? []
-    : data.currentUser.mentalEnergy
-        .slice()
-        .sort((a, b) => a.date - b.date)
-        .slice(-10);
+  const sortedEnergy = recentMentalEnergy(data?.currentUser);
 
   const energyAverage = data
     ? getLast7DaysEnergy(data.currentUser.mentalEnergy)

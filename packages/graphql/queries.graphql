@@ -1,5 +1,9 @@
 query CurrentUser {
   currentUser {
+    id
+    first_name
+    last_name
+    email
     howAmIPhrase {
       phrase {
         id
@@ -11,18 +15,14 @@ query CurrentUser {
       date
       level
     }
-    brand {
+    brands {
       words {
         id
         word
       }
-      pastBrand {
-        words {
-          id
-          word
-        }
-        date
-      }
+      id
+      date
+      name
     }
     modules {
       module {
@@ -36,6 +36,10 @@ query CurrentUser {
         score
         percent
       }
+    }
+    skills {
+      id
+      skill
     }
   }
 }
@@ -59,5 +63,30 @@ query Modules {
     id
     name
     year
+  }
+}
+
+query Places {
+  places {
+    id
+    name
+    latitude
+    longitude
+  }
+}
+
+query CommunityMessage($placeId: String!) {
+  CommunityMessage(placeId: $placeId) {
+    id
+    message
+    userId
+    date
+    first_name
+    last_name
+    place {
+      name
+      latitude
+      longitude
+    }
   }
 }

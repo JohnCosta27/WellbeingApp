@@ -6,11 +6,11 @@ We are using firebase, and firebase emulators to locally develop.
 
 ## TODO
 
-- [ ] Finish MyProgress page (Involves phone screen compatibility)
+- [x] Finish MyProgress page (Involves phone screen compatibility)
   - [x] Refactoring into smaller components (Currently its in one big one)
-  - [ ] Make it look nice, design wise (This will involve designing actual UI components).
-    - [ ] cards with stats for each module
-    - [ ] Overall stats card
+  - [x] Make it look nice, design wise (This will involve designing actual UI components).
+    - [x] cards with stats for each module
+    - [x] Overall stats card
   - [x] Make the module selector work! search/dropdown thing?
   - [x] Make the assignments work
   - [ ] make the assignments editable
@@ -38,9 +38,20 @@ General stuff:
 
 ## BUGS
 
-- [ ] The user needs to have 1 brand without a date, the system should just select the most recent one in the case they have 1 brand with a date.
-- [ ] The Ibrands need to allow more only 1 of each brand to be selected (maybe with a count?) this will make the word cloud better!
+- [x] The user needs to have 1 brand without a date, the system should just select the most recent one in the case they have 1 brand with a date.
 - [x] Mental Energy vertical scaling issue on how page.
 - [ ] All Dialogs do not work with mobile
-- [ ] My Progress mobile scaling
-- [ ] My progress removing module endpoint fails if there are any assignments associated with the module.
+- [x] My Progress mobile scaling
+- [x] My progress removing module endpoint fails if there are any assignments associated with the module.
+
+## URGENT TODO
+
+- [x] Names for the brands
+- [x] Fix the who am i brand submission, it's not working well, with the active brand and it's failing to save the brand properly.
+- [ ] Submit due assignment with date
+  - [ ] ICAL export (and sync maybe?)
+- [x] delete account button
+- [x] home page?
+  - [x] code groovers marking on the page
+
+- [ ] Have an export for the who/how/what pages  

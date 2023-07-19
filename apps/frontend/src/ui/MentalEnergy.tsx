@@ -6,7 +6,7 @@ import { getMessage } from "./utils";
 const RANGE_MAX = 10000;
 
 // Six hours in milliseconds
-const SIX_HOURS = 6 * 60 * 60 * 1000;
+export const SIX_HOURS = 6 * 60 * 60 * 1000;
 
 interface MentalEnergyProps {
   loading: boolean;

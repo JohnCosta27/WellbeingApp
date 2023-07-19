@@ -1,7 +1,30 @@
+import { QueryResult } from "@apollo/client";
+import {
+  CurrentUserQuery,
+  Exact,
+  User,
+  useCurrentUserQuery,
+} from "@wellbeing/graphql-types";
 import clsx from "clsx";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
+import { FiLogOut, FiSettings } from "react-icons/fi";
+
+export type UserContextType = {
+  data: CurrentUserQuery | undefined;
+  loading: boolean;
+  refetch: () => void;
+  called: boolean;
+};
+
+export const UserContext = createContext<UserContextType>({
+  data: undefined,
+  loading: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  refetch: () => {},
+  called: false,
+});
 
 const HamburgerIcon = () => (
   <svg
@@ -23,6 +46,8 @@ const HamburgerIcon = () => (
 const MD_SIZE = 768;
 
 export const DashboardLayout: FC = () => {
+  const query = useCurrentUserQuery();
+
   const [openSidebar, setOpenSidebar] = useState(window.innerWidth > MD_SIZE);
 
   useEffect(() => {
@@ -38,62 +63,160 @@ export const DashboardLayout: FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen bg-base-100 flex flex-col overflow-y-hidden">
-      <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
-        <div className="w-full flex items-center gap-4">
-          <div className="flex md:hidden">
-            <button
-              type="button"
-              onClick={() => {
-                if (window.innerWidth < MD_SIZE) {
-                  setOpenSidebar(!openSidebar);
-                }
-              }}
-            >
-              <HamburgerIcon />
-            </button>
-          </div>
-          <h1 className="text-xl">Wellbeing App</h1>
-        </div>
-      </div>
-      <div className="w-full h-full flex">
-        <div
-          className={clsx(
-            "flex-col bg-white shadow-xl fixed h-full md:relative transition-all z-10",
-            !openSidebar ? "w-0" : "w-64"
-          )}
-        >
-          {openSidebar && (
-            <div className="grid m-1">
-              <TopbarItem onNav="/who">Who</TopbarItem>
-              <TopbarItem onNav="/how">How</TopbarItem>
-              <TopbarItem onNav="/how">What</TopbarItem>
-              <TopbarItem onNav="/progress">Progress</TopbarItem>
-              <TopbarItem onNav="/mycv">My CV</TopbarItem>
+    <UserContext.Provider value={query}>
+      <div className="w-full h-screen bg-base-100 flex flex-col overflow-y-hidden">
+        <div className="w-full min-h-12 bg-secondary-focus shadow-md flex justify-between items-center px-4 text-white">
+          <div className="w-full flex items-center gap-4">
+            <div className="flex md:hidden">
+              <button
+                type="button"
+                onClick={() => {
+                  if (window.innerWidth < MD_SIZE) {
+                    setOpenSidebar(!openSidebar);
+                  }
+                }}
+              >
+                <HamburgerIcon />
+              </button>
             </div>
-          )}
+            <h1 className="text-xl">Wellbeing App</h1>
+          </div>
         </div>
-        <div className="w-full h-full bg-[#F6F8FA] overflow-y-auto">
-          {/* Hacky way to get bottom pading to appear in mobile view (adding the margin) */}
-          <div className="w-full p-2 md:p-6 mb-4 md:mb-12">
-            <Outlet />
+        <div className="w-full h-full flex">
+          <div
+            className={clsx(
+              "flex-col bg-white shadow-xl fixed h-full md:relative transition-all z-10",
+              !openSidebar ? "w-0" : "w-64"
+            )}
+          >
+            {openSidebar && (
+              <>
+                <div className="grid m-1">
+                  <TopbarItem onNav="/" setSidebar={setOpenSidebar} emoji="🏠">
+                    Home
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/who"
+                    setSidebar={setOpenSidebar}
+                    emoji="🤔"
+                  >
+                    Who
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/how"
+                    setSidebar={setOpenSidebar}
+                    emoji="🔍"
+                  >
+                    How
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/how"
+                    setSidebar={setOpenSidebar}
+                    emoji="❓"
+                  >
+                    What
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/progress"
+                    setSidebar={setOpenSidebar}
+                    emoji="📈"
+                  >
+                    Progress
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/community"
+                    setSidebar={setOpenSidebar}
+                    emoji="🏘️"
+                  >
+                    Community
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/mycv"
+                    setSidebar={setOpenSidebar}
+                    emoji="📝"
+                  >
+                    My CV
+                  </TopbarItem>
+                  <TopbarItem
+                    onNav="/myskills"
+                    setSidebar={setOpenSidebar}
+                    emoji="🧠"
+                  >
+                    My Skills
+                  </TopbarItem>
+                </div>
+                <div className="flex bottom-10 absolute w-full">
+                  <TopbarItem
+                    onNav="/settings"
+                    setSidebar={setOpenSidebar}
+                    className="text-4xl"
+                  >
+                    <FiSettings className="w-10 h-10" />
+                  </TopbarItem>
+                  <TopbarItem onNav="/logout" setSidebar={setOpenSidebar}>
+                    <FiLogOut className="w-10 h-10" />
+                  </TopbarItem>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="w-full h-full bg-[#F6F8FA] overflow-y-auto">
+            {/* Hacky way to get bottom pading to appear in mobile view (adding the margin) */}
+            <div className="w-full md:p-6 mb-4 md:mb-12">
+              <Outlet />
+              <div className="bottom-0 relative z-10 text-center p-10">
+                {/* Footer with codegroovers stamp */}
+                Made with ❤️ by CodeGroovers -{" "}
+                <a href="https://j4a.uk/" className="text-blue-600 underline">
+                  James
+                </a>{" "}
+                &{" "}
+                <a
+                  href="https://johncosta.tech"
+                  className="text-blue-600 underline"
+                >
+                  John
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </UserContext.Provider>
   );
 };
 
 interface TopBarItemProps {
   onNav: string;
   children: ReactNode;
+  emoji?: string;
+  className?: string;
+  setSidebar: (open: boolean) => void;
 }
 
-export const TopbarItem: FC<TopBarItemProps> = ({ onNav, children }) => (
+export const TopbarItem: FC<TopBarItemProps> = ({
+  onNav,
+  children,
+  emoji,
+  className,
+  setSidebar,
+}) => (
   <Link
     to={onNav}
-    className="w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-neutral-focus rounded-md transition-all"
+    className={`w-full p-4 flex justify-center items-center text-3xl text-slate-800 hover:bg-primary hover:text-neutral-focus rounded-md transition-all ${className}`}
+    onClick={() => {
+      if (window.innerWidth < MD_SIZE) {
+        setSidebar(false);
+      }
+    }}
   >
-    {children}
+    {emoji ? (
+      <div className="flex w-full">
+        <div>{emoji}</div>
+        <div className="text-center w-full">{children}</div>
+      </div>
+    ) : (
+      children
+    )}
   </Link>
 );

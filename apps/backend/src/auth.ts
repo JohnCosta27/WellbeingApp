@@ -16,6 +16,8 @@ AuthRouter.post("/register", async (req: Request, res: Response) => {
     const createNewUser = await prisma.users.create({
       data: {
         email: req.body.email,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
         password: passwordHash,
         password_salt: passwordSalt,
       },
@@ -25,6 +27,7 @@ AuthRouter.post("/register", async (req: Request, res: Response) => {
     await prisma.brand.create({
       data: {
         user_id: createNewUser.id,
+        name: "First Brand",
       },
     });
 

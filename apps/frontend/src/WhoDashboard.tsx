@@ -1,19 +1,19 @@
 import {
-  BrandWords,
   namedOperations,
   useAddBrandWordMutation,
   useRemoveBrandWordMutation,
   useBrandWordsQuery,
-  useCurrentUserQuery,
-  PastUserBrand,
+  UserBrands,
 } from "@wellbeing/graphql-types";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { AddBrandWords, Card, IBrand } from "./ui";
 import PreviousBrands from "./ui/PreviousBrands";
+import { UserContext } from "./DashboardLayout";
 
 export const WhoDashboard: FC = () => {
   const { data } = useBrandWordsQuery();
-  const { data: userBrandWords, loading } = useCurrentUserQuery();
+  // This is using the userContext from DashboardLayout.tsx
+  const { data: userBrandWords, loading } = useContext(UserContext);
 
   const [addBrandWords] = useAddBrandWordMutation({
     refetchQueries: [namedOperations.Query.CurrentUser],
@@ -23,13 +23,20 @@ export const WhoDashboard: FC = () => {
     refetchQueries: [namedOperations.Query.CurrentUser],
   });
 
-  const [activeBrand, setActiveBrand] = useState<PastUserBrand>({ words: [] });
+  const [activeBrand, setActiveBrand] = useState<UserBrands>({
+    words: [],
+    name: "Active Brand",
+    id: "",
+  });
 
   useEffect(() => {
     if (!loading && userBrandWords) {
+      const active = userBrandWords.currentUser.brands.find((b) => !b?.date);
       setActiveBrand({
         date: undefined,
-        words: userBrandWords.currentUser.brand.words,
+        words: active?.words || [],
+        name: "Active Brand",
+        id: active?.id || "",
       });
     }
   }, [loading, userBrandWords]);
@@ -46,7 +53,10 @@ export const WhoDashboard: FC = () => {
         <Card title="IBrand" className="row-span-2 col-span-2">
           <div className="w-full text-center font-bold text-xl">
             {activeBrand.date ? (
-              <>Brand from: {new Date(activeBrand.date).toDateString()}</>
+              <>
+                {activeBrand.name} from:{" "}
+                {new Date(activeBrand.date).toDateString()}
+              </>
             ) : (
               <>Active Brand </>
             )}
@@ -73,11 +83,12 @@ export const WhoDashboard: FC = () => {
                 },
               });
             }}
+            activeBrand={activeBrand}
           />
         </Card>
-        {userBrandWords?.currentUser.brand && (
+        {userBrandWords?.currentUser.brands && (
           <PreviousBrands
-            userBrand={userBrandWords?.currentUser.brand}
+            userBrands={userBrandWords.currentUser.brands}
             setActiveBrand={setActiveBrand}
           />
         )}

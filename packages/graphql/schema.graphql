@@ -11,16 +11,14 @@ type BrandWords {
 # Users current brand, they can save this brand
 # and create a new one, at which point this will reset.
 
-type UserBrand {
+type UserBrands {
   # words represents the users CURRENT active brand, naming could be better.
   words: [BrandWords!]!
-  pastBrand: [PastUserBrand!]!
+  date: Float
+  name: String!
+  id: String!
 }
 
-type PastUserBrand {
-  words: [BrandWords!]!
-  date: Float
-}
 
 # ------------------------------------- #
 # Mental Energy                         #
@@ -66,11 +64,41 @@ type UserModules {
   assignments: [Assignments!]!
 }
 
+# ----- User Skills ------
+
+type UserSkill {
+  id: String!
+  skill: String!
+}
+
+type Place {
+  id: String!
+  name: String!
+  latitude: Float!
+  longitude: Float!
+}
+
+type CommunityMessage {
+  id: String!
+  message: String!
+  userId: String!
+  first_name: String!
+  last_name: String!
+  date: Float!
+  place: Place
+  replies: [CommunityMessage]
+}
+
 type User {
-  brand: UserBrand!
+  id: String!
+  first_name: String!
+  last_name: String!
+  email: String!
+  brands: [UserBrands!]!
   mentalEnergy: [MentalEnergy!]!
   howAmIPhrase: [UserHowAmIPhrase!]!
   modules: [UserModules!]!
+  skills: [UserSkill!]!
 }
 
 type Query {
@@ -79,6 +107,8 @@ type Query {
   mentalEnergy: [MentalEnergy!]!
   currentUser: User!
   modules: [Module!]!
+  places: [Place!]!
+  CommunityMessage(placeId: String!): [CommunityMessage!]!
 }
 
 type Mutation {
@@ -87,7 +117,7 @@ type Mutation {
   addBrandWord(wordId: String!): Boolean
   removeBrandWord(wordId: String!): Boolean
   # Take the current active brand, and save it as a past brand
-  addWholeBrand: Boolean
+  addWholeBrand(brandName: String!): Boolean
   addModule(moduleId: String!): Boolean
   removeModule(moduleId: String!): Boolean
   addAssignment(
@@ -96,4 +126,9 @@ type Mutation {
     score: Float!
     percent: Float!
   ): Boolean
+  createPlace(name: String!, latitude: Float!, longitude: Float!): Boolean
+  createCommunityMessage(message: String!, placeId: String!): Boolean
+  deleteMessage(messageId: String!): Boolean
+  addSkill(skill: String!, replacingSkillId: String): Boolean
+  deleteAccount: Boolean
 }

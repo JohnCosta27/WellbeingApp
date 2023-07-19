@@ -5,9 +5,11 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import {
   BrandWords,
+  CommunityMessage,
   HowAmIPhrase,
   MentalEnergy,
   Module,
+  Place,
   Resolvers,
   User,
 } from "@wellbeing/graphql-types";
@@ -22,9 +24,9 @@ import { GraphQLError } from "graphql";
 import { prisma } from "./prisma";
 import winston from "winston";
 import {
-  createUserTestData,
   createGeneralTestData,
   nukeDatabase,
+  createUserProfile,
 } from "./util/createTestData";
 
 const file = fs.readFileSync(
@@ -81,6 +83,9 @@ const resolvers: Resolvers<Context> = {
                 },
               },
             },
+            orderBy: {
+              date_saved: "asc",
+            }
           },
           user_modules: {
             include: {
@@ -88,6 +93,7 @@ const resolvers: Resolvers<Context> = {
               assignments: true,
             },
           },
+          user_skills: true,
         },
       });
 
@@ -95,28 +101,21 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Context user not found");
       }
 
-      // Current brand won't be saved yet so it will be null.
-      const currentBrand = user.brands.find((b) => b.date_saved == null);
-      const pastBrands = user.brands.filter((b) => b != null);
-
-      if (!currentBrand) {
-        throw new Error("User does not have a valid current brand");
-      }
 
       const returnUser: User = {
-        brand: {
-          words: currentBrand.brand_word_entries.map((w) => ({
-            id: w.brand_word.id,
+        id: user.id,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        brands: user.brands.map((b) => ({
+          id: b.id,
+          name: b.name,
+          date: b.date_saved ? timestamp(b.date_saved) : null,
+          words: b.brand_word_entries.map((w) => ({
+            id: w.id,
             word: w.brand_word.word,
           })),
-          pastBrand: pastBrands.map((b) => ({
-            words: b.brand_word_entries.map((w) => ({
-              id: w.brand_word.id,
-              word: w.brand_word.word,
-            })),
-            date: b.date_saved?.getTime() || new Date().getTime(),
-          })),
-        },
+        })),
         mentalEnergy: user.mental_energy.map((m) => ({
           date: timestamp(m.date),
           level: m.level,
@@ -138,10 +137,77 @@ const resolvers: Resolvers<Context> = {
             percent: a.percent,
           })),
         })),
+        skills: user.user_skills.map((s) => ({
+          id: s.id,
+          skill: s.skill,
+        })),
       };
 
       return returnUser;
     },
+
+    async places(): Promise<Array<Place>> {
+      const places = await prisma.place.findMany({
+        include: {
+          messages: {
+            include: {
+              replyTo: true,
+              user: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                },
+              },
+            },
+          },
+        }
+      });
+    
+      return places.map((p) => ({
+        id: p.id,
+        name: p.name,
+        latitude: p.latitude,
+        longitude: p.longitude,
+      }));
+    },
+    async CommunityMessage(_parent, { placeId }): Promise<Array<CommunityMessage>> {
+      const place = await prisma.place.findFirst({
+        where: {
+          id: placeId,
+        },
+        include: {
+          messages: {
+            include: {
+              replyTo: true,
+              user: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                  id: true,
+                },
+              }
+            },
+            take: 200, // capped at 200 of the most recent messages
+            orderBy: {
+              date: "desc",
+            }
+          },
+        },
+      });
+
+      if(!place) {
+        throw new Error("Place not found in CommunityMessage query");
+      }
+
+      return place?.messages.map((m) => ({
+        id: m.id,
+        userId: m.userId,
+        first_name: m.user.first_name,
+        last_name: m.user.last_name,
+        message: m.message,
+        date: m.date.getTime(),
+      }));
+    }
   },
 
   Mutation: {
@@ -183,7 +249,7 @@ const resolvers: Resolvers<Context> = {
      * Lets take the active brand (In the DB this is the one with no data_saved field),
      * add a date, and create a new one
      */
-    async addWholeBrand(_parent, _params, context): Promise<boolean> {
+    async addWholeBrand(_parent, {brandName}, context): Promise<boolean> {
       try {
         const activeBrand = await prisma.brand.findMany({
           where: {
@@ -204,12 +270,14 @@ const resolvers: Resolvers<Context> = {
           },
           data: {
             date_saved: new Date(),
+            name: brandName,
           },
         });
 
         await prisma.brand.create({
           data: {
             user_id: context.uuid,
+            name: "Active Brand",
           },
         });
         return true;
@@ -392,6 +460,124 @@ const resolvers: Resolvers<Context> = {
         throw new Error("Database error, most likely ID not found");
       }
     },
+    async createCommunityMessage(_parent, { message, placeId }, context) {
+      try {
+        await prisma.communityMessage.create({
+          data: {
+            message,
+            place: {
+              connect: {
+                id: placeId,
+              },
+            },
+            user: {
+              connect: {
+                id: context.uuid,
+              },
+            }
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in createCommunityMessage "+ err);
+      }
+    },
+    async deleteMessage(_parent, { messageId }, context) {
+      try {
+        const message = await prisma.communityMessage.findUnique({
+          where: {
+            id: messageId,
+          },
+          include: {
+            user: true,
+          },
+        });
+
+        if (!message) {
+          throw new Error("Message not found");
+        }
+
+        if (message.user.id !== context.uuid) {
+          throw new Error("User does not own this message");
+        }
+
+        await prisma.communityMessage.delete({
+          where: {
+            id: messageId,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in deleteMessage "+ err);
+      }
+    },
+    async createPlace(_parent, { name, latitude, longitude }) {
+      try {
+        await prisma.place.create({
+          data: {
+            name,
+            latitude,
+            longitude,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in createPlace "+ err);
+      }
+    },
+    async addSkill(
+      _parent,
+      { skill, replacingSkillId },
+      context
+    ): Promise<boolean> {
+      try {
+        if (replacingSkillId) {
+          // Replace the skill with this ID, for the new one.
+          // If not found, it throws.
+          await prisma.userSkills.delete({
+            where: {
+              id: replacingSkillId,
+            },
+          });
+        }
+
+        await prisma.userSkills.create({
+          data: {
+            user_id: context.uuid,
+            skill,
+          },
+        });
+
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error, most likely ID not found");
+      }
+    },
+    async deleteAccount(_parent, _args, context) {
+      try {
+        await prisma.users.delete({
+          where: {
+            id: context.uuid,
+          },
+          include: {
+            brands: true,
+            community_messages: true,
+            how_am_i_phrases: true,
+            mental_energy: true,
+            user_modules: true,
+            user_skills: true,
+          },
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        throw new Error("Database error in deleteAccount "+ err);
+      }
+    },
   },
 };
 
@@ -482,7 +668,7 @@ const setupTestData = async () => {
 
   await createGeneralTestData();
   for (let i = 0; i < 10; i++) {
-    await createUserTestData();
+    await createUserProfile();
   }
 };
 

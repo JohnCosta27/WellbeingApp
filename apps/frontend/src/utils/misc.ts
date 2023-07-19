@@ -1,5 +1,11 @@
 /* eslint-disable no-bitwise */
-import { MentalEnergy, UserModules } from "@wellbeing/graphql-types";
+import {
+  MentalEnergy,
+  Place,
+  User,
+  UserModules,
+} from "@wellbeing/graphql-types";
+import L from "leaflet";
 
 export const getLast7DaysEnergy = (energies: MentalEnergy[]): number => {
   if (energies.length === 0) return 0;
@@ -114,13 +120,48 @@ export const scaleModuleOverallScore = (data: extractedData) => {
   const total = data.completedScore + data.failedScore + data.uncompletedAmount;
   return {
     [PassTypes.Passed]: Math.round((data.completedScore / total) * 100),
-    [PassTypes.Failed]: Math.round((data.failedScore / total) * 100),
     [PassTypes.Uncompleted]: Math.round((data.uncompletedAmount / total) * 100),
+    [PassTypes.Failed]: Math.round((data.failedScore / total) * 100),
   };
 };
 
 export const scoreColours: Record<PassTypes, string> = {
   [PassTypes.Passed]: "#5cf76c",
-  [PassTypes.Failed]: "#fc6f79",
   [PassTypes.Uncompleted]: "#6d9290",
+  [PassTypes.Failed]: "#fc6f79",
+};
+
+/**
+ * Takes a list of places, a place and a distance, then returns if the place is distinct/far enough from the other places.
+ */
+export const checkIfPlaceIsDistinct = (
+  places: Place[],
+  place: L.LatLngLiteral,
+  distance: number
+) =>
+  !!places.find((p) => {
+    const d = L.latLng(p.latitude, p.longitude).distanceTo(
+      L.latLng(place.lat, place.lng)
+    );
+    return d < distance;
+  });
+
+export const recentMentalEnergy = (user: User | undefined) => {
+  if (!user) return [];
+  return user.mentalEnergy
+    .slice()
+    .sort((a, b) => a.date - b.date)
+    .slice(-10);
+};
+
+export const scrollIntoViewIfNeeded = (target: Element) => {
+  if (!target.parentElement) return;
+  if (
+    target.getBoundingClientRect().bottom > target.parentElement.clientHeight
+  ) {
+    target.scrollIntoView(false);
+  }
+  if (target.getBoundingClientRect().top < 0) {
+    target.scrollIntoView();
+  }
 };

@@ -17,8 +17,8 @@ mutation removeBrandWord($removeBrandWord: String!) {
   removeBrandWord(wordId: $removeBrandWord)
 }
 
-mutation addWholeBrand {
-  addWholeBrand
+mutation addWholeBrand($brandName: String!) {
+  addWholeBrand(brandName: $brandName)
 }
 
 mutation addModule($moduleId: String!) {
@@ -41,4 +41,44 @@ mutation addAssignment(
     score: $score
     percent: $percent
   )
+}
+
+mutation createCommunityMessage(
+  $message: String!, 
+  $placeId: String!
+) {
+  createCommunityMessage(
+    message: $message
+    placeId: $placeId
+  )
+}
+
+mutation deleteMessage(
+  $messageId: String!
+) {
+  deleteMessage(
+    messageId: $messageId
+  )
+}
+
+
+mutation createPlace
+(
+  $name: String!, 
+  $latitude: Float!,
+  $longitude: Float!,
+) {
+  createPlace(
+    name: $name
+    latitude: $latitude
+    longitude: $longitude
+  )
+}
+
+mutation addSkill($skill: String!, $replacingSkillId: String) {
+  addSkill(skill: $skill, replacingSkillId: $replacingSkillId)
+}
+
+mutation deleteAccount {
+  deleteAccount
 }
