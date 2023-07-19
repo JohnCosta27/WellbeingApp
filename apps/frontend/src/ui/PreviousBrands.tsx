@@ -1,10 +1,6 @@
 import { UserBrands } from "@wellbeing/graphql-types";
-import dayjs from "dayjs";
-import * as relativeTime from "dayjs/plugin/relativeTime";
 import { FC } from "react";
 import { Card } from "./Card";
-
-dayjs.extend(relativeTime);
 
 type PreviousBrandsProps = {
   userBrands: UserBrands[];
@@ -29,7 +25,6 @@ const PreviousBrands: FC<PreviousBrandsProps> = ({
         }}
       >
         {b.name}
-        {b.date ? `, posted ${dayjs(b.date).fromNow()}` : ""}
       </button>
     ))}
   </Card>

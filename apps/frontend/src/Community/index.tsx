@@ -1,26 +1,19 @@
 import "../index.css";
 import {
-  CommunityMessage,
   Place,
   namedOperations,
   useCommunityMessageQuery,
   useCreateCommunityMessageMutation,
-  useCurrentUserQuery,
   useDeleteMessageMutation,
   usePlacesQuery,
 } from "@wellbeing/graphql-types";
 
 import { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineCloseCircle, AiOutlineDelete } from "react-icons/ai";
-import dayjs from "dayjs";
-import * as relativeTime from "dayjs/plugin/relativeTime";
 import { MapCard } from "./MapCard";
 import { Card } from "../ui/Card";
 import { UserContext } from "../DashboardLayout";
 import { scrollIntoViewIfNeeded } from "../utils";
-
-// used for the relative time of messages
-dayjs.extend(relativeTime);
 
 export const Community = () => {
   const { data: user } = useContext(UserContext);
@@ -133,7 +126,6 @@ export const Community = () => {
                             <div className="text-sm text-gray-600 flex justify-center align-middle">
                               <div className="flex-1 m-auto">
                                 {`${msg?.first_name} ${msg?.last_name}`} -{" "}
-                                {dayjs(msg?.date).fromNow()}
                               </div>
                             </div>
                           </div>

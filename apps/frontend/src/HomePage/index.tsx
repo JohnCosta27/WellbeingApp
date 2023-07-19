@@ -1,7 +1,5 @@
 /* eslint-disable no-restricted-syntax */
 import { useContext, useMemo } from "react";
-import dayjs from "dayjs";
-import * as relativeTime from "dayjs/plugin/relativeTime";
 import { Link } from "react-router-dom";
 import { UserBrands } from "@wellbeing/graphql-types";
 import { UserContext } from "../DashboardLayout";
@@ -9,8 +7,6 @@ import { Card, SIX_HOURS } from "../ui";
 import OverallStats from "../MyProgress/OverallStats";
 import { recentMentalEnergy } from "../utils";
 import { YourStats } from "../HowDashboard/YourStats";
-
-dayjs.extend(relativeTime);
 
 const HomePage = () => {
   const { data, loading } = useContext(UserContext);
@@ -45,13 +41,9 @@ const HomePage = () => {
               {nextEnergySubmit < Date.now() ? (
                 <>
                   You can submit your energy levels now! You last submitted them{" "}
-                  {dayjs(nextEnergySubmit).fromNow()}.
                 </>
               ) : (
-                <>
-                  You can submit your energy levels again in{" "}
-                  {dayjs(nextEnergySubmit).fromNow()}
-                </>
+                <>You can submit your energy levels again in </>
               )}
             </div>
             {nextEnergySubmit < Date.now() && (
