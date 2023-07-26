@@ -36,8 +36,10 @@ const HARDCODED_LINKS: Record<string, "see-wellbeing" | "see-tutor"> = {
 function getHelpMessage(words: string[]): ReactNode {
   let wellbeing = false;
   let tutor = false;
+  console.log(HARDCODED_LINKS);
   for (let w of words) {
     w = w.toLowerCase();
+    console.log(w);
     if (HARDCODED_LINKS[w] === "see-tutor") {
       tutor = true;
     } else if (HARDCODED_LINKS[w] === "see-wellbeing") {
