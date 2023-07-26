@@ -1,10 +1,105 @@
+/* eslint-disable no-restricted-syntax */
 import { HowAmIPhrase, UserHowAmIPhrase } from "@wellbeing/graphql-types";
 import clsx from "clsx";
-import { FC, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import { timeUntilEndOfDay } from "../utils";
 import { Countdown } from "./Countdown";
 import { Dialog } from "./Dialog";
 import { PhrasesTable } from "./table/PhrasesTable";
+
+// If you are seeing this, we sort of ran out of time at this point.
+// These should be in the backend. But you'd need another table, to refernece
+// words and links, and thats a many-to-many so... Good luck!
+const HARDCODED_LINKS: Record<string, "see-wellbeing" | "see-tutor"> = {
+  "state of mind": "see-wellbeing",
+  "coping abilities": "see-wellbeing",
+  happiness: "see-wellbeing",
+  "family stress": "see-wellbeing",
+  "mental health": "see-wellbeing",
+  "financial pressures": "see-wellbeing",
+  "physical health": "see-wellbeing",
+  homesick: "see-wellbeing",
+  "relationship breakdown": "see-wellbeing",
+  "relationship abuse": "see-wellbeing",
+  "lack of sense of purpose": "see-wellbeing",
+
+  "academic abilities": "see-tutor",
+  "life experience": "see-tutor",
+  "interacting with people": "see-tutor",
+  "academic work stress": "see-tutor",
+  "grade expectation": "see-tutor",
+  "campus environment": "see-tutor",
+  "juggling work commitments": "see-tutor",
+  "career prospects": "see-tutor",
+};
+
+function getHelpMessage(words: string[]): ReactNode {
+  let wellbeing = false;
+  let tutor = false;
+  for (let w of words) {
+    w = w.toLowerCase();
+    if (HARDCODED_LINKS[w] === "see-tutor") {
+      tutor = true;
+    } else if (HARDCODED_LINKS[w] === "see-wellbeing") {
+      wellbeing = true;
+    }
+  }
+
+  if (wellbeing && tutor) {
+    return (
+      <div className="flex flex-col gap-2 my-4">
+        We have a couple of tips for you
+        <p>
+          Please contant your personal tutor, they will know how to help you!
+        </p>
+        <p>It would also be good to contact the wellbeing team.</p>
+        <p>
+          Email:{" "}
+          <span className="text-blue-700">Wellbeing@royalholloway.ac.uk</span>
+        </p>
+        <a
+          href="https://zoom.us/j/91883332882?pwd=RzArOTBiVjFEUGtUd0xPbEcwUm1yZz09#success"
+          target="_blank"
+          rel="noreferrer"
+          className="text-blue-500"
+        >
+          Zoom drop-in (click me!)
+        </a>
+      </div>
+    );
+  }
+  if (wellbeing) {
+    return (
+      <div className="flex flex-col gap-2 my-4">
+        We have a couple of tips for you
+        <p>
+          Please contant your personal tutor, they will know how to help you!
+        </p>
+      </div>
+    );
+  }
+  if (tutor) {
+    return (
+      <div className="flex flex-col gap-2 my-4">
+        We have a couple of tips for you
+        <p>It would also be good to contact the wellbeing team.</p>
+        <p>
+          Email:{" "}
+          <span className="text-blue-700">Wellbeing@royalholloway.ac.uk</span>
+        </p>
+        <a
+          href="https://zoom.us/j/91883332882?pwd=RzArOTBiVjFEUGtUd0xPbEcwUm1yZz09#success"
+          target="_blank"
+          rel="noreferrer"
+          className="text-blue-500"
+        >
+          Zoom drop-in (click me!)
+        </a>
+      </div>
+    );
+  }
+  return null;
+}
 
 interface WellnessCheckProps {
   lastWords: Array<UserHowAmIPhrase>;
@@ -114,15 +209,12 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
         title="Help links"
         className="w-full md:w-1/2"
       >
-        <p>
-          We can help you feel better, based on your wellness check, here are
-          some useful links
-        </p>
+        {getHelpMessage(submittedWords)}
         <ul className="list-disc">
           {submittedWords.map((wordId) => (
             <li key={wordId}>
               - {availableWords.find((w) => w.id === wordId)?.phrase ?? ""}:{" "}
-              <span className="text-blue-500">A link here</span>
+              <span className="text-blue-500"></span>
             </li>
           ))}
         </ul>
