@@ -33,13 +33,15 @@ const HARDCODED_LINKS: Record<string, "see-wellbeing" | "see-tutor"> = {
   "career prospects": "see-tutor",
 };
 
-function getHelpMessage(words: string[]): ReactNode {
+function getHelpMessage(
+  wordsIds: string[],
+  availableWords: HowAmIPhrase[]
+): ReactNode {
   let wellbeing = false;
   let tutor = false;
-  console.log(HARDCODED_LINKS);
-  for (let w of words) {
-    w = w.toLowerCase();
-    console.log(w);
+  for (const id of wordsIds) {
+    const w =
+      availableWords.find((d) => d.id === id)?.phrase.toLowerCase() || "";
     if (HARDCODED_LINKS[w] === "see-tutor") {
       tutor = true;
     } else if (HARDCODED_LINKS[w] === "see-wellbeing") {
@@ -211,7 +213,7 @@ export const WellnessCheck: FC<WellnessCheckProps> = ({
         title="Help links"
         className="w-full md:w-1/2"
       >
-        {getHelpMessage(submittedWords)}
+        {getHelpMessage(submittedWords, availableWords)}
         <ul className="list-disc">
           {submittedWords.map((wordId) => (
             <li key={wordId}>
