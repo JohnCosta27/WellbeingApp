@@ -121,13 +121,6 @@ export const DashboardLayout: FC = () => {
                     Community
                   </TopbarItem>
                   <TopbarItem
-                    onNav="/mycv"
-                    setSidebar={setOpenSidebar}
-                    emoji="📝"
-                  >
-                    My CV
-                  </TopbarItem>
-                  <TopbarItem
                     onNav="/myskills"
                     setSidebar={setOpenSidebar}
                     emoji="🧠"

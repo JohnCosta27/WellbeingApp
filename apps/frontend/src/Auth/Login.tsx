@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { FC, SyntheticEvent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setToken } from ".";
@@ -42,7 +43,8 @@ export const Login: FC<LoginProps> = ({ logout }) => {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-base-100">
-      <div className="py-16 px-8 max-w-5xl flex flex-col gap-4 bg-white rounded-xl">
+      <h1 className="mb-8 text-5xl">Professional Self Toolkit App</h1>
+      <div className="py-16 px-8 max-w-5xl w-96 flex flex-col gap-4 bg-white rounded-xl">
         <input
           type="email"
           className="input"
@@ -103,7 +105,8 @@ export const Register: FC = () => {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-base-100">
-      <div className="py-16 px-8 max-w-5xl flex flex-col gap-4 bg-white rounded-xl">
+      <h1 className="mb-8 text-5xl">Professional Self Toolkit App</h1>
+      <div className="py-16 px-8 max-w-5xl w-96 flex flex-col gap-4 bg-white rounded-xl">
         <input
           type="email"
           className="input"

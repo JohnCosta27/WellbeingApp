@@ -47,10 +47,6 @@ export const router = createBrowserRouter([
             element: <MyProgress />,
           },
           {
-            path: "/mycv",
-            element: <MyCV />,
-          },
-          {
             path: "/myskills",
             element: <MySkills />,
           },
