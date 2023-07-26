@@ -77,6 +77,8 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
   // the query string for the search
   const [query, setQuery] = useState("");
 
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   // the filtered list of words, based on the query
   const filteredBrands =
     query === ""
@@ -101,8 +103,12 @@ export const AddBrandWords: FC<AddBrandWordsProps> = ({
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
               placeholder="Search for a brand word"
               onChange={(event) => setQuery(event.target.value)}
+              onFocus={() => buttonRef.current?.click()}
             />
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+            <Combobox.Button
+              className="hidden absolute inset-y-0 right-0 tems-center pr-2"
+              ref={buttonRef}
+            >
               <ChevronUpDownIcon
                 className="h-5 w-5 text-gray-400"
                 aria-hidden="true"
