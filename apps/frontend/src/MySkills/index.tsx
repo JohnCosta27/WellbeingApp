@@ -169,12 +169,6 @@ export const MySkills: FC = () => {
               skill={userSkills?.find((s) => s.ui_skill === 3)?.skill}
               onDelete={deleteSkill}
             />
-            <DroppableSkill
-              onDropSkill={onDropSkill}
-              index={4}
-              skill={userSkills?.find((s) => s.ui_skill === 4)?.skill}
-              onDelete={deleteSkill}
-            />
           </Card>
         </div>
       </div>
