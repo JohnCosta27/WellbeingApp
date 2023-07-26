@@ -2,11 +2,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-plusplus */
 /* eslint-disable react/jsx-no-bind */
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useMemo } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
 import {
-  UserSkill,
   namedOperations,
   useAddSkillMutation,
   useCurrentUserQuery,
@@ -15,7 +15,6 @@ import {
 import { Card } from "../ui";
 import { DraggableSkill } from "./DraggableSkill";
 import { DroppableSkill } from "./DroppableSkill";
-import { TouchBackend } from "react-dnd-touch-backend";
 
 const globalSkills = {
   Innovative: ["Critical thinking", "Sense making", "Creativity", "Curiosity"],
@@ -143,24 +142,28 @@ export const MySkills: FC = () => {
             description="Skills that you feel best describe you"
           >
             <DroppableSkill
+              title="Social Intelligence"
               onDropSkill={onDropSkill}
               index={0}
               skill={userSkills?.find((s) => s.ui_skill === 0)?.skill}
               onDelete={deleteSkill}
             />
             <DroppableSkill
+              title="Leadership"
               onDropSkill={onDropSkill}
               index={1}
               skill={userSkills?.find((s) => s.ui_skill === 1)?.skill}
               onDelete={deleteSkill}
             />
             <DroppableSkill
+              title="Innovative"
               onDropSkill={onDropSkill}
               index={2}
               skill={userSkills?.find((s) => s.ui_skill === 2)?.skill}
               onDelete={deleteSkill}
             />
             <DroppableSkill
+              title="Self Management"
               onDropSkill={onDropSkill}
               index={3}
               skill={userSkills?.find((s) => s.ui_skill === 3)?.skill}

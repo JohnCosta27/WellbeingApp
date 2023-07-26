@@ -8,6 +8,7 @@ import { useDrop } from "react-dnd";
 interface DroppableSkillProps {
   readonly skill: string | undefined;
   readonly index: number;
+  readonly title: string;
   readonly onDropSkill: (skill: string, index: number) => void;
   readonly onDelete: (skill: string) => void;
 }
@@ -15,6 +16,7 @@ interface DroppableSkillProps {
 export const DroppableSkill: FC<DroppableSkillProps> = ({
   skill,
   index,
+  title,
   onDropSkill,
   onDelete,
 }) => {
@@ -39,7 +41,8 @@ export const DroppableSkill: FC<DroppableSkillProps> = ({
         isOver && "bg-red-200"
       )}
     >
-      {skill ?? "Drop Skill Here"}
+      <p>{title}</p>
+      <p>{skill ?? ""}</p>
       {skill && (
         <div
           className="mt-auto w-full flex justify-end"
