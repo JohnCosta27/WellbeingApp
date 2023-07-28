@@ -181,7 +181,13 @@ export const Community = () => {
           )}
           {!displayedPlace && (
             <Card className="flex-1 min-h-full">
-              Click on the markers to add a message to a place
+              A map of campus! Heres how you use it. Use it to view other
+              students places and add your own!
+              <p>Click any marker to add comments specific places</p>
+              <p>
+                Zoom into the map and click add place, to add a new marker to
+                the map!
+              </p>
             </Card>
           )}
         </>
