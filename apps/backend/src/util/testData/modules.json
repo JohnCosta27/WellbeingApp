@@ -1,102 +1,126 @@
 [
+  { "tag": "L0998", "name": "Department Specific Skills" },
+  { "tag": "L0999", "name": "Department Based Project" },
+  { "tag": "L1001", "name": "Public Law" },
+  { "tag": "L1002", "name": "the Law of Contract" },
+  { "tag": "L1003", "name": "Criminal Law" },
+  { "tag": "L1005", "name": "English Legal System" },
+  { "tag": "L1006", "name": "Professional and Legal Skills" },
+  { "tag": "L2001", "name": "Land Law" },
+  { "tag": "L2002", "name": "Law of Tort" },
+  { "tag": "L2003", "name": "International and Comparative Human Rights Law" },
+  { "tag": "L2004", "name": "Law of Evidence" },
+  { "tag": "L2005", "name": "Public International law" },
+  { "tag": "L2006", "name": "Family Law" },
+  { "tag": "L2007", "name": "European Union Law" },
+  { "tag": "L2503", "name": "Criminal Law" },
+  { "tag": "L3001", "name": "European Union Law" },
+  { "tag": "L3002", "name": "Equity and the Law of Trusts" },
+  { "tag": "L3003", "name": "Law Dissertation" },
+  { "tag": "L3004", "name": "Company Law" },
+  { "tag": "L3005", "name": "Medical Law" },
+  { "tag": "L3006", "name": "Advocacy and Court Practice" },
+  { "tag": "L3007", "name": "Jurisprudence" },
+  { "tag": "L3008", "name": "Intellectual Property Law" },
+  { "tag": "L3010", "name": "Asylum and Immigration" },
+  { "tag": "L3012", "name": "Commercial law" },
+  { "tag": "L3013", "name": "International Criminal law" },
+  { "tag": "L3016", "name": "Media law" },
+  { "tag": "L3018", "name": "Constitutional Law of the USA" },
+  { "tag": "L3503", "name": "International and Comparative Human Rights" },
+  { "tag": "L3504", "name": "Law of Evidence" },
+  { "tag": "L3505", "name": "Public International Law" },
+  { "tag": "L3506", "name": "Family Law" },
+  { "tag": "CR1011", "name": "Introduction to Criminology" },
+  { "tag": "CR1013", "name": "Criminal Justice System" },
+  { "tag": "CR1014", "name": "Introduction to Sociology" },
+  { "tag": "CR1015", "name": "Social Problems and Social Policy" },
   {
-    "tag": "BI 42069",
-    "name": "Gender Studies and discrimination in the workplace"
+    "tag": "CR2010",
+    "name": "Research Methods and Data Analysis for Psychologists"
   },
+  { "tag": "CR2011", "name": "Research Methods for Social Scientists" },
+  { "tag": "CR2013", "name": "Key Perspectives and Debates in Criminology" },
+  { "tag": "CR2014", "name": "Sociology of Contemporary Society" },
+  { "tag": "CR2016", "name": "Crime and the law" },
+  { "tag": "CR2017", "name": "Youth and Crime" },
+  { "tag": "CR2019", "name": "Sociology and the Family" },
+  { "tag": "CR2022", "name": "Criminologists in Action" },
+  { "tag": "CR2034", "name": "Sociology of Religion" },
+  { "tag": "CR3009", "name": "Race, Ethnicity and Migration" },
+  { "tag": "CR3011", "name": "Dissertation" },
+  { "tag": "CR3016", "name": "Policing Turning Points: Scandal and Reform" },
+  { "tag": "CR3018", "name": "Terrorism Studies Part 1" },
+  { "tag": "CR3019", "name": "Terrorism Studies Part 2" },
+  { "tag": "CR3023", "name": "Prisons" },
+  { "tag": "CR3025", "name": "Dissertation" },
+  { "tag": "CR3027", "name": "Drugs, Crime and Society" },
+  { "tag": "CR3028", "name": "Gender, Sexuality and Crime" },
+  { "tag": "CR3031", "name": "Interpersonal Violence and Harm" },
+  { "tag": "CR3032", "name": "Crimes of the Powerful" },
+  { "tag": "CR3034", "name": "Sociology of Religion" },
+  { "tag": "CR3035", "name": "the Sociology of Death" },
+  { "tag": "CR3037", "name": "Forensic Psychology in Practice" },
+  { "tag": "CR3038", "name": "Contemporary Debates in Sex Work" },
+  { "tag": "CL1530", "name": "Greek Literature" },
+  { "tag": "CL1534", "name": "Roman Literature of the Empire" },
+  { "tag": "CL1550", "name": "Greek History and the City State" },
+  { "tag": "CL1560", "name": "Key Themes in Roman History" },
+  { "tag": "CL1570", "name": "Studying Classical Antiquity" },
+  { "tag": "CL1580", "name": "Introduction to Greek Archaeology" },
+  { "tag": "CL1581", "name": "Introduction to Roman Archaeology" },
+  { "tag": "CL1705", "name": "Beginner’s Greek" },
+  { "tag": "CL1715", "name": "Intermediate Greek" },
+  { "tag": "CL1727", "name": "Advanced Greek" },
+  { "tag": "CL1755", "name": "Beginners’ Latin" },
+  { "tag": "CL1765", "name": "Intermediate Latin" },
+  { "tag": "CL1777", "name": "Advanced Latin" },
+  { "tag": "CL1998", "name": "Department Specific Skills" },
+  { "tag": "CL1999", "name": "Department Based Project" },
   {
-    "tag": "BI 5501J",
-    "name": "Enterprise Systems"
+    "tag": "CL2194",
+    "name": "From Dig to Digital: archaeological theory, methods etc"
   },
+  { "tag": "CL2195", "name": "Life in the Big City: Urban Archaeology" },
+  { "tag": "CL2352", "name": "Greek History to 322 BC" },
+  { "tag": "CL2358", "name": "Spinning the Past: Greek Historiography" },
+  { "tag": "CL2369", "name": "Historiography of the Roman World" },
+  { "tag": "CL2436", "name": "Homer" },
   {
-    "tag": "BI 5502",
-    "name": "Business Intelligence"
+    "tag": "CL2448",
+    "name": "Power and the Individual in Ovid’s Metamorphoses"
   },
+  { "tag": "CL2463", "name": "Tacitus and the Making of Empire" },
+  { "tag": "CL2488", "name": "Empire and Others in Virgil’s Aeneid" },
+  { "tag": "CL2705", "name": "Intensive Greek" },
+  { "tag": "CL2715", "name": "Intermediate Greek" },
+  { "tag": "CL2727", "name": "Advanced Greek" },
+  { "tag": "CL2737", "name": "Aspects of Modern Greek Language and Culture" },
+  { "tag": "CL2755", "name": "Intensive Latin" },
+  { "tag": "CL2765", "name": "Intermediate Latin" },
+  { "tag": "CL2816", "name": "Imperial Greek Literature" },
+  { "tag": "CL2818", "name": "Roman Drama" },
+  { "tag": "CL3200", "name": "Extended Essay" },
+  { "tag": "CL3284", "name": "City of Athens" },
+  { "tag": "CL3286", "name": "Food in the Ancient World" },
+  { "tag": "CL3340", "name": "Of Masks and Men" },
+  { "tag": "CL3351", "name": "Alexander the Great" },
+  { "tag": "CL3440", "name": "Contemporary Approaches to Latin Literature" },
   {
-    "tag": "BI 5502V",
-    "name": "Business Intelligence"
+    "tag": "CL3441",
+    "name": "Thinking Myth: Classical Myth and its Reception"
   },
+  { "tag": "CL3465", "name": "Tacitus and the Making of Empire" },
+  { "tag": "CL3705", "name": "Intensive Greek" },
+  { "tag": "CL3715", "name": "Intermediate Greek" },
+  { "tag": "CL3727", "name": "Advanced Greek" },
   {
-    "tag": "BI 5611J",
-    "name": "People and Technology"
+    "tag": "CL3737",
+    "name": "Further Aspects of Modern Greek Language and Culture"
   },
-  {
-    "tag": "BI 5621J",
-    "name": "Information Systems Design, Development and Management"
-  },
-  {
-    "tag": "BI 5631",
-    "name": "Database Systems"
-  },
-  {
-    "tag": "BI 5632",
-    "name": "Internet and Web Technologies"
-  },
-  {
-    "tag": "BI 5642J",
-    "name": "Business Information Systems Dissertation"
-  },
-  {
-    "tag": "BI 5651",
-    "name": "Technology Management"
-  },
-  {
-    "tag": "BI 5651J",
-    "name": "Technology Management"
-  },
-  {
-    "tag": "BI 5665J",
-    "name": "Information Systems Theory and Practice"
-  },
-  {
-    "tag": "BI 5675J",
-    "name": "Database & Web Technologies"
-  },
-  {
-    "tag": "BI 5681",
-    "name": "Knowledge Management"
-  },
-  {
-    "tag": "BI 5691J",
-    "name": "E-Business"
-  },
-  {
-    "tag": "AF 1205",
-    "name": "International Business"
-  },
-  {
-    "tag": "AF 1401",
-    "name": "Financial Accounting"
-  },
-  {
-    "tag": "AF 1402",
-    "name": "Introduction to Management Accounting"
-  },
-  {
-    "tag": "AF 1403",
-    "name": "Introduction to Finance"
-  },
-  {
-    "tag": "AF 1404",
-    "name": "Business Law"
-  },
-  {
-    "tag": "AF 1406",
-    "name": "Quantitative Methods for Accounting and Finance"
-  },
-  {
-    "tag": "AF 1407",
-    "name": "Professional Competencies"
-  },
-  {
-    "tag": "AF 1408",
-    "name": "Financial Literacy and Personal Financial Planning"
-  },
-  {
-    "tag": "AF 2205",
-    "name": "Strategic Management"
-  },
-  {
-    "tag": "AF 2401",
-    "name": "Financial Reporting"
-  }
+  { "tag": "CL3755", "name": "Intensive Latin" },
+  { "tag": "CL3765", "name": "Intermediate Latin" },
+  { "tag": "CL3777", "name": "Advanced Latin" },
+  { "tag": "CL3816", "name": "Imperial Greek Literature" },
+  { "tag": "CL3818", "name": "Roman Drama" }
 ]
