@@ -91,14 +91,6 @@ function getHelpMessage(
           Email:{" "}
           <span className="text-blue-700">Wellbeing@royalholloway.ac.uk</span>
         </p>
-        <a
-          href="https://zoom.us/j/91883332882?pwd=RzArOTBiVjFEUGtUd0xPbEcwUm1yZz09#success"
-          target="_blank"
-          rel="noreferrer"
-          className="text-blue-500"
-        >
-          Zoom drop-in (click me!)
-        </a>
       </div>
     );
   }
